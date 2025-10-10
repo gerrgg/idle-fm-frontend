@@ -10,7 +10,9 @@ export default function App() {
 
   useEffect(() => {
     async function fetchPlaylist() {
-      const API_BASE = "https://idle-fm-backend.azurewebsites.net";
+      const API_BASE = import.meta.env.DEV
+        ? "https://idle-fm-backend.azurewebsites.net"
+        : "http://localhost:8080";
 
       try {
         const res = await fetch(`${API_BASE}/playlists/1/videos`);
