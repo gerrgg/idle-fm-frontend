@@ -1,77 +1,51 @@
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useEffect, useState } from "react";
-import YouTubeAudioPlayer from "./components/YoutubeAudioPlayer.jsx";
-// import YouTubeAudioPlayer from "./components/YouTubeAudioPlayer.jsx";
+import LoginPage from "./pages/LoginPage.jsx";
+import HomePage from "./pages/HomePage.jsx";
+import RegisterPage from "./pages/RegisterPage.jsx";
+import { authApi } from "./api/auth.js";
+import { Navigate } from "react-router-dom";
 
-export default function App() {
-  const [playlist, setPlaylist] = useState([]);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [manualPlayTick, setManualPlayTick] = useState(0);
+function App() {
+  const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    async function fetchPlaylist() {
-      const API_BASE = import.meta.env.DEV
-        ? "http://localhost:8080"
-        : "https://idle-fm-backend.azurewebsites.net";
-
+    const fetchUser = async () => {
       try {
-        const res = await fetch(`${API_BASE}/playlists/1/videos`);
-        const data = await res.json();
-        setPlaylist(data.videos || []);
-      } catch (err) {
-        console.error("❌ Failed to load playlist", err);
+        const response = await authApi.me();
+        setUser(response.user);
+      } catch (error) {
+        setUser(null);
       } finally {
         setLoading(false);
       }
-    }
-    fetchPlaylist();
+    };
+
+    fetchUser();
   }, []);
 
-  const next = () => setCurrentIndex((i) => (i + 1) % playlist.length);
-  const prev = () =>
-    setCurrentIndex((i) => (i - 1 + playlist.length) % playlist.length);
-
-  const handleEnded = () => next();
-
-  useEffect(() => {
-    window.onTrackEnd = handleEnded;
-    return () => (window.onTrackEnd = null);
-  }, [playlist]);
-
-  if (loading) return <p style={{ textAlign: "center" }}>Loading playlist…</p>;
-  if (playlist.length === 0)
-    return <p style={{ textAlign: "center" }}>No videos found.</p>;
-
-  const current = playlist[currentIndex];
+  if (loading) return <p>Loading...</p>;
 
   return (
-    <div style={{ maxWidth: 720, margin: "2rem auto", textAlign: "center" }}>
-      <h1>Idle FM — Live API Demo</h1>
-
-      <p style={{ opacity: 0.7 }}>
-        Playing {currentIndex + 1}/{playlist.length}
-      </p>
-
-      <div
-        style={{
-          display: "flex",
-          gap: 12,
-          justifyContent: "center",
-          marginTop: 12,
-        }}
-      >
-        <button onClick={prev}>⏮️ Prev</button>
-        <button onClick={() => setManualPlayTick((n) => n + 1)}>
-          ▶️ Start/Play
-        </button>
-        <button onClick={next}>⏭️ Next</button>
-      </div>
-
-      <YouTubeAudioPlayer
-        videoKey={current.youtube_key}
-        onEnded={handleEnded}
-        manualPlayTick={manualPlayTick}
-      />
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/login" element={<LoginPage setUser={setUser} />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route
+          path="/"
+          element={
+            user ? (
+              <HomePage user={user} setUser={setUser} />
+            ) : (
+              <Navigate to="/login" replace />
+            )
+          }
+        />
+        <Route path="*" element={<p>Page not found</p>} />
+      </Routes>
+    </Router>
   );
 }
+
+export default App;
