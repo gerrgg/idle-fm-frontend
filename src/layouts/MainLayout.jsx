@@ -4,6 +4,7 @@ import { Container } from "../styles/Layout";
 import Footer from "./Footer.jsx";
 import { styled } from "styled-components";
 import { useState, useEffect, useRef } from "react";
+import Lines from "../components/Lines.jsx";
 
 export const Body = styled(Container)`
   min-height: ${({ minheight }) => `calc(${minheight}px - 1px)`};
@@ -14,6 +15,7 @@ export default function MainLayout({ user, handleLogout, children }) {
   const footerRef = useRef();
 
   const [minHeight, setMinHeight] = useState(window.innerHeight);
+  const [lowPowerMode, setLowPowerMode] = useState(false);
 
   useEffect(() => {
     function updateHeight() {
@@ -30,6 +32,9 @@ export default function MainLayout({ user, handleLogout, children }) {
 
   return (
     <div className="app">
+      {
+        ! lowPowerMode ? <Lines /> : null
+      }
       <Header ref={headerRef} user={user} handleLogout={handleLogout} />
       <Body minheight={minHeight}>{children}</Body>
       <Footer ref={footerRef}>Footer</Footer>

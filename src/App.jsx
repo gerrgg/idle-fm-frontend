@@ -1,15 +1,19 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Navigate } from "react-router-dom";
+
 import { ThemeProvider } from "styled-components";
 import { GlobalStyle } from "./styles/GlobalStyle";
 import { lightTheme, darkTheme } from "./styles/theme";
 
-import { useEffect, useState } from "react";
 import LoginPage from "./pages/LoginPage.jsx";
 import HomePage from "./pages/HomePage.jsx";
 import RegisterPage from "./pages/RegisterPage.jsx";
 import TempHomepage from "./pages/TempHomepage.jsx";
+
+import Static from "./components/Static.jsx";
+
 import { authApi } from "./api/auth.js";
-import { Navigate } from "react-router-dom";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -39,7 +43,8 @@ function App() {
     })();
   }, []);
 
-  if (loading) return <p>Loading...</p>;
+
+  if (loading) return <Static ready={loading} />;
 
   return (
     <ThemeProvider theme={darkTheme}>

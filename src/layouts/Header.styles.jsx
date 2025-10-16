@@ -6,7 +6,6 @@ export const HeaderWrapper = styled.header`
   align-items: center;
   padding: 1rem 1.5rem;
   background: ${({ theme }) => theme.bg};
-  border-bottom: 1px solid ${({ theme }) => theme.border};
 `;
 
 export const Logo = styled.img`

@@ -5,7 +5,7 @@ export const GlobalStyle = createGlobalStyle`
   *, *::before, *::after { box-sizing: border-box; }
   body {
     margin: 0;
-    font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    font-family: 'Press Start 2P', sans-serif;
     line-height: 1.5;
     color: ${({ theme }) => theme.text};
     background: ${({ theme }) => theme.bg};
