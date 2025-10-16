@@ -1,4 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { ThemeProvider } from "styled-components";
+import { GlobalStyle } from "./styles/GlobalStyle";
+import { lightTheme, darkTheme } from "./styles/theme";
+
 import { useEffect, useState } from "react";
 import LoginPage from "./pages/LoginPage.jsx";
 import HomePage from "./pages/HomePage.jsx";
@@ -10,41 +14,53 @@ function App() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  async function handleLogout(e) {
+    e.preventDefault();
+    try {
+      await authApi.logout();
+      setUser(null);
+      navigate("/login");
+    } catch (err) {
+      console.error("Logout failed:", err);
+    }
+  }
+
   useEffect(() => {
-    const fetchUser = async () => {
+    (async () => {
       try {
-        const response = await authApi.me();
-        setUser(response.user);
-      } catch (error) {
-        setUser(null);
+        const res = await authApi.me(); // must include credentials
+        setUser(res.user);
+      } catch (err) {
+        if (err.response?.status === 401) setUser(null);
       } finally {
         setLoading(false);
       }
-    };
-
-    fetchUser();
+    })();
   }, []);
 
   if (loading) return <p>Loading...</p>;
 
   return (
-    <Router>
-      <Routes>
-        <Route path="/login" element={<LoginPage setUser={setUser} />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route
-          path="/"
-          element={
-            user ? (
-              <HomePage user={user} setUser={setUser} />
-            ) : (
-              <Navigate to="/login" replace />
-            )
-          }
-        />
-        <Route path="*" element={<p>Page not found</p>} />
-      </Routes>
-    </Router>
+    <ThemeProvider theme={darkTheme}>
+      <GlobalStyle />
+      <Router>
+        <Routes>
+          <Route path="/login" element={<LoginPage setUser={setUser} />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route
+            path="/"
+            element={
+              user ? (
+                <HomePage user={user} handleLogout={handleLogout} />
+              ) : (
+                <Navigate to="/login" replace />
+              )
+            }
+          />
+          <Route path="*" element={<p>Page not found</p>} />
+        </Routes>
+      </Router>
+    </ThemeProvider>
   );
 }
 

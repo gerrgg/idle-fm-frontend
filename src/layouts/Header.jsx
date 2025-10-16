@@ -1,30 +1,30 @@
-import { authApi } from "../api/auth.js";
-import { useNavigate } from "react-router-dom";
+// layouts/Header.jsx
+import { forwardRef } from "react";
+import { Container } from "../styles/Layout";
+import Logo from "../assets/logo.png";
 
-export default function Header({ user }) {
-  const navigate = useNavigate();
-  async function handleLogout() {
-    try {
-      await authApi.logout();
-      setUser(null);
-      navigate("/login");
-    } catch (err) {
-      console.error("Logout failed:", err);
-    }
-  }
-
+const Header = forwardRef(({ user, handleLogout }, ref) => {
   return (
-    <header>
-      {user ? (
+    <Container ref={ref}>
+      <div className="logo-wrapper">
+        <img
+          src={Logo}
+          alt="Idle FM Logo"
+          className="logo"
+          width={100}
+          height={100}
+        />
+      </div>
+      {user && (
         <>
           <p>Welcome, {user.username}!</p>
           <p>
             <button onClick={handleLogout}>Logout</button>
           </p>
         </>
-      ) : (
-        <p>Header</p>
       )}
-    </header>
+    </Container>
   );
-}
+});
+
+export default Header;
