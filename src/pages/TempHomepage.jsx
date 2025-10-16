@@ -1,13 +1,14 @@
-import { useEffect, useState } from "react";
+// TempHomePage.jsx
+import * as S from "./TempHomepage.styles";
 import YouTubeAudioPlayer from "../components/YoutubeAudioPlayer.jsx";
+import MainLayout from "../layouts/MainLayout.jsx";
+import { useEffect, useState } from "react";
 
-export default function TempHomePage({ user }) {
+export default function TempHomePage({ user, handleLogout }) {
   const [playlist, setPlaylist] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [manualPlayTick, setManualPlayTick] = useState(0);
   const [loading, setLoading] = useState(true);
-
-  console.log(import.meta.env.VITE_API_URL);
 
   useEffect(() => {
     async function fetchPlaylist() {
@@ -37,40 +38,32 @@ export default function TempHomePage({ user }) {
     return () => (window.onTrackEnd = null);
   }, [playlist]);
 
-  if (loading) return <p style={{ textAlign: "center" }}>Loading playlist…</p>;
+  if (loading) return <S.StatusText>Loading playlist…</S.StatusText>;
   if (playlist.length === 0)
-    return <p style={{ textAlign: "center" }}>No videos found.</p>;
+    return <S.StatusText>No videos found.</S.StatusText>;
 
   const current = playlist[currentIndex];
 
   return (
-    <div style={{ maxWidth: 720, margin: "2rem auto", textAlign: "center" }}>
-      <h1>Idle FM — Live API Demo</h1>
-
-      <p style={{ opacity: 0.7 }}>
-        Playing {currentIndex + 1}/{playlist.length}
-      </p>
-
-      <div
-        style={{
-          display: "flex",
-          gap: 12,
-          justifyContent: "center",
-          marginTop: 12,
-        }}
-      >
-        <button onClick={prev}>⏮️ Prev</button>
-        <button onClick={() => setManualPlayTick((n) => n + 1)}>
-          ▶️ Start/Play
-        </button>
-        <button onClick={next}>⏭️ Next</button>
-      </div>
-
-      <YouTubeAudioPlayer
-        videoKey={current.youtube_key}
-        onEnded={handleEnded}
-        manualPlayTick={manualPlayTick}
-      />
-    </div>
+    <MainLayout user={user} handleLogout={handleLogout}>
+      <S.Wrapper>
+        <S.Title>Idle.fm — Live API Demo</S.Title>
+        <S.StatusText>
+          Playing {currentIndex + 1}/{playlist.length}
+        </S.StatusText>
+        <S.Controls>
+          <button onClick={prev}>⏮️ Prev</button>
+          <button onClick={() => setManualPlayTick((n) => n + 1)}>
+            ▶️ Start/Play
+          </button>
+          <button onClick={next}>⏭️ Next</button>
+        </S.Controls>
+        <YouTubeAudioPlayer
+          videoKey={current.youtube_key}
+          onEnded={handleEnded}
+          manualPlayTick={manualPlayTick}
+        />
+      </S.Wrapper>
+    </MainLayout>
   );
 }

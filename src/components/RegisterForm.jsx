@@ -1,6 +1,7 @@
 // components/LoginForm.jsx
 import { useState } from "react";
 import { usersApi } from "../api/users.js";
+import * as S from "./RegisterForm.styles.jsx";
 
 export default function RegisterForm() {
   const [username, setUsername] = useState("gregorybastianelli");
@@ -27,39 +28,39 @@ export default function RegisterForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <input
+    <S.Form onSubmit={handleSubmit}>
+      <S.FormGroup>
+        <S.Input
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           placeholder="username"
         />
-      </div>
-      <div>
-        <input
+      </S.FormGroup>
+      <S.FormGroup>
+        <S.Input
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="email"
         />
-      </div>
-      <div>
-        <input
+      </S.FormGroup>
+      <S.FormGroup>
+        <S.Input
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           placeholder="password"
         />
-      </div>
-      <div>
-        <input
+      </S.FormGroup>
+      <S.FormGroup>
+        <S.Input
           type="password"
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
           placeholder="confirm password"
         />
-      </div>
+      </S.FormGroup>
 
-      <button>Login</button>
-    </form>
+      <S.Button>Login</S.Button>
+    </S.Form>
   );
 }

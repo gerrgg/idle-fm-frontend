@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { authApi } from "../api/auth.js";
+import * as S from "./LoginForm.styles.jsx";
 
 export default function LoginForm({ setUser }) {
   const [email, setEmail] = useState("");
@@ -20,23 +21,23 @@ export default function LoginForm({ setUser }) {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <input
+    <S.Form onSubmit={handleSubmit}>
+      <S.FormGroup>
+        <S.Input
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="email"
         />
-      </div>
-      <div>
-        <input
+      </S.FormGroup>
+      <S.FormGroup>
+        <S.Input
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           placeholder="password"
         />
-      </div>
-      <button>Login</button>
-    </form>
+      </S.FormGroup>
+      <S.Button>Login</S.Button>
+    </S.Form>
   );
 }

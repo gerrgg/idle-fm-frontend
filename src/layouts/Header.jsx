@@ -2,28 +2,24 @@
 import { forwardRef } from "react";
 import { Container } from "../styles/Layout";
 import Logo from "../assets/logo.png";
+import * as S from "./Header.styles.jsx";
 
 const Header = forwardRef(({ user, handleLogout }, ref) => {
   return (
-    <Container ref={ref}>
-      <div className="logo-wrapper">
-        <img
-          src={Logo}
-          alt="Idle FM Logo"
-          className="logo"
-          width={100}
-          height={100}
-        />
-      </div>
+    <S.HeaderWrapper ref={ref}>
+      <S.Logo
+        src={Logo}
+        alt="Idle FM Logo"
+        className="logo"
+        width={100}
+        height={100}
+      />
       {user && (
         <>
-          <p>Welcome, {user.username}!</p>
-          <p>
-            <button onClick={handleLogout}>Logout</button>
-          </p>
+          <button onClick={handleLogout}>Logout</button>
         </>
       )}
-    </Container>
+    </S.HeaderWrapper>
   );
 });
 

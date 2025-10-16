@@ -1,0 +1,10 @@
+import styles from "styled-components";
+import { Container } from "../styles/Layout";
+
+export const RegisterPageWrapper = styles(Container)`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 0;
+`;

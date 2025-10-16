@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import LoginPage from "./pages/LoginPage.jsx";
 import HomePage from "./pages/HomePage.jsx";
 import RegisterPage from "./pages/RegisterPage.jsx";
+import TempHomepage from "./pages/TempHomepage.jsx";
 import { authApi } from "./api/auth.js";
 import { Navigate } from "react-router-dom";
 
@@ -51,7 +52,7 @@ function App() {
             path="/"
             element={
               user ? (
-                <HomePage user={user} handleLogout={handleLogout} />
+                <TempHomepage user={user} handleLogout={handleLogout} />
               ) : (
                 <Navigate to="/login" replace />
               )

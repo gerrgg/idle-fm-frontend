@@ -5,8 +5,8 @@ import Footer from "./Footer.jsx";
 import { styled } from "styled-components";
 import { useState, useEffect, useRef } from "react";
 
-const Body = styled(Container)`
-  min-height: ${({ minheight }) => `calc(${minheight}px - 8px)`};
+export const Body = styled(Container)`
+  min-height: ${({ minheight }) => `calc(${minheight}px - 1px)`};
 `;
 
 export default function MainLayout({ user, handleLogout, children }) {
