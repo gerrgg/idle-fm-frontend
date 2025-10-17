@@ -11,7 +11,7 @@ export const FooterWrapper = styled.footer`
 export const FooterText = styled.p`
   margin: 0;
   padding: 0 0 0.5rem;
-  color: ${({ theme }) => theme.text};
+  color: ${({ theme }) => theme.bg};
   opacity: 0.7;
   font-size: 0.875rem;
   text-align: center;
