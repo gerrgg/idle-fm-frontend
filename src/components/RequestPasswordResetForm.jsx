@@ -3,19 +3,24 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { authApi } from "../api/auth.js";
 import * as S from "./AuthForm.styles.jsx";
+import toast from "react-hot-toast";
 
-export default function ForgotPasswordForm() {
+export default function RequestPasswordResetForm() {
   const [email, setEmail] = useState("");
   const navigate = useNavigate();
 
   async function handleSubmit(e) {
     e.preventDefault();
     try {
-      const data = await authApi.login(email, password);
-      setUser(data.user ?? true);
+      if (!email) {
+        toast.error("Email is required");
+        return;
+      }
+      const data = await authApi.forgotPassword(email);
+      toast.success(data.message || "Password reset link sent");
       navigate("/");
     } catch (err) {
-      alert(err.message);
+      toast.error(err.message || "Failed to send reset link");
     }
   }
 

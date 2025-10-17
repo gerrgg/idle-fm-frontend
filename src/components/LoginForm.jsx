@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { authApi } from "../api/auth.js";
+import toast from "react-hot-toast";
 import * as S from "./AuthForm.styles.jsx";
 
 export default function LoginForm({ setUser }) {
@@ -14,9 +15,10 @@ export default function LoginForm({ setUser }) {
     try {
       const data = await authApi.login(email, password);
       setUser(data.user ?? true);
+      toast.success(data.message || "Login successful");
       navigate("/");
     } catch (err) {
-      alert(err.message);
+      toast.error(err.message || "Login failed");
     }
   }
 

@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { usersApi } from "../api/users.js";
 import * as S from "./AuthForm.styles.jsx";
+import toast from "react-hot-toast";
 
 export default function RegisterForm() {
   const [username, setUsername] = useState("");
@@ -13,17 +14,22 @@ export default function RegisterForm() {
     e.preventDefault();
 
     if (password !== confirmPassword) {
-      alert("Passwords do not match");
+      toast.error("Passwords do not match");
       return;
     }
 
     try {
       await usersApi.create({ username, email, password });
-      alert("Registration successful!");
-      // Optionally redirect or update state here
+      toast.success("Registration successful");
     } catch (error) {
-      console.error("Registration failed:", error);
-      alert("Registration failed. Please try again.");
+      if (error.response?.status === 400) {
+        toast.error("Invalid input. Please check your details.");
+      } else if (error.response?.status === 409) {
+        toast.error("Username or email already exists.");
+      } else {
+        toast.error("Registration failed. Please try again later.");
+      }
+      console.error("Registration error:", error);
     }
   }
 
@@ -63,7 +69,6 @@ export default function RegisterForm() {
           placeholder="boot_sequence_pass"
         />
       </S.AuthFormGroup>
-
       <S.AuthButton>Login</S.AuthButton>
     </S.AuthForm>
   );

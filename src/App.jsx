@@ -1,18 +1,20 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 import { ThemeProvider } from "styled-components";
 import { GlobalStyle } from "./styles/GlobalStyle";
 import { lightTheme, darkTheme } from "./styles/theme";
 
 import LoginPage from "./pages/LoginPage.jsx";
-import HomePage from "./pages/HomePage.jsx";
 import RegisterPage from "./pages/RegisterPage.jsx";
 import TempHomepage from "./pages/TempHomepage.jsx";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage.jsx";
+import ResetPasswordPage from "./pages/ResetPasswordPage.jsx";
 
 import Static from "./components/Static.jsx";
+import ThemedToaster from "./components/ThemedToaster.jsx";
 
 import { authApi } from "./api/auth.js";
 
@@ -25,9 +27,10 @@ function App() {
     try {
       await authApi.logout();
       setUser(null);
-      navigate("/login");
+      toast.success("Logout successful");
     } catch (err) {
-      console.error("Logout failed:", err);
+      toast.error(err.message || "Logout failed");
+      console.error("Logout error:", err);
     }
   }
 
@@ -55,6 +58,7 @@ function App() {
           <Route path="/login" element={<LoginPage setUser={setUser} />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+          <Route path="/reset-password" element={<ResetPasswordPage />} />
           <Route
             path="/"
             element={
@@ -68,6 +72,7 @@ function App() {
           <Route path="*" element={<p>Page not found</p>} />
         </Routes>
       </Router>
+      <ThemedToaster />
     </ThemeProvider>
   );
 }

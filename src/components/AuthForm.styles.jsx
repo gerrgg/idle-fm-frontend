@@ -22,6 +22,7 @@ export const AuthInput = styled.input`
   border-radius: 4px;
   width: 100%;
   box-sizing: border-box;
+  
 
   background: ${({ theme }) => theme.bg};
   color: ${({ theme }) => theme.text};
@@ -52,7 +53,6 @@ export const AuthLabel = styled.label`
   color: ${({ theme }) => theme.text};
   margin-bottom: 0.25rem;
   text-align: left;
-  display: block;
-  width: 100%;
+  
 `;
 
