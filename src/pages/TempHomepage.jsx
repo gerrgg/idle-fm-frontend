@@ -1,12 +1,13 @@
 // TempHomePage.jsx
 import * as S from "./TempHomepage.styles";
 import YouTubeAudioPlayer from "../components/YoutubeAudioPlayer.jsx";
+import PlaylistSelector from "../components/PlaylistSelector.jsx";
 import MainLayout from "../layouts/MainLayout.jsx";
 import { useEffect, useState } from "react";
 import Gif from "../components/Gif.jsx";
-import {usersApi} from "../api/users.js";
-import {playlistsApi} from "../api/playlists.js";
-import toast from 'react-hot-toast';
+import { usersApi } from "../api/users.js";
+import { playlistsApi } from "../api/playlists.js";
+import toast from "react-hot-toast";
 
 export default function TempHomePage({ user, handleLogout }) {
   const [playlists, setPlaylists] = useState([]);
@@ -31,14 +32,15 @@ export default function TempHomePage({ user, handleLogout }) {
     fetchPlaylists();
   }, [user?.id]);
 
-
   useEffect(() => {
     if (!selectedPlaylistId) return;
 
     async function fetchPlaylist() {
       try {
         const res = await fetch(
-          `${import.meta.env.VITE_API_URL}/playlists/${selectedPlaylistId}/videos`,
+          `${
+            import.meta.env.VITE_API_URL
+          }/playlists/${selectedPlaylistId}/videos`,
           { credentials: "include" }
         );
         const data = await res.json();
@@ -52,7 +54,6 @@ export default function TempHomePage({ user, handleLogout }) {
 
     fetchPlaylist();
   }, [selectedPlaylistId]);
-
 
   const next = () => setCurrentIndex((i) => (i + 1) % playlist.length);
 
@@ -84,7 +85,12 @@ export default function TempHomePage({ user, handleLogout }) {
       />
 
       <S.Wrapper>
-        <S.Title>Idle.fm — Live API Demo</S.Title>
+        <S.Title className="title">Idle.fm — Live API Demo</S.Title>
+        <PlaylistSelector
+          selectedPlaylistId={selectedPlaylistId}
+          setSelectedPlaylistId={setSelectedPlaylistId}
+          playlists={playlists}
+        />
         <S.StatusText>
           Playing {currentIndex + 1}/{playlist.length}
         </S.StatusText>
@@ -99,7 +105,7 @@ export default function TempHomePage({ user, handleLogout }) {
           videoKey={current.youtube_key}
           onEnded={handleEnded}
           manualPlayTick={manualPlayTick}
-        /> 
+        />
       </S.Wrapper>
     </MainLayout>
   );
