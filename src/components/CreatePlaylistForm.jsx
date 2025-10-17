@@ -2,6 +2,7 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import TagSelector from "./TagSelector";
 import * as S from "./AuthForm.styles.jsx";
+import { playlistsApi } from "../api/playlists.js";
 
 export default function CreatePlaylistForm() {
   const [title, setTitle] = useState("");
@@ -10,11 +11,34 @@ export default function CreatePlaylistForm() {
   const [tags, setTags] = useState([]); // now this holds selected tags
   const [availableTags] = useState(["lofi", "trap", "metal", "ambient"]);
 
-  const handleSubmit = (e) => {
+  async function handleSubmit(e) {
     e.preventDefault();
-    console.log({ title, description, isPrivate, tags });
-    toast.success("Form submitted successfully!");
-  };
+
+    if (!title) {
+      toast.error("Please enter a title for your playlist.");
+      return;
+    }
+
+    const data = {
+      title,
+      description,
+      is_public: !isPrivate,
+      tags,
+    };
+
+    try {
+      await playlistsApi.create(data);
+      toast.success("Playlist created successfully!");
+      // Optionally, you can reset the form or redirect the user
+      setTitle("");
+      setDescription("");
+      setIsPrivate(false);
+      setTags([]);
+    } catch (error) {
+      console.error("Error creating playlist:", error);
+      toast.error("Failed to create playlist. Please try again.");
+    }
+  }
 
   return (
     <S.AuthForm onSubmit={handleSubmit}>

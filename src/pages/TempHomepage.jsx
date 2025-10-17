@@ -23,8 +23,16 @@ export default function TempHomePage({ user, handleLogout }) {
     async function fetchPlaylists() {
       try {
         const playlists = await usersApi.getPlaylists(user.id);
-        setPlaylists(playlists || []);
-        setSelectedPlaylistId(playlists?.[0]?.id || null);
+        const filteredPlaylists = playlists.filter((p) => p.videos?.length > 0);
+        setPlaylists(filteredPlaylists);
+
+        if (filteredPlaylists.length === 0) {
+          toast.error("❌ No playlists found with videos");
+          return;
+        }
+
+        setPlaylists(filteredPlaylists || []);
+        setSelectedPlaylistId(filteredPlaylists?.[0]?.id || null);
       } catch {
         toast.error("❌ Failed to load playlists");
       }
