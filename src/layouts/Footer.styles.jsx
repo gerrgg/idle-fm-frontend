@@ -4,6 +4,9 @@ export const FooterWrapper = styled.footer`
   display: flex;
   justify-content: center;
   align-items: center;
+  position: fixed;
+  bottom: 0.5rem;
+  width: 100%;
 `;
 export const FooterText = styled.p`
   margin: 0;

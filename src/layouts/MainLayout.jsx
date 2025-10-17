@@ -7,7 +7,8 @@ import { useState, useEffect, useRef } from "react";
 import Lines from "../components/Lines.jsx";
 
 export const Body = styled(Container)`
-  min-height: ${({ minheight }) => `calc(${minheight}px - 1px)`};
+  height: 100vh;
+  padding-top: ${({ minheight }) => minheight}px;
 `;
 
 export default function MainLayout({ user, handleLogout, children }) {
@@ -21,9 +22,7 @@ export default function MainLayout({ user, handleLogout, children }) {
     function updateHeight() {
       const headerH = headerRef?.current?.offsetHeight || 0;
       const footerH = footerRef?.current?.offsetHeight || 0;
-      setMinHeight(window.innerHeight - headerH - footerH);
-
-      console.log(headerH, footerH);
+      setMinHeight(headerH);
     }
     updateHeight();
     window.addEventListener("resize", updateHeight);

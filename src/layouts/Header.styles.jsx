@@ -5,7 +5,9 @@ export const HeaderWrapper = styled.header`
   justify-content: space-between;
   align-items: center;
   padding: 1rem 1.5rem;
-  background: ${({ theme }) => theme.bg};
+  position: fixed;
+  top: 0;
+  width: 100%;
 `;
 
 export const Logo = styled.img`

@@ -3,6 +3,7 @@ import * as S from "./TempHomepage.styles";
 import YouTubeAudioPlayer from "../components/YoutubeAudioPlayer.jsx";
 import MainLayout from "../layouts/MainLayout.jsx";
 import { useEffect, useState } from "react";
+import Gif from "../components/Gif.jsx";
 
 export default function TempHomePage({ user, handleLogout }) {
   const [playlist, setPlaylist] = useState([]);
@@ -46,6 +47,7 @@ export default function TempHomePage({ user, handleLogout }) {
 
   return (
     <MainLayout user={user} handleLogout={handleLogout}>
+      <Gif tenorID={'yWVIOwocbVsAAAAC'} />
       <S.Wrapper>
         <S.Title>Idle.fm — Live API Demo</S.Title>
         <S.StatusText>

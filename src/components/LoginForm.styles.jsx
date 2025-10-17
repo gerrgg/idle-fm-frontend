@@ -5,6 +5,7 @@ export const Form = styled.form`
   flex-direction: column;
   margin-bottom: 2rem;
   max-width: 400px;
+  min-width: 300px;
 `;
 
 export const FormGroup = styled.div`
