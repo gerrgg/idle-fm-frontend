@@ -14,7 +14,7 @@ export default function LoginForm({ setUser }) {
     e.preventDefault();
     try {
       const data = await authApi.login(email, password);
-      setUser(data.user ?? true);
+      setUser(data.user);
       toast.success(data.message || "Login successful");
       navigate("/");
     } catch (err) {

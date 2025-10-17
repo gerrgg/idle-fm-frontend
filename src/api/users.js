@@ -4,6 +4,7 @@ import { request } from "./index.js";
 export const usersApi = {
   getAll: () => request("/users"),
   getById: (id) => request(`/users/${id}`),
+  getPlaylists: (id) => request(`/users/${id}/playlists`),
   create: (payload) =>
     request("/users", {
       method: "POST",

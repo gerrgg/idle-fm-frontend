@@ -12,7 +12,7 @@ export const LinesWrapper = styled.div`
   background-size: 7px auto;
   mix-blend-mode: overlay;
   pointer-events: none;
-  opacity: 1;
+  opacity: 0.3;
 
   @keyframes moveDownAnimation {
     0% {

@@ -16,7 +16,7 @@ const Header = forwardRef(({ user, handleLogout }, ref) => {
       />
       {user && (
         <>
-          <button onClick={handleLogout}>Logout</button>
+          <S.LogoutButton onClick={handleLogout}>Logout</S.LogoutButton>
         </>
       )}
     </S.HeaderWrapper>
