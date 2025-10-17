@@ -4,9 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { authApi } from "../api/auth.js";
 import * as S from "./AuthForm.styles.jsx";
 
-export default function LoginForm({ setUser }) {
+export default function ForgotPasswordForm() {
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
   async function handleSubmit(e) {
@@ -27,19 +26,10 @@ export default function LoginForm({ setUser }) {
         <S.AuthInput
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          placeholder="root@localhost"
+          placeholder="user@aolaccess.net"
         />
       </S.AuthFormGroup>
-      <S.AuthFormGroup>
-        <S.AuthLabel>Password</S.AuthLabel>
-        <S.AuthInput
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="boot_sequence_pass"
-        />
-      </S.AuthFormGroup>
-      <S.AuthButton>Login</S.AuthButton>
+      <S.AuthButton>Send Reset Link</S.AuthButton>
     </S.AuthForm>
   );
 }

@@ -1,16 +1,18 @@
 // pages/LoginPage.jsx
 import MainLayout from "../layouts/MainLayout.jsx";
 import RegisterForm from "../components/RegisterForm.jsx";
-import * as S from "./RegisterPage.styles.jsx";
+import * as S from "./AuthPage.styles.jsx";
+import Gif from "../components/Gif.jsx";
 
 export default function RegisterPage() {
   return (
     <MainLayout>
-      <S.RegisterPageWrapper>
-        <h1>Register</h1>
+      <Gif tenorID={'yWVIOwocbVsAAAAC'} />
+      <S.AuthWrapper>
+        <S.AuthTitle>Register</S.AuthTitle>
         <RegisterForm />
-        <a href="/login">Already have an account? Login here</a>
-      </S.RegisterPageWrapper>
+        <S.AuthLink to="/login">Already have an account? Login here.</S.AuthLink>
+      </S.AuthWrapper>
     </MainLayout>
   );
 }

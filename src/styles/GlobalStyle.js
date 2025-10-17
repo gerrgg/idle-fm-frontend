@@ -3,12 +3,17 @@ import { createGlobalStyle } from "styled-components";
 
 export const GlobalStyle = createGlobalStyle`
   *, *::before, *::after { box-sizing: border-box; }
+
   body {
     margin: 0;
     font-family: 'Press Start 2P', sans-serif;
     line-height: 1.5;
     color: ${({ theme }) => theme.text};
     background: ${({ theme }) => theme.bg};
+  }
+
+  *{
+  font-family: 'Press Start 2P', sans-serif;
   }
 
   h1, h2, h3, h4, h5, h6 {

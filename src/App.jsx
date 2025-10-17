@@ -10,6 +10,7 @@ import LoginPage from "./pages/LoginPage.jsx";
 import HomePage from "./pages/HomePage.jsx";
 import RegisterPage from "./pages/RegisterPage.jsx";
 import TempHomepage from "./pages/TempHomepage.jsx";
+import ForgotPasswordPage from "./pages/ForgotPasswordPage.jsx";
 
 import Static from "./components/Static.jsx";
 
@@ -53,6 +54,7 @@ function App() {
         <Routes>
           <Route path="/login" element={<LoginPage setUser={setUser} />} />
           <Route path="/register" element={<RegisterPage />} />
+          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
           <Route
             path="/"
             element={

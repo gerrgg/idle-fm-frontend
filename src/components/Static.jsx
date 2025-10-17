@@ -1,14 +1,13 @@
 import { useEffect, useState } from "react";
 import * as S from "./Static.styles.jsx";
 
-const Static = ({ ready }) => {
+export default function Static({ show }) {
   const [index, setIndex] = useState(1);
+
   useEffect(() => {
     const limit = 10;
     setIndex(Math.floor(Math.random() * limit));
-  }, [ready]);
-  return <S.StaticWrapper $ready={ready} $index={index} />;
-};
+  }, [show]);
 
-
-export default Static;
+  return <S.StaticWrapper index={index} active={show} />;
+}

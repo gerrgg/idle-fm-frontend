@@ -21,7 +21,6 @@ export default function MainLayout({ user, handleLogout, children }) {
   useEffect(() => {
     function updateHeight() {
       const headerH = headerRef?.current?.offsetHeight || 0;
-      const footerH = footerRef?.current?.offsetHeight || 0;
       setMinHeight(headerH);
     }
     updateHeight();

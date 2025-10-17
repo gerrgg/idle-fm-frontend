@@ -8,5 +8,5 @@ export const StaticWrapper = styled.div`
   background: url(/images/static-${(p) => p.$index}.gif) center/cover no-repeat;
   z-index: 10;
   pointer-events: none;
-  display: ${(p) => (p.$ready ? "block" : "none")};
+  opacity: ${(p) => (p.ready ? 0 : 1)};
 `;
