@@ -23,13 +23,13 @@ const Gif = ({ tenorID, index, resolvedGifs, setResolvedGifs }) => {
     }
 
     async function resolveGif() {
-      // 1. Already have a resolved gif for this index → reuse
+      if (!resolvedGifs) return;
+
       if (resolvedGifs[index]) {
         setGifUrl(`https://media.tenor.com/${resolvedGifs[index]}`);
         return;
       }
 
-      // 2. Valid tenorID → test it
       if (tenorID) {
         const url = `https://media.tenor.com/${tenorID}`;
         try {

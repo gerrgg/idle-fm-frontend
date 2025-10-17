@@ -1,11 +1,11 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const GifWrapper = styled.div`
   width: 100vw;
   height: 100vh;
   border: 0;
   background: url(${(props) => props.file}) center/cover no-repeat;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   z-index: -1;
@@ -19,5 +19,4 @@ export const GifWrapper = styled.div`
     width: 100%;
     height: 100%;
   }
-`
-
+`;

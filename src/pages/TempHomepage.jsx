@@ -16,7 +16,7 @@ export default function TempHomePage({ user, handleLogout }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [manualPlayTick, setManualPlayTick] = useState(0);
   const [loading, setLoading] = useState(true);
-  const [resolvedGifs, setResolvedGifs] = useState({});
+  const [resolvedGifs, setResolvedGifs] = useState(null);
 
   useEffect(() => {
     if (!user?.id) return; // wait until user is loaded

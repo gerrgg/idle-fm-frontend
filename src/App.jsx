@@ -12,6 +12,7 @@ import RegisterPage from "./pages/RegisterPage.jsx";
 import TempHomepage from "./pages/TempHomepage.jsx";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage.jsx";
 import ResetPasswordPage from "./pages/ResetPasswordPage.jsx";
+import CreatePlaylistPage from "./pages/CreatePlaylistPage.jsx";
 
 import Static from "./components/Static.jsx";
 import ThemedToaster from "./components/ThemedToaster.jsx";
@@ -47,7 +48,6 @@ function App() {
     })();
   }, []);
 
-
   if (loading) return <Static ready={loading} />;
 
   return (
@@ -59,6 +59,7 @@ function App() {
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
           <Route path="/reset-password" element={<ResetPasswordPage />} />
+          <Route path="/create-playlist" element={<CreatePlaylistPage />} />
           <Route
             path="/"
             element={

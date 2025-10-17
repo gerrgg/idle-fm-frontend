@@ -19,6 +19,7 @@ const Header = forwardRef(({ user, handleLogout }, ref) => {
           <S.LogoutButton onClick={handleLogout}>Logout</S.LogoutButton>
         </>
       )}
+      <S.AddPlaylistButton to={"/create-playlist"}>Add</S.AddPlaylistButton>
     </S.HeaderWrapper>
   );
 });

@@ -7,9 +7,10 @@ import { useState, useEffect, useRef } from "react";
 import Lines from "../components/Lines.jsx";
 
 export const Body = styled(Container)`
-  height: 100vh;
-  padding-top: ${({ headerheight }) => headerheight}px;
-  padding-bottom: ${({ footerheight }) => footerheight}px;
+  padding: 2rem;
+  // height: 100vh;
+  // padding-top: ${({ headerheight }) => headerheight}px;
+  // padding-bottom: ${({ footerheight }) => footerheight}px;
 `;
 
 export default function MainLayout({ user, handleLogout, children }) {
@@ -34,11 +35,11 @@ export default function MainLayout({ user, handleLogout, children }) {
 
   return (
     <div className="app">
-      {
-        ! lowPowerMode ? <Lines /> : null
-      }
+      {!lowPowerMode ? <Lines /> : null}
       <Header ref={headerRef} user={user} handleLogout={handleLogout} />
-      <Body headerheight={headerHeight} footerheight={footerHeight}>{children}</Body>
+      <Body headerheight={headerHeight} footerheight={footerHeight}>
+        {children}
+      </Body>
       <Footer ref={footerRef}>Footer</Footer>
     </div>
   );
