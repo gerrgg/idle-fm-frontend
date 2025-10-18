@@ -1,9 +1,9 @@
 import styled from "styled-components";
+import { AuthWrapper } from "../pages/AuthPage.styles.jsx";
 
-export const CreatePlaylistWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
+export const CreatePlaylistWrapper = styled(AuthWrapper)`
+  max-width: 100%;
+  text-align: left;
 `;
 
 export const CreatePlaylistFormWrapper = styled.div`

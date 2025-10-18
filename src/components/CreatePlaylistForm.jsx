@@ -2,6 +2,10 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import TagSelector from "./TagSelector";
 import * as S from "./AuthForm.styles.jsx";
+import {
+  CreatePlaylistWrapper,
+  CreatePlaylistFormButton,
+} from "./CreatePlaylistForm.styles.jsx";
 import { playlistsApi } from "../api/playlists.js";
 
 export default function CreatePlaylistForm() {
@@ -33,7 +37,6 @@ export default function CreatePlaylistForm() {
       toast.success("Playlist created successfully!", {
         id: "playlist-create-success",
       });
-      // Optionally, you can reset the form or redirect the user
       setTitle("");
       setDescription("");
       setIsPrivate(false);
@@ -47,7 +50,7 @@ export default function CreatePlaylistForm() {
   }
 
   return (
-    <S.AuthForm onSubmit={handleSubmit}>
+    <CreatePlaylistWrapper onSubmit={handleSubmit}>
       <S.AuthFormGroup>
         <S.AuthLabel>Title</S.AuthLabel>
         <S.AuthInput
@@ -90,7 +93,9 @@ export default function CreatePlaylistForm() {
         </S.AuthCheckboxLabel>
       </S.AuthFormGroup>
 
-      <S.AuthButton type="submit">Create Playlist</S.AuthButton>
-    </S.AuthForm>
+      <CreatePlaylistFormButton type="submit">
+        Create Playlist
+      </CreatePlaylistFormButton>
+    </CreatePlaylistWrapper>
   );
 }

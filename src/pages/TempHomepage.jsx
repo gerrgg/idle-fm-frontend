@@ -8,6 +8,7 @@ import Gif from "../components/Gif.jsx";
 import { usersApi } from "../api/users.js";
 import { playlistsApi } from "../api/playlists.js";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 export default function TempHomePage({ user, handleLogout }) {
   const [playlists, setPlaylists] = useState([]);
@@ -17,6 +18,7 @@ export default function TempHomePage({ user, handleLogout }) {
   const [manualPlayTick, setManualPlayTick] = useState(0);
   const [loading, setLoading] = useState(true);
   const [resolvedGifs, setResolvedGifs] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!user?.id) return; // wait until user is loaded
@@ -27,10 +29,10 @@ export default function TempHomePage({ user, handleLogout }) {
         setPlaylists(filteredPlaylists);
 
         if (filteredPlaylists.length === 0) {
-          toast.error("❌ No playlists found with videos", {
+          toast("Create your first playlist!", {
             id: "no-playlists-error",
           });
-          return;
+          navigate("/create-playlist");
         }
 
         setPlaylists(filteredPlaylists || []);
@@ -79,8 +81,7 @@ export default function TempHomePage({ user, handleLogout }) {
 
   if (loading) return <S.StatusText>Loading playlist…</S.StatusText>;
 
-  if (playlist.length === 0)
-    return <S.StatusText>No videos found.</S.StatusText>;
+  if (playlist.length === 0) navigate("/create-playlist");
 
   const current = playlist[currentIndex];
 
