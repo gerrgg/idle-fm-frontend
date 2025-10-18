@@ -28,9 +28,13 @@ function App() {
     try {
       await authApi.logout();
       setUser(null);
-      toast.success("Logout successful");
+      toast.success("Logout successful", {
+        id: "logout-success",
+      });
     } catch (err) {
-      toast.error(err.message || "Logout failed");
+      toast.error(err.message || "Logout failed", {
+        id: "logout-error",
+      });
       console.error("Logout error:", err);
     }
   }

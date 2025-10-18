@@ -15,7 +15,9 @@ export default function CreatePlaylistForm() {
     e.preventDefault();
 
     if (!title) {
-      toast.error("Please enter a title for your playlist.");
+      toast.error("Please enter a title for your playlist.", {
+        id: "playlist-title-error",
+      });
       return;
     }
 
@@ -28,15 +30,19 @@ export default function CreatePlaylistForm() {
 
     try {
       await playlistsApi.create(data);
-      toast.success("Playlist created successfully!");
+      toast.success("Playlist created successfully!", {
+        id: "playlist-create-success",
+      });
       // Optionally, you can reset the form or redirect the user
       setTitle("");
       setDescription("");
       setIsPrivate(false);
       setTags([]);
     } catch (error) {
+      toast.error("Failed to create playlist. Please try again.", {
+        id: "playlist-create-error",
+      });
       console.error("Error creating playlist:", error);
-      toast.error("Failed to create playlist. Please try again.");
     }
   }
 

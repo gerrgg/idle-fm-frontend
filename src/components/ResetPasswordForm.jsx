@@ -5,7 +5,7 @@ import { authApi } from "../api/auth.js";
 import * as S from "./AuthForm.styles.jsx";
 import toast from "react-hot-toast";
 
-export default function ResetPasswordForm({token}) {
+export default function ResetPasswordForm({ token }) {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const navigate = useNavigate();
@@ -14,15 +14,21 @@ export default function ResetPasswordForm({token}) {
     e.preventDefault();
     try {
       if (password !== confirmPassword) {
-        toast.error("Passwords do not match");
+        toast.error("Passwords do not match", {
+          id: "password-mismatch",
+        });
         return;
       }
 
       await authApi.resetPassword(token, password);
-      toast.success("Password reset successful");
+      toast.success("Password reset successful", {
+        id: "password-reset-success",
+      });
       navigate("/");
     } catch (err) {
-      toast.error(err.message || "Failed to send reset link");
+      toast.error(err.message || "Failed to send reset link", {
+        id: "password-reset-error",
+      });
     }
   }
 

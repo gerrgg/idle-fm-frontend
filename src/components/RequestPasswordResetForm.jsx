@@ -13,14 +13,20 @@ export default function RequestPasswordResetForm() {
     e.preventDefault();
     try {
       if (!email) {
-        toast.error("Email is required");
+        toast.error("Email is required", {
+          id: "email-required",
+        });
         return;
       }
       const data = await authApi.forgotPassword(email);
-      toast.success(data.message || "Password reset link sent");
+      toast.success(data.message || "Password reset link sent", {
+        id: "password-reset-success",
+      });
       navigate("/");
     } catch (err) {
-      toast.error(err.message || "Failed to send reset link");
+      toast.error(err.message || "Failed to send reset link", {
+        id: "password-reset-error",
+      });
     }
   }
 

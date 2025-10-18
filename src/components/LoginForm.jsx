@@ -15,10 +15,14 @@ export default function LoginForm({ setUser }) {
     try {
       const data = await authApi.login(email, password);
       setUser(data.user);
-      toast.success(data.message || "Login successful");
+      toast.success(data.message || "Login successful", {
+        id: "login-success",
+      });
       navigate("/");
     } catch (err) {
-      toast.error(err.message || "Login failed");
+      toast.error(err.message || "Login failed", {
+        id: "login-error",
+      });
     }
   }
 

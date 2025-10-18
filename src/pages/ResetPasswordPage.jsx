@@ -18,11 +18,13 @@ export default function ResetPasswordPage() {
     async function checkToken() {
       try {
         const data = await authApi.validateResetToken(token);
-        if(data.valid) {
+        if (data.valid) {
           setValid(true);
         }
       } catch (err) {
-        toast.error(err.message);
+        toast.error(err.message, {
+          id: "token-validation-error",
+        });
         navigate("/login");
       } finally {
         setLoading(false);

@@ -27,14 +27,16 @@ export default function TempHomePage({ user, handleLogout }) {
         setPlaylists(filteredPlaylists);
 
         if (filteredPlaylists.length === 0) {
-          toast.error("❌ No playlists found with videos");
+          toast.error("❌ No playlists found with videos", {
+            id: "no-playlists-error",
+          });
           return;
         }
 
         setPlaylists(filteredPlaylists || []);
         setSelectedPlaylistId(filteredPlaylists?.[0]?.id || null);
       } catch {
-        toast.error("❌ Failed to load playlists");
+        toast.error("❌ Failed to load playlists", {});
       }
     }
     fetchPlaylists();

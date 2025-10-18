@@ -3,6 +3,7 @@ import { useState } from "react";
 import { usersApi } from "../api/users.js";
 import * as S from "./AuthForm.styles.jsx";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 export default function RegisterForm() {
   const [username, setUsername] = useState("");
@@ -10,26 +11,42 @@ export default function RegisterForm() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
+  const navigate = useNavigate();
+
   async function handleSubmit(e) {
     e.preventDefault();
 
     if (password !== confirmPassword) {
-      toast.error("Passwords do not match");
+      toast.error("Passwords do not match", {
+        id: "password-mismatch",
+      });
       return;
     }
 
     try {
       await usersApi.create({ username, email, password });
-      toast.success("Registration successful");
+      toast.success("Your in, go check your email to activate your account!", {
+        id: "registration-success",
+      });
+      navigate("/login");
     } catch (error) {
-      if (error.response?.status === 400) {
-        toast.error("Invalid input. Please check your details.");
-      } else if (error.response?.status === 409) {
-        toast.error("Username or email already exists.");
+      console.log("Registration error:", error);
+      if (error.status === 400) {
+        toast.error("Invalid input. Please check your details.", {
+          id: "registration-invalid-input",
+        });
+      } else if (error.status === 409) {
+        toast.error("Username or email already exists.", {
+          id: "registration-conflict",
+        });
       } else {
-        toast.error("Registration failed. Please try again later.");
+        toast.error(
+          error.message || "Registration failed. Please try again later.",
+          {
+            id: "registration-failure",
+          }
+        );
       }
-      console.error("Registration error:", error);
     }
   }
 
