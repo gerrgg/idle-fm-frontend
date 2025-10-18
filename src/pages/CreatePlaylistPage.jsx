@@ -4,18 +4,17 @@ import * as S from "./CreatePlaylistPage.styles.jsx";
 import Gif from "../components/Gif.jsx";
 import CreatePlaylistForm from "../components/CreatePlaylistForm.jsx";
 
-export default function CreatePlaylistPage() {
+export default function CreatePlaylistPage({ user }) {
   return (
-    <MainLayout>
+    <MainLayout user={user}>
       <Gif tenorID={"yWVIOwocbVsAAAAC"} />
       <S.CreatePlaylistWrapper>
         <S.CreatePlaylistFormWrapper>
-          <S.CreatePlaylistTitle>Create Playlist</S.CreatePlaylistTitle>
+          <S.CreatePlaylistTitle level={"h1"}>
+            Create Playlist
+          </S.CreatePlaylistTitle>
           <CreatePlaylistForm />
         </S.CreatePlaylistFormWrapper>
-        <S.CreatePlaylistVideosWrapper>
-          {/* Videos component would go here */}
-        </S.CreatePlaylistVideosWrapper>
       </S.CreatePlaylistWrapper>
     </MainLayout>
   );

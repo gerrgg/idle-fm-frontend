@@ -34,7 +34,6 @@ export default function TempHomePage({ user, handleLogout }) {
           toast("Create your first playlist!", {
             id: "no-playlists-error",
           });
-          // navigate("/create-playlist");
         }
 
         setSelectedPlaylistId(playlists?.[0]?.id || null);

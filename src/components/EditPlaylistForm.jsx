@@ -72,8 +72,6 @@ export default function EditPlaylistForm() {
     }
   }
 
-  console.log("Available tags:", availableTags, "Selected tags:", tags);
-
   return (
     <CreatePlaylistWrapper onSubmit={handleSubmit}>
       <S.AuthFormGroup>
@@ -84,7 +82,6 @@ export default function EditPlaylistForm() {
           placeholder="My Awesome Playlist"
         />
       </S.AuthFormGroup>
-
       <S.AuthFormGroup>
         <S.AuthLabel>Description</S.AuthLabel>
         <S.AuthInput
@@ -93,7 +90,6 @@ export default function EditPlaylistForm() {
           placeholder="Low-key beats for studying, ong fr fr."
         />
       </S.AuthFormGroup>
-
       <S.AuthFormGroup>
         <S.AuthLabel>Tags</S.AuthLabel>
         <TagSelector
@@ -102,7 +98,6 @@ export default function EditPlaylistForm() {
           onChange={setTags}
         />
       </S.AuthFormGroup>
-
       <S.AuthFormGroup direction="row">
         <S.ToggleWrapper>
           <S.ToggleInput
@@ -117,7 +112,6 @@ export default function EditPlaylistForm() {
           Keep Private
         </S.AuthCheckboxLabel>
       </S.AuthFormGroup>
-
       <CreatePlaylistFormButton type="submit">
         Update Playlist
       </CreatePlaylistFormButton>

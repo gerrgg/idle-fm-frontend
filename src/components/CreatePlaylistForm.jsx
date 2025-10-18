@@ -7,6 +7,7 @@ import {
   CreatePlaylistFormButton,
 } from "./CreatePlaylistForm.styles.jsx";
 import { playlistsApi } from "../api/playlists.js";
+import { tagsApi } from "../api/tags.js";
 import { useNavigate } from "react-router-dom";
 
 export default function CreatePlaylistForm() {
@@ -14,12 +15,7 @@ export default function CreatePlaylistForm() {
   const [description, setDescription] = useState("");
   const [isPrivate, setIsPrivate] = useState(false);
   const [tags, setTags] = useState([]); // now this holds selected tags
-  const [availableTags, setAvailableTags] = useState([
-    "lofi",
-    "trap",
-    "metal",
-    "ambient",
-  ]);
+  const [availableTags, setAvailableTags] = useState([]);
 
   const navigate = useNavigate();
 
@@ -27,7 +23,7 @@ export default function CreatePlaylistForm() {
     // Fetch available tags from the API if needed
     async function fetchTags() {
       try {
-        const tags = await playlistsApi.getTags();
+        const tags = await tagsApi.getTags();
         setAvailableTags(tags);
       } catch (error) {
         toast.error("Failed to load tags", {

@@ -29,8 +29,12 @@ const TagSelector = ({ availableTags = [], selectedTags = [], onChange }) => {
   }
 
   function addTag(tag) {
+    const tagWithId = tag.id
+      ? tag
+      : { ...tag, id: `temp-${Date.now()}-${Math.random()}` };
+
     if (!selectedTags.some((t) => t.id === tag.id)) {
-      onChange([...selectedTags, tag]);
+      onChange([...selectedTags, tagWithId]);
     }
     setInput("");
     setSuggestions([]);

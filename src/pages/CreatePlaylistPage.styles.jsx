@@ -17,7 +17,27 @@ export const CreatePlaylistVideosWrapper = styled.div`
   // width: 30%;
 `;
 
-export const CreatePlaylistTitle = styled.h1`
-  font-size: 2rem;
-  margin-bottom: 2rem;
+export const CreatePlaylistTitle = styled.h1.attrs((props) => ({
+  as: props.level || "h1",
+}))`
+  font-size: ${({ level }) =>
+    level === "h1"
+      ? "2rem"
+      : level === "h2"
+      ? "1.5rem"
+      : level === "h3"
+      ? "1.25rem"
+      : "1rem"};
+  margin-bottom: 1.5rem;
+  font-weight: 700;
+`;
+
+export const CreatePlaylistSection = styled.div`
+  width: 100%;
+`;
+
+export const CreatePlaylistDivider = styled.div`
+  height: 1px;
+  background: ${({ theme }) => theme.muted || "#e5e7eb"};
+  margin: 4rem 0;
 `;

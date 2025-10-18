@@ -56,7 +56,7 @@ function App() {
   if (loading) return <Static ready={loading} />;
 
   return (
-    <ThemeProvider theme={darkTheme}>
+    <ThemeProvider theme={lightTheme}>
       <GlobalStyle />
       <Router>
         <Routes>
@@ -64,8 +64,14 @@ function App() {
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
           <Route path="/reset-password" element={<ResetPasswordPage />} />
-          <Route path="/create/playlist" element={<CreatePlaylistPage />} />
-          <Route path="/edit/playlist/:id" element={<EditPlaylistPage />} />
+          <Route
+            path="/create/playlist"
+            element={<CreatePlaylistPage user={user} />}
+          />
+          <Route
+            path="/edit/playlist/:id"
+            element={<EditPlaylistPage user={user} />}
+          />
           <Route
             path="/"
             element={

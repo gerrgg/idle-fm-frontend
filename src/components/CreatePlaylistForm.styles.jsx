@@ -6,7 +6,6 @@ export const CreatePlaylistWrapper = styled(S.AuthForm)`
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
 
-  /* third, fourth, and fifth rows span full width */
   & > :nth-child(n + 3) {
     grid-column: 1 / -1;
   }
@@ -14,4 +13,9 @@ export const CreatePlaylistWrapper = styled(S.AuthForm)`
 
 export const CreatePlaylistFormButton = styled(S.AuthButton)`
   margin-top: 0;
+`;
+
+export const AddRemoveButton = styled(S.AuthButton)`
+  background: ${({ theme, buttonaction }) =>
+    buttonaction === "add" ? theme.accent : theme.danger};
 `;
