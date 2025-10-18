@@ -1,6 +1,5 @@
 // layouts/Header.jsx
 import { forwardRef } from "react";
-import { Container } from "../styles/Layout";
 import Logo from "../assets/logo.png";
 import * as S from "./Header.styles.jsx";
 import { Link } from "react-router-dom";
@@ -22,7 +21,7 @@ const Header = forwardRef(({ user, handleLogout }, ref) => {
           <S.LogoutButton onClick={handleLogout}>Logout</S.LogoutButton>
         </>
       )}
-      <S.AddPlaylistButton to={"/create-playlist"}>Add</S.AddPlaylistButton>
+      <S.AddPlaylistButton to={"/create/playlist"}>Add</S.AddPlaylistButton>
     </S.HeaderWrapper>
   );
 });

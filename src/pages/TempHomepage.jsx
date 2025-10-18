@@ -17,7 +17,8 @@ export default function TempHomePage({ user, handleLogout }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [manualPlayTick, setManualPlayTick] = useState(0);
   const [loading, setLoading] = useState(true);
-  const [resolvedGifs, setResolvedGifs] = useState(null);
+  const [currentTenorKey, setCurrentTenorKey] = useState("yWVIOwocbVsAAAAC");
+  const [currentYoutubeKey, setCurrentYoutubeKey] = useState("dQw4w9WgXcQ");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -25,18 +26,18 @@ export default function TempHomePage({ user, handleLogout }) {
     async function fetchPlaylists() {
       try {
         const playlists = await usersApi.getPlaylists(user.id);
-        const filteredPlaylists = playlists.filter((p) => p.videos?.length > 0);
-        setPlaylists(filteredPlaylists);
+        setPlaylists(playlists);
 
-        if (filteredPlaylists.length === 0) {
+        console.log(playlists);
+
+        if (playlists.length === 0) {
           toast("Create your first playlist!", {
             id: "no-playlists-error",
           });
-          navigate("/create-playlist");
+          // navigate("/create-playlist");
         }
 
-        setPlaylists(filteredPlaylists || []);
-        setSelectedPlaylistId(filteredPlaylists?.[0]?.id || null);
+        setSelectedPlaylistId(playlists?.[0]?.id || null);
       } catch {
         toast.error("❌ Failed to load playlists", {});
       }
@@ -49,14 +50,8 @@ export default function TempHomePage({ user, handleLogout }) {
 
     async function fetchPlaylist() {
       try {
-        const res = await fetch(
-          `${
-            import.meta.env.VITE_API_URL
-          }/playlists/${selectedPlaylistId}/videos`,
-          { credentials: "include" }
-        );
-        const data = await res.json();
-        setPlaylist(data.videos || []);
+        const videos = await playlistsApi.getVideos(selectedPlaylistId);
+        setPlaylist(videos || []);
       } catch (err) {
         console.error("❌ Failed to load playlist", err);
       } finally {
@@ -81,19 +76,15 @@ export default function TempHomePage({ user, handleLogout }) {
 
   if (loading) return <S.StatusText>Loading playlist…</S.StatusText>;
 
-  if (playlist.length === 0) navigate("/create-playlist");
+  console.log("playlist", playlist);
 
-  const current = playlist[currentIndex];
+  if (playlist.videos.length === 0) {
+    navigate(`/edit/playlist/${selectedPlaylistId}`);
+  }
 
   return (
     <MainLayout user={user} handleLogout={handleLogout}>
-      <Gif
-        key={currentIndex}
-        tenorID={current.tenor_key}
-        index={currentIndex}
-        resolvedGifs={resolvedGifs}
-        setResolvedGifs={setResolvedGifs}
-      />
+      <Gif key={currentIndex} tenorID={currentTenorKey} index={currentIndex} />
 
       <S.Wrapper>
         <S.Title className="title">Idle.fm — Live API Demo</S.Title>
@@ -113,7 +104,7 @@ export default function TempHomePage({ user, handleLogout }) {
           <button onClick={next}>⏭️ Next</button>
         </S.Controls>
         <YouTubeAudioPlayer
-          videoKey={current.youtube_key}
+          videoKey={currentYoutubeKey}
           onEnded={handleEnded}
           manualPlayTick={manualPlayTick}
         />

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import * as S from "./TagSelector.styles.jsx";
 
 const TagSelector = ({ availableTags = [], selectedTags = [], onChange }) => {
@@ -9,7 +9,8 @@ const TagSelector = ({ availableTags = [], selectedTags = [], onChange }) => {
     setInput(val);
     const filtered = availableTags.filter(
       (t) =>
-        t.toLowerCase().includes(val.toLowerCase()) && !selectedTags.includes(t)
+        t.name.toLowerCase().includes(val.toLowerCase()) &&
+        !selectedTags.some((sel) => sel.id === t.id)
     );
     setSuggestions(filtered.slice(0, 5));
   }
@@ -17,14 +18,20 @@ const TagSelector = ({ availableTags = [], selectedTags = [], onChange }) => {
   function handleKeyDown(e) {
     if (e.key === "Enter" && input.trim()) {
       e.preventDefault();
-      addTag(input.trim());
+      const existing = availableTags.find(
+        (t) => t.name.toLowerCase() === input.trim().toLowerCase()
+      );
+      if (existing) addTag(existing);
+      else addTag({ name: input.trim() }); // no id
     } else if (e.key === "Backspace" && !input && selectedTags.length) {
       removeTag(selectedTags.length - 1);
     }
   }
 
   function addTag(tag) {
-    if (!selectedTags.includes(tag)) onChange([...selectedTags, tag]);
+    if (!selectedTags.some((t) => t.id === tag.id)) {
+      onChange([...selectedTags, tag]);
+    }
     setInput("");
     setSuggestions([]);
   }
@@ -37,8 +44,8 @@ const TagSelector = ({ availableTags = [], selectedTags = [], onChange }) => {
   return (
     <S.TagInputWrapper>
       {selectedTags.map((tag, i) => (
-        <S.Tag key={i}>
-          {tag}
+        <S.Tag key={tag.id}>
+          {tag.name}
           <S.RemoveTag onClick={() => removeTag(i)}>×</S.RemoveTag>
         </S.Tag>
       ))}
@@ -51,9 +58,9 @@ const TagSelector = ({ availableTags = [], selectedTags = [], onChange }) => {
       />
       {suggestions.length > 0 && (
         <S.SuggestionList>
-          {suggestions.map((s, i) => (
-            <li key={i} onClick={() => addTag(s)}>
-              {s}
+          {suggestions.map((s) => (
+            <li key={s.id} onClick={() => addTag(s)}>
+              {s.name}
             </li>
           ))}
         </S.SuggestionList>

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import TagSelector from "./TagSelector";
 import * as S from "./AuthForm.styles.jsx";
@@ -7,46 +8,46 @@ import {
   CreatePlaylistFormButton,
 } from "./CreatePlaylistForm.styles.jsx";
 import { playlistsApi } from "../api/playlists.js";
-import { useNavigate } from "react-router-dom";
+import { tagsApi } from "../api/tags.js";
 
-export default function CreatePlaylistForm() {
+export default function EditPlaylistForm() {
+  const { id } = useParams();
+  const navigate = useNavigate();
+
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [isPrivate, setIsPrivate] = useState(false);
-  const [tags, setTags] = useState([]); // now this holds selected tags
-  const [availableTags, setAvailableTags] = useState([
-    "lofi",
-    "trap",
-    "metal",
-    "ambient",
-  ]);
+  const [tags, setTags] = useState([]);
+  const [availableTags, setAvailableTags] = useState([]);
 
-  const navigate = useNavigate();
-
+  // Fetch playlist + available tags
   useEffect(() => {
-    // Fetch available tags from the API if needed
-    async function fetchTags() {
+    async function fetchData() {
       try {
-        const tags = await playlistsApi.getTags();
-        setAvailableTags(tags);
+        const [playlist, allTags] = await Promise.all([
+          playlistsApi.getById(id),
+          tagsApi.getTags(),
+        ]);
+
+        setTitle(playlist.title || "");
+        setDescription(playlist.description || "");
+        setIsPrivate(!playlist.is_public);
+        setTags(playlist.tags || []);
+        setAvailableTags(allTags);
       } catch (error) {
-        toast.error("Failed to load tags", {
-          id: "tags-load-error",
-        });
-        console.error("Error loading tags:", error);
+        toast.error("Failed to load playlist data", { id: "edit-load-error" });
+        console.error("Error loading playlist:", error);
       }
     }
 
-    fetchTags();
-  }, []);
+    fetchData();
+  }, [id]);
 
   async function handleSubmit(e) {
     e.preventDefault();
 
-    if (!title) {
-      toast.error("Please enter a title for your playlist.", {
-        id: "playlist-title-error",
-      });
+    if (!title.trim()) {
+      toast.error("Please enter a title.", { id: "edit-title-error" });
       return;
     }
 
@@ -58,18 +59,20 @@ export default function CreatePlaylistForm() {
     };
 
     try {
-      const playlist = await playlistsApi.create(data);
-      toast.success("Playlist created successfully!", {
-        id: "playlist-create-success",
+      await playlistsApi.update(id, data);
+      toast.success("Playlist updated successfully!", {
+        id: "playlist-update-success",
       });
-      navigate(`/edit/playlist/${playlist.id}`);
+      navigate(`/edit/playlist/${id}`);
     } catch (error) {
-      toast.error("Failed to create playlist. Please try again.", {
-        id: "playlist-create-error",
+      toast.error("Failed to update playlist.", {
+        id: "playlist-update-error",
       });
-      console.error("Error creating playlist:", error);
+      console.error("Error updating playlist:", error);
     }
   }
+
+  console.log("Available tags:", availableTags, "Selected tags:", tags);
 
   return (
     <CreatePlaylistWrapper onSubmit={handleSubmit}>
@@ -116,7 +119,7 @@ export default function CreatePlaylistForm() {
       </S.AuthFormGroup>
 
       <CreatePlaylistFormButton type="submit">
-        Create Playlist
+        Update Playlist
       </CreatePlaylistFormButton>
     </CreatePlaylistWrapper>
   );

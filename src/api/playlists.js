@@ -4,4 +4,11 @@ export const playlistsApi = {
   getVideos: (id) => request(`/playlists/${id}/videos`),
   create: (data) =>
     request("/playlists", { method: "POST", body: JSON.stringify(data) }),
+  update: (id, data) =>
+    request(`/playlists/${id}`, {
+      method: "PUT",
+      body: JSON.stringify(data),
+    }),
+  getById: (id) => request(`/playlists/${id}`),
+  delete: (id) => request(`/playlists/${id}`, { method: "DELETE" }),
 };

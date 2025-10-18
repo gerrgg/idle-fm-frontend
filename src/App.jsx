@@ -13,6 +13,7 @@ import TempHomepage from "./pages/TempHomepage.jsx";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage.jsx";
 import ResetPasswordPage from "./pages/ResetPasswordPage.jsx";
 import CreatePlaylistPage from "./pages/CreatePlaylistPage.jsx";
+import EditPlaylistPage from "./pages/EditPlaylistPage.jsx";
 
 import Static from "./components/Static.jsx";
 import ThemedToaster from "./components/ThemedToaster.jsx";
@@ -63,7 +64,8 @@ function App() {
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
           <Route path="/reset-password" element={<ResetPasswordPage />} />
-          <Route path="/create-playlist" element={<CreatePlaylistPage />} />
+          <Route path="/create/playlist" element={<CreatePlaylistPage />} />
+          <Route path="/edit/playlist/:id" element={<EditPlaylistPage />} />
           <Route
             path="/"
             element={
