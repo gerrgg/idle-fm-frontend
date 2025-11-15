@@ -7,8 +7,8 @@ export const Wrapper = styled.footer`
   bottom: 0;
   left: 0;
 
-  background: #181818;
-  border-top: 1px solid #282828;
+  background: ${({ theme }) => theme.colors.surface2};
+  border-top: 1px solid ${({ theme }) => theme.colors.surface2};
 
   display: flex;
   align-items: center;

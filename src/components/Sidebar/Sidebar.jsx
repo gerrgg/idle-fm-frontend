@@ -1,11 +1,11 @@
-import { Wrapper, Logo, LogoText } from "./Sidebar.styles.jsx";
-import SVG from "../../assets/logo.svg";
-import { Row } from "../../styles/layout.js";
+import { Wrapper, LogoText } from "./Sidebar.styles.jsx";
+import { Row, Stack } from "../../styles/layout.js";
+import {Logo} from "../Logo/index.js";
 
 export default function Sidebar() {
   return <Wrapper>
     <Row gap="md" align="flex-end">
-      <Logo src={SVG} alt="Logo" />
+      <Logo width="36" height="36" />
       <LogoText>idle.fm</LogoText>
     </Row>
   </Wrapper>;

@@ -11,7 +11,9 @@ export default function DashboardLayout({ children }) {
 
       <ContentArea>
         <Topbar />
-        {children}
+        <MainContent>
+          {children}
+        </MainContent>
         <BottomBar />
       </ContentArea>
     </Wrapper>

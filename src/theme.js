@@ -30,4 +30,28 @@ export const theme = {
     xxl: "32px",
     huge: "48px",
   },
+
+  layout: {
+    sidebarWidth: "201px",
+  },
+
+colors: {
+  bg: "#2A1E1A",
+  text: "#FFF1C1",
+  accent: "#F37B2F",
+  accentAlt: "#F4A226",
+  muted: "#C89B6D",
+  danger: "#E74C3C",
+  dangerAlt: "#C0392B",
+
+  // UI surfaces
+  surface0: "#2A1E1A", 
+  surface1: "#332420", 
+  surface2: "#3D2C26", 
+  surface3: "#4A362E", 
+}
+
+
+
+
 };
