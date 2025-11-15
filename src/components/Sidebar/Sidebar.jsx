@@ -1,6 +1,12 @@
-import { Wrapper } from "./Sidebar.styles.jsx";
-import { Link } from "react-router-dom";
+import { Wrapper, Logo, LogoText } from "./Sidebar.styles.jsx";
+import SVG from "../../assets/logo.svg";
+import { Row } from "../../styles/layout.js";
 
 export default function Sidebar() {
-  return <Wrapper>sidebar</Wrapper>;
+  return <Wrapper>
+    <Row gap="md" align="flex-end">
+      <Logo src={SVG} alt="Logo" />
+      <LogoText>idle.fm</LogoText>
+    </Row>
+  </Wrapper>;
 }
