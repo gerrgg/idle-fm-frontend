@@ -59,10 +59,12 @@ const variants = {
 export const Button = styled.button`
   cursor: pointer;
   border-radius: 6px;
-  font-family: ${({ theme }) => theme.fonts.body};
+  font-family: ${({ theme }) => theme.fonts.header};
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
   line-height: 0.8;
   transition: 0.15s ease;
-  text-transform: uppercase;
+  // text-transform: uppercase;
   font-weight: ${({ theme }) => theme.fontWeights.bold};
   border-radius: 36px;
 

@@ -38,9 +38,8 @@ export const theme = {
     md: "6px",
     lg: "8px",
     xl: "12px",
-    full: "9999px",   // pills/circles
+    full: "9999px", // pills/circles
   },
-
 
   layout: {
     sidebarWidth: "201px",
@@ -49,20 +48,17 @@ export const theme = {
   },
 
   colors: {
-    bg: "#2A1E1A",
-    text: "#FFF1C1",
-    accent: "#F37B2F",
-    accentAlt: "#F4A226",
-    muted: "#C89B6D",
+    bg: "#0D1B2A",
+    text: "#E0FBFC",
+    accent: "#FF006E",
+    accentAlt: "#FB5607",
+    muted: "#8338EC",
     danger: "#E74C3C",
     dangerAlt: "#C0392B",
-
     // UI surfaces
-    surface0: "#2A1E1A", 
-    surface1: "#332420", 
-    surface2: "#3D2C26", 
-    surface3: "#4A362E", 
-  }
-
-
+    surface0: "#0D1B2A",
+    surface1: "#152238",
+    surface2: "#1B2A46",
+    surface3: "#233455",
+  },
 };

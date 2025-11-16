@@ -20,4 +20,5 @@ export const Wrapper = styled.aside`
 export const LogoText = styled(H1)`
   font-size: ${({ theme }) => theme.fontSizes.xxl};
   line-height: 31px;
+  letter-spacing: 0.1em;
 `;
