@@ -17,9 +17,7 @@ export const Wrapper = styled.aside`
   padding-bottom: ${({ theme }) => theme.layout.bottomBarHeight};
 `;
 
-
 export const LogoText = styled(H1)`
   font-size: ${({ theme }) => theme.fontSizes.xxl};
-  text-transform: uppercase;
   line-height: 31px;
-`
+`;

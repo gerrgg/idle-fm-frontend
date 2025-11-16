@@ -8,15 +8,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Dashboard from "./pages/Dashboard/";
 import LoginPage from "./pages/LoginPage";
 
-import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
-
 export default function App() {
-  const { user, loading } = useSelector((state) => state.auth);
-
-  if (loading === "init") {
-    return null;
-  }
-
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyles />
