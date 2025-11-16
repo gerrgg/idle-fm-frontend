@@ -6,6 +6,22 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../../store/authSlice";
 
+function AuthButton({ user, onLogin, onLogout }) {
+  if (!user) {
+    return (
+      <Button size="lg" variant="solid" onClick={onLogin}>
+        Log In
+      </Button>
+    );
+  }
+
+  return (
+    <Button size="lg" variant="solid" onClick={onLogout}>
+      Logout
+    </Button>
+  );
+}
+
 export default function Topbar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -23,14 +39,12 @@ export default function Topbar() {
     <Wrapper>
       <Row gap="sm" justify="flex-end" align="center">
         <SearchBar />
-        {!user && loading !== "init" ? (
-          <Button size="lg" variant="solid" onClick={handleLogin}>
-            Log In
-          </Button>
-        ) : (
-          <Button size="lg" variant="solid" onClick={handleLogout}>
-            Logout
-          </Button>
+        {loading !== "init" && (
+          <AuthButton
+            user={user}
+            onLogin={handleLogin}
+            onLogout={handleLogout}
+          />
         )}
       </Row>
     </Wrapper>
