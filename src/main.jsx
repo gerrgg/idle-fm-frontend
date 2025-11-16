@@ -1,14 +1,36 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
-import { Provider } from "react-redux";
+import { Provider, useDispatch, useSelector } from "react-redux";
 import { store } from "./store";
-
+import { loadSession } from "./store/authSlice";
 import App from "./App";
+import Loader from "./components/Loader/Loader";
+import { theme } from "./theme";
+
+function AppWrapper() {
+  const dispatch = useDispatch();
+  const { sessionLoaded } = useSelector((s) => s.auth); // Add this to your auth slice
+
+  useEffect(() => {
+    dispatch(loadSession());
+  }, [dispatch]);
+
+  if (!sessionLoaded) {
+    return (
+      <Loader
+        bgColor={theme.colors.surface2}
+        fgColor={theme.colors.accentAlt}
+      />
+    );
+  }
+
+  return <App />;
+}
 
 createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <AppWrapper />
     </Provider>
   </React.StrictMode>
 );
