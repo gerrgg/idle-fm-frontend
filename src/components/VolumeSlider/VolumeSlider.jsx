@@ -8,18 +8,24 @@ import {
   SliderThumb,
 } from "./VolumeSlider.styles";
 
-export default function VolumeSlider({ value, onChange }) {
+import { setVolume } from "../../store/playerSlice";
+import { useSelector, useDispatch } from "react-redux";
+
+export default function VolumeSlider() {
   const trackRef = useRef(null);
+  const dispatch = useDispatch();
+  const volume = useSelector((state) => state.player.volume);
   const [dragging, setDragging] = useState(false);
 
   const updateValue = (clientX) => {
     const rect = trackRef.current.getBoundingClientRect();
     const pos = Math.min(Math.max(clientX - rect.left, 0), rect.width);
-    onChange(pos / rect.width);
+    console.log(pos);
+    dispatch(setVolume(pos / rect.width));
   };
 
   const toggleMute = () => {
-    onChange(value === 0 ? 0.5 : 0);
+    dispatch(setVolume(volume === 0 ? 0.5 : 0));
   };
 
   function UnmutedIcon() {
@@ -47,7 +53,7 @@ export default function VolumeSlider({ value, onChange }) {
   return (
     <VolumeWrapper>
       <VolumeIcon onClick={toggleMute}>
-        {value === 0 ? <MutedIcon /> : <UnmutedIcon />}
+        {volume === 0 ? <MutedIcon /> : <UnmutedIcon />}
       </VolumeIcon>
 
       <SliderContainer
@@ -60,9 +66,9 @@ export default function VolumeSlider({ value, onChange }) {
         onPointerLeave={() => setDragging(false)}
       >
         <SliderTrack ref={trackRef}>
-          <SliderFill value={value} />
+          <SliderFill value={volume} />
         </SliderTrack>
-        <SliderThumb value={value} />
+        <SliderThumb value={volume} />
       </SliderContainer>
     </VolumeWrapper>
   );

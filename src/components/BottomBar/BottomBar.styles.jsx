@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { Row } from "../../styles/layout";
+import { Text } from "../../styles/typography";
 
 export const Wrapper = styled(Row)`
   position: fixed;
@@ -19,8 +20,14 @@ export const Wrapper = styled(Row)`
   box-sizing: border-box;
 `;
 
+export const NowPlaying = styled(Text)`
+  font-weight: 500;
+  color: ${({ theme }) => theme.colors.text};
+  line-height: 0.8;
+`;
+
 export const Section = styled(Row)`
-  align-items: center;
+  align-items: ${({ align }) => align || "center"};
   gap: ${({ theme }) => theme.space.md};
 `;
 
@@ -57,4 +64,4 @@ export const IconButton = styled(IconButtonCircle)`
   background: transparent;
   border: none;
   color: ${({ theme }) => theme.colors.text};
-`
+`;
