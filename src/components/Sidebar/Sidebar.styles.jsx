@@ -8,12 +8,13 @@ export const Wrapper = styled.aside`
   top: 0;
   background: ${({ theme }) => theme.colors.surface1};
   color: #fff;
-  padding: ${({ theme }) => theme.space.md} ${({ theme }) => theme.space.xl};
+  padding: ${({ theme }) => theme.space.sm} ${({ theme }) => theme.space.md};
   display: flex;
   flex-direction: column;
   z-index: 1000;
   width: ${({ theme }) => theme.layout.sidebarWidth};
   box-sizing: border-box;
+  padding-bottom: ${({ theme }) => theme.layout.bottomBarHeight};
 `;
 
 

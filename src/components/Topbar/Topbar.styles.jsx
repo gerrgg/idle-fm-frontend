@@ -9,5 +9,5 @@ export const Wrapper = styled.header`
   backdrop-filter: blur(10px);
   color: ${({ theme }) => theme.text};
   margin-left: ${({ theme }) => theme.layout.sidebarWidth};
-  padding: ${({ theme }) => theme.space.md} ${({ theme }) => theme.space.xl};
+  padding: ${({ theme }) => theme.space.sm} ${({ theme }) => theme.space.md};
 `;

@@ -31,27 +31,38 @@ export const theme = {
     huge: "48px",
   },
 
-  layout: {
-    sidebarWidth: "201px",
+  radius: {
+    none: "0px",
+    xs: "2px",
+    sm: "4px",
+    md: "6px",
+    lg: "8px",
+    xl: "12px",
+    full: "9999px",   // pills/circles
   },
 
-colors: {
-  bg: "#2A1E1A",
-  text: "#FFF1C1",
-  accent: "#F37B2F",
-  accentAlt: "#F4A226",
-  muted: "#C89B6D",
-  danger: "#E74C3C",
-  dangerAlt: "#C0392B",
 
-  // UI surfaces
-  surface0: "#2A1E1A", 
-  surface1: "#332420", 
-  surface2: "#3D2C26", 
-  surface3: "#4A362E", 
-}
+  layout: {
+    sidebarWidth: "201px",
+    topbarHeight: "57px",
+    bottomBarHeight: "61px",
+  },
 
+  colors: {
+    bg: "#2A1E1A",
+    text: "#FFF1C1",
+    accent: "#F37B2F",
+    accentAlt: "#F4A226",
+    muted: "#C89B6D",
+    danger: "#E74C3C",
+    dangerAlt: "#C0392B",
 
+    // UI surfaces
+    surface0: "#2A1E1A", 
+    surface1: "#332420", 
+    surface2: "#3D2C26", 
+    surface3: "#4A362E", 
+  }
 
 
 };
