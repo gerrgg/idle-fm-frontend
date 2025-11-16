@@ -55,7 +55,7 @@ export const Mono = styled.span`
 export const MonoBlock = styled.pre`
   font-family: ${({ theme }) => theme.fonts.mono};
   font-size: ${({ theme }) => theme.fontSizes.sm};
-  background: rgba(255,255,255,0.05);
+  background: rgba(255, 255, 255, 0.05);
   padding: 8px 12px;
   border-radius: 4px;
   overflow-x: auto;
