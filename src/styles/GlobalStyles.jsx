@@ -19,4 +19,8 @@ export const GlobalStyles = createGlobalStyle`
   code, pre, .mono {
     font-family: ${({ theme }) => theme.fonts.mono};
   }
+
+  *{
+    box-sizing: border-box;
+  }
 `;

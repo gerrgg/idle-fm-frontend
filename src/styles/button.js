@@ -58,7 +58,7 @@ const variants = {
 //
 export const Button = styled.button`
   cursor: pointer;
-  border-radius: 6px;
+  border-radius: ${({ theme }) => theme.radius.md};
   font-family: ${({ theme }) => theme.fonts.header};
   text-transform: uppercase;
   letter-spacing: 0.1em;

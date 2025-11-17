@@ -5,7 +5,9 @@ import { theme } from "./theme";
 import { useSelector } from "react-redux";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import Dashboard from "./pages/Dashboard/";
+import ThemedToaster from "./components/ThemedToaster";
+
+import DashboardLayout from "./layouts/DashboardLayout/";
 import LoginPage from "./pages/LoginPage";
 
 export default function App() {
@@ -15,9 +17,10 @@ export default function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/login" element={<LoginPage />} />
-          <Route path="/" element={<Dashboard />} />
+          <Route path="/" element={<DashboardLayout />} />
         </Routes>
       </BrowserRouter>
+      <ThemedToaster />
     </ThemeProvider>
   );
 }

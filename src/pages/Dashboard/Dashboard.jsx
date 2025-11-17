@@ -5,14 +5,15 @@ import { H1, H2 } from "../../styles/typography.js";
 
 export default function Dashboard() {
   const { user, loading } = useSelector((state) => state.auth);
+  const view = useSelector((state) => state.dashboard.view);
 
   return (
-    <DashboardLayout>
+    <>
       {!user && loading !== "init" ? (
         <H1>Your not logged in</H1>
       ) : (
         <H1 as="h2">Welcome back, {user?.username}!</H1>
       )}
-    </DashboardLayout>
+    </>
   );
 }

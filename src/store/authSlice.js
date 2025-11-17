@@ -1,53 +1,60 @@
+// src/store/authSlice.js
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import api from "../api/api";
+import authApi from "../api/authApi";
 
+// -----------------------------------------
+// LOGIN
+// -----------------------------------------
 export const loginUser = createAsyncThunk(
   "auth/loginUser",
   async ({ email, password }, { rejectWithValue }) => {
     try {
-      // login sets the cookie
-      const loginRes = await api.post("/auth/login", { email, password });
-
-      // backend returns: { message: "...", user: {...} }
-      const loggedInUser = loginRes.data.user;
-
-      return loggedInUser;
+      const loginRes = await authApi.login(email, password);
+      return loginRes.data.user; // backend: { user: {...} }
     } catch (err) {
       return rejectWithValue(err.response?.data || "Login failed");
     }
   }
 );
 
+// -----------------------------------------
+// LOAD EXISTING SESSION FROM COOKIE
+// -----------------------------------------
 export const loadSession = createAsyncThunk(
   "auth/loadSession",
   async (_, { rejectWithValue }) => {
     try {
-      const res = await api.get("/auth/me");
-      return res.data.user; // always pull .user
+      const res = await authApi.me();
+      return res.data.user;
     } catch {
       return rejectWithValue(null);
     }
   }
 );
 
-// Logout clears cookie on server
+// -----------------------------------------
+// LOGOUT (clears cookie)
+// -----------------------------------------
 export const logoutUser = createAsyncThunk("auth/logoutUser", async () => {
-  await api.post("/auth/logout");
+  await authApi.logout();
   return null;
 });
 
+// -----------------------------------------
+// SLICE
+// -----------------------------------------
 const authSlice = createSlice({
   name: "auth",
   initialState: {
     user: null,
     loading: false,
     error: null,
-    sessionLoaded: false, // Move it here!
+    sessionLoaded: false,
   },
   reducers: {},
   extraReducers: (builder) => {
     builder
-      // login
+      // LOGIN
       .addCase(loginUser.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -55,21 +62,23 @@ const authSlice = createSlice({
       .addCase(loginUser.fulfilled, (state, action) => {
         state.user = action.payload;
         state.loading = false;
-        state.sessionLoaded = true; // Optional: mark session as loaded after login
+        state.sessionLoaded = true;
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
-      // load session
+
+      // LOAD SESSION
       .addCase(loadSession.fulfilled, (state, action) => {
         state.user = action.payload;
-        state.sessionLoaded = true; // Set to true on success
+        state.sessionLoaded = true;
       })
       .addCase(loadSession.rejected, (state) => {
-        state.sessionLoaded = true; // Set to true even on failure!
+        state.sessionLoaded = true;
       })
-      // logout
+
+      // LOGOUT
       .addCase(logoutUser.fulfilled, (state) => {
         state.user = null;
       });

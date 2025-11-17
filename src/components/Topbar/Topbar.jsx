@@ -10,7 +10,7 @@ function AuthButton({ user, onLogin, onLogout }) {
   if (!user) {
     return (
       <Button size="lg" variant="solid" onClick={onLogin}>
-        Log In
+        Login
       </Button>
     );
   }

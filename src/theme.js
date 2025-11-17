@@ -52,7 +52,7 @@ export const theme = {
     text: "#E0FBFC",
     accent: "#FF006E",
     accentAlt: "#FB5607",
-    muted: "#8338EC",
+    muted: "#7A8CA6",
     danger: "#E74C3C",
     dangerAlt: "#C0392B",
     // UI surfaces

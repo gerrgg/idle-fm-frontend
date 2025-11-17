@@ -14,6 +14,8 @@ export const Wrapper = styled.div`
   align-items: flex-end;
   gap: 4px;
   height: ${({ height }) => height || "20px"};
+  position: relative;
+  top: -2px;
 `;
 
 export const Bar = styled.div`
@@ -22,10 +24,11 @@ export const Bar = styled.div`
   background: ${({ theme }) => theme.colors.accent};
   border-radius: ${({ theme }) => theme.radius.full};
   transform-origin: bottom;
+  transform: scaleY(0.3);
 
   animation: ${bounce} 1s ease-in-out infinite;
-  animation-play-state: ${({ isPlaying }) =>
-    isPlaying ? "running" : "paused"};
+  animation-play-state: ${({ $isPlaying }) =>
+    $isPlaying ? "running" : "paused"};
 
   /* Each bar slightly different timing for musical effect */
   &:nth-child(1) {
