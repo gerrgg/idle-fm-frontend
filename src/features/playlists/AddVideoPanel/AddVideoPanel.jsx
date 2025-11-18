@@ -61,13 +61,15 @@ export default function AddVideoPanel({ searchTags }) {
 
       {results.length > 0 && (
         <ResultsList>
-          {results.map((v) => (
-            <ResultItem key={v.id}>
-              <Thumbnail src={v.thumbnail} />
-              <ResultTitle>{v.title}</ResultTitle>
-              <AddButton type="button">Add</AddButton>
-            </ResultItem>
-          ))}
+          {results
+            .filter((v) => v.id)
+            .map((v) => (
+              <ResultItem key={v.id}>
+                <Thumbnail src={v.thumbnail} />
+                <ResultTitle>{v.title}</ResultTitle>
+                <AddButton type="button">Add</AddButton>
+              </ResultItem>
+            ))}
         </ResultsList>
       )}
     </PanelWrapper>

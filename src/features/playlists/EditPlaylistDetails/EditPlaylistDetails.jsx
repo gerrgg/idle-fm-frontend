@@ -84,21 +84,11 @@ export default function EditPlaylistDetails({ playlist, onTagsChange }) {
     });
   }
 
-  async function updateSidebarTitle() {
-    await dispatch(fetchUserPlaylists(user.id));
-  }
-
   const debouncedSave = useDebouncedCallback(performSave, 700);
 
   useEffect(() => {
     if (hasChanges()) debouncedSave();
   }, [title, description, tags]);
-
-  useEffect(() => {
-    if (hasChanges()) {
-      updateSidebarTitle();
-    }
-  }, [originalState.title]);
 
   function handleBlur() {
     debouncedSave.flush();

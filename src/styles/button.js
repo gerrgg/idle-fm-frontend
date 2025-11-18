@@ -77,6 +77,16 @@ const variants = {
       font-weight: ${({ theme }) => theme.fontWeights.bold};
     }
   `,
+  danger: css`
+    background: ${({ theme }) => theme.colors.danger};
+    color: ${({ theme }) => theme.colors.bg};
+    border: none;
+    border-radius: ${({ theme }) => theme.radius.sm};
+
+    &:hover {
+      background: ${({ theme }) => theme.colors.dangerAlt};
+    }
+  `,
 };
 
 //

@@ -68,6 +68,9 @@ export const createEmptyPlaylist = createAsyncThunk(
   }
 );
 
+// ----------------------------------------
+// FETCH USER PLAYLISTS
+// ----------------------------------------
 export const fetchUserPlaylists = createAsyncThunk(
   "playlists/fetchUserPlaylists",
   async (userId, { rejectWithValue }) => {
@@ -76,6 +79,21 @@ export const fetchUserPlaylists = createAsyncThunk(
       return res.data.playlists || res.data;
     } catch (err) {
       return rejectWithValue(err.response?.data || "Failed to load playlists");
+    }
+  }
+);
+
+// ----------------------------------------
+// DELETE PLAYLIST
+// ----------------------------------------
+export const deletePlaylist = createAsyncThunk(
+  "playlists/deletePlaylist",
+  async (id, { rejectWithValue }) => {
+    try {
+      await playlistApi.delete(id);
+      return id; // return the deleted playlist ID
+    } catch (err) {
+      return rejectWithValue(err.response?.data || "Failed to delete playlist");
     }
   }
 );
@@ -98,15 +116,16 @@ const playlistSlice = createSlice({
   extraReducers: (builder) => {
     builder
       // CREATE
-      .addCase(createPlaylist.pending, (state) => {
+      .addCase(createEmptyPlaylist.pending, (state) => {
         state.creating = true;
         state.createError = null;
       })
-      .addCase(createPlaylist.fulfilled, (state, action) => {
+      .addCase(createEmptyPlaylist.fulfilled, (state, action) => {
         state.creating = false;
         state.created = action.payload;
+        state.items.push(action.payload);
       })
-      .addCase(createPlaylist.rejected, (state, action) => {
+      .addCase(createEmptyPlaylist.rejected, (state, action) => {
         state.creating = false;
         state.createError = action.payload;
       })
@@ -141,7 +160,45 @@ const playlistSlice = createSlice({
         state.current = null;
       });
 
-    // GET USER PLAYLISTS
+    // UPDATE
+    builder
+      .addCase(updatePlaylist.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(updatePlaylist.fulfilled, (state, action) => {
+        state.loading = false;
+        state.current = action.payload;
+        state.items = state.items.map((p) =>
+          p.id === action.payload.id ? action.payload : p
+        );
+      })
+      .addCase(updatePlaylist.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
+
+    // DELETE
+    builder
+      .addCase(deletePlaylist.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(deletePlaylist.fulfilled, (state, action) => {
+        console.log("Action Payload (ID to delete):", typeof action.payload);
+        console.log(
+          "First item ID in state:",
+          typeof state.items[state.items.length - 1]?.id
+        );
+        state.loading = false;
+        state.items = state.items.filter(
+          (p) => p.id !== Number(action.payload)
+        );
+      })
+      .addCase(deletePlaylist.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
   },
 });
 
