@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { H1 } from "../../styles/typography.js";
+import { Row } from "../../styles/layout.js";
 
 export const Wrapper = styled.aside`
   height: 100vh;
@@ -21,4 +22,8 @@ export const LogoText = styled(H1)`
   font-size: ${({ theme }) => theme.fontSizes.xxl};
   line-height: 31px;
   letter-spacing: 0.1em;
+`;
+
+export const LogoWrapper = styled(Row)`
+  cursor: pointer;
 `;

@@ -185,11 +185,6 @@ const playlistSlice = createSlice({
         state.error = null;
       })
       .addCase(deletePlaylist.fulfilled, (state, action) => {
-        console.log("Action Payload (ID to delete):", typeof action.payload);
-        console.log(
-          "First item ID in state:",
-          typeof state.items[state.items.length - 1]?.id
-        );
         state.loading = false;
         state.items = state.items.filter(
           (p) => p.id !== Number(action.payload)

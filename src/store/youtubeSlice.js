@@ -5,7 +5,6 @@ export const searchYoutube = createAsyncThunk(
   "youtube/search",
   async (query, { rejectWithValue }) => {
     try {
-      console.log("Searching YouTube with query:", query);
       const res = await youtubeApi.search(query);
       return res.data;
     } catch (err) {

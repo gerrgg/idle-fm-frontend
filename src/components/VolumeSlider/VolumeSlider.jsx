@@ -20,7 +20,6 @@ export default function VolumeSlider() {
   const updateValue = (clientX) => {
     const rect = trackRef.current.getBoundingClientRect();
     const pos = Math.min(Math.max(clientX - rect.left, 0), rect.width);
-    console.log(pos);
     dispatch(setVolume(pos / rect.width));
   };
 
