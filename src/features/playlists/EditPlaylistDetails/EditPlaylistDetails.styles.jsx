@@ -32,6 +32,10 @@ export const Input = styled.input`
   outline: 0;
   padding: ${({ theme }) => theme.space.sm} ${({ theme }) => theme.space.sm};
   width: 100%;
+  margin-bottom: ${({ theme }) => theme.space.sm};
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 
   &:focus {
     border-color: ${({ theme }) => theme.colors.accent};

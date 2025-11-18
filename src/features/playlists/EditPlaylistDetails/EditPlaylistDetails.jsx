@@ -16,8 +16,11 @@ import { useEffect } from "react";
 
 import { Col } from "../../../styles/layout";
 
-import { useDispatch } from "react-redux";
-import { updatePlaylist } from "../../../store/playlistSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  updatePlaylist,
+  fetchUserPlaylists,
+} from "../../../store/playlistSlice";
 
 function RadioIcon() {
   return (
@@ -40,6 +43,7 @@ export default function EditPlaylistDetails({ playlist, onTagsChange }) {
   const [description, setDescription] = useState(playlist.description || "");
   const [tags, setTags] = useState(playlist.tags || []);
   const tagSelectorRef = useRef(null);
+  const { user } = useSelector((s) => s.auth);
   const dispatch = useDispatch();
 
   const original = {
@@ -80,13 +84,21 @@ export default function EditPlaylistDetails({ playlist, onTagsChange }) {
     });
   }
 
-  function handleOnChange() {}
+  async function updateSidebarTitle() {
+    await dispatch(fetchUserPlaylists(user.id));
+  }
 
   const debouncedSave = useDebouncedCallback(performSave, 700);
 
   useEffect(() => {
     if (hasChanges()) debouncedSave();
   }, [title, description, tags]);
+
+  useEffect(() => {
+    if (hasChanges()) {
+      updateSidebarTitle();
+    }
+  }, [originalState.title]);
 
   function handleBlur() {
     debouncedSave.flush();

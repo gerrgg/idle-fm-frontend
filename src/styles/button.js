@@ -61,6 +61,12 @@ const variants = {
     font-weight: ${({ theme }) => theme.fontWeights.regular};
     justify-content: flex-start;
     padding: ${({ theme }) => `${theme.space.xs} ${theme.space.sm}`};
+    text-align: left;
+    line-height: 1.2;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: block;
 
     &:hover {
       background: rgba(255, 255, 255, 0.08);
