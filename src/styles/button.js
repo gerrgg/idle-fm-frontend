@@ -51,6 +51,26 @@ const variants = {
       background: rgba(255, 255, 255, 0.1);
     }
   `,
+  sidebarItem: css`
+    background: transparent;
+    color: ${({ theme }) => theme.colors.text};
+    border: none;
+    border-radius: ${({ theme }) => theme.radius.sm};
+    font-family: ${({ theme }) => theme.fonts.body};
+    text-transform: none;
+    font-weight: ${({ theme }) => theme.fontWeights.regular};
+    justify-content: flex-start;
+    padding: ${({ theme }) => `${theme.space.xs} ${theme.space.sm}`};
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    &.active {
+      background: rgba(255, 255, 255, 0.12);
+      font-weight: ${({ theme }) => theme.fontWeights.bold};
+    }
+  `,
 };
 
 //

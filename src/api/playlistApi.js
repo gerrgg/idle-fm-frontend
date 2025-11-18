@@ -36,6 +36,10 @@ const playlistApi = {
   removeVideo(id, videoId) {
     return http.delete(`/playlists/${id}/videos/${videoId}`);
   },
+
+  getUserPlaylists(userId) {
+    return http.get(`/users/${userId}/playlists`);
+  },
 };
 
 export default playlistApi;

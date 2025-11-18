@@ -4,10 +4,13 @@ import { theme } from "./theme";
 
 import { useSelector } from "react-redux";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import ProtectedRoute from "./components/ProtectedRoute";
+import EditPlaylist from "./pages/EditPlaylist/EditPlaylist";
 
 import ThemedToaster from "./components/ThemedToaster";
 
 import DashboardLayout from "./layouts/DashboardLayout/";
+import DashboardHome from "./pages/Dashboard/Dashboard";
 import LoginPage from "./pages/LoginPage";
 
 export default function App() {
@@ -17,7 +20,16 @@ export default function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/login" element={<LoginPage />} />
-          <Route path="/" element={<DashboardLayout />} />
+          <Route
+            element={
+              <ProtectedRoute>
+                <DashboardLayout />
+              </ProtectedRoute>
+            }
+          >
+            <Route path="/" element={<DashboardHome />} />
+            <Route path="/playlists/:id/edit" element={<EditPlaylist />} />
+          </Route>
         </Routes>
       </BrowserRouter>
       <ThemedToaster />

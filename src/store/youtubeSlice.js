@@ -5,6 +5,7 @@ export const searchYoutube = createAsyncThunk(
   "youtube/search",
   async (query, { rejectWithValue }) => {
     try {
+      console.log("Searching YouTube with query:", query);
       const res = await youtubeApi.search(query);
       return res.data;
     } catch (err) {
@@ -21,8 +22,9 @@ const youtubeSlice = createSlice({
     error: null,
   },
   reducers: {
-    clearResults(state) {
+    clearYoutubeResults(state) {
       state.results = [];
+      state.loading = false;
     },
   },
   extraReducers: (builder) => {
@@ -42,6 +44,6 @@ const youtubeSlice = createSlice({
   },
 });
 
-export const { clearResults } = youtubeSlice.actions;
+export const { clearYoutubeResults } = youtubeSlice.actions;
 
 export default youtubeSlice.reducer;

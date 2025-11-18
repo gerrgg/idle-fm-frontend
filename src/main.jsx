@@ -9,7 +9,7 @@ import { theme } from "./theme";
 
 function AppWrapper() {
   const dispatch = useDispatch();
-  const { sessionLoaded } = useSelector((s) => s.auth); // Add this to your auth slice
+  const { sessionLoaded } = useSelector((state) => state.auth); // Add this to your auth slice
 
   useEffect(() => {
     dispatch(loadSession());

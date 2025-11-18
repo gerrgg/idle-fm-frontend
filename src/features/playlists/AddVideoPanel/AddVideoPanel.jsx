@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   PanelWrapper,
   SearchBar,
@@ -16,7 +16,7 @@ import { Input } from "../../../styles/form.js";
 import { useDispatch, useSelector } from "react-redux";
 import { searchYoutube } from "../../../store/youtubeSlice";
 
-export default function AddVideoPanel() {
+export default function AddVideoPanel({ searchTags }) {
   const dispatch = useDispatch();
   const { results, loading } = useSelector((state) => state.youtube);
 
@@ -25,9 +25,23 @@ export default function AddVideoPanel() {
   function handleSearch(e) {
     e.preventDefault();
 
-    if (!query.trim()) return;
-    dispatch(searchYoutube(query));
+    const cleanQuery = query.trim();
+    const tagString = searchTags.join(" ");
+
+    const finalQuery = [cleanQuery, tagString].filter(Boolean).join(" ");
+
+    if (!finalQuery) return;
+
+    dispatch(searchYoutube(finalQuery));
   }
+
+  useEffect(() => {
+    if (searchTags.length > 0) {
+      dispatch(searchYoutube(searchTags.join(" ")));
+    } else {
+      setQuery("");
+    }
+  }, [searchTags]);
 
   return (
     <PanelWrapper>

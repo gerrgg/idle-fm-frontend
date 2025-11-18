@@ -18,6 +18,21 @@ export const createPlaylist = createAsyncThunk(
 );
 
 // ----------------------------------------
+// UPDATE PLAYLIST
+// ----------------------------------------
+export const updatePlaylist = createAsyncThunk(
+  "playlists/updatePlaylist",
+  async ({ id, data }, { rejectWithValue }) => {
+    try {
+      const res = await playlistApi.update(id, data);
+      return res.data; // updated playlist object
+    } catch (err) {
+      return rejectWithValue(err.response?.data || "Failed to update playlist");
+    }
+  }
+);
+
+// ----------------------------------------
 // GET PLAYLIST BY ID
 // ----------------------------------------
 export const getPlaylistById = createAsyncThunk(
@@ -33,6 +48,39 @@ export const getPlaylistById = createAsyncThunk(
 );
 
 // ----------------------------------------
+// CREATE EMPTY PLAYLIST
+// ----------------------------------------
+export const createEmptyPlaylist = createAsyncThunk(
+  "playlists/createEmpty",
+  async (_, { rejectWithValue }) => {
+    try {
+      const res = await playlistApi.create({
+        title: "New Playlist",
+        description: "",
+        is_public: true,
+        tags: [],
+      });
+
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data || "Failed to create playlist");
+    }
+  }
+);
+
+export const fetchUserPlaylists = createAsyncThunk(
+  "playlists/fetchUserPlaylists",
+  async (userId, { rejectWithValue }) => {
+    try {
+      const res = await playlistApi.getUserPlaylists(userId);
+      return res.data.playlists || res.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data || "Failed to load playlists");
+    }
+  }
+);
+
+// ----------------------------------------
 // SLICE
 // ----------------------------------------
 const playlistSlice = createSlice({
@@ -41,10 +89,10 @@ const playlistSlice = createSlice({
     creating: false,
     createError: null,
     created: null,
-
     loading: false,
     error: null,
     current: null,
+    items: [],
   },
   reducers: {},
   extraReducers: (builder) => {
@@ -63,6 +111,20 @@ const playlistSlice = createSlice({
         state.createError = action.payload;
       })
 
+      // GET USER PLAYLISTS
+      .addCase(fetchUserPlaylists.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchUserPlaylists.fulfilled, (state, action) => {
+        state.loading = false;
+        state.items = action.payload;
+      })
+      .addCase(fetchUserPlaylists.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
       // GET BY ID
       .addCase(getPlaylistById.pending, (state) => {
         state.loading = true;
@@ -78,6 +140,8 @@ const playlistSlice = createSlice({
         state.error = action.payload;
         state.current = null;
       });
+
+    // GET USER PLAYLISTS
   },
 });
 

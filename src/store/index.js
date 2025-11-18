@@ -11,7 +11,7 @@ export const store = configureStore({
     player: playerReducer,
     auth: authReducer,
     dashboard: dashboardReducer,
-    playlist: playlistReducer,
+    playlists: playlistReducer,
     tags: tagsReducer,
     youtube: youtubeReducer,
   },
