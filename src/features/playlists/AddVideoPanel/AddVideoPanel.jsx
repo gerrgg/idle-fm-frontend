@@ -10,11 +10,31 @@ import {
   ResultTitle,
   AddButton,
   PlaceholderMessage,
+  ThumbnailWrapper,
+  Icon,
 } from "./AddVideoPanel.styles.jsx";
 
 import { Input } from "../../../styles/form.js";
 import { useDispatch, useSelector } from "react-redux";
 import { searchYoutube } from "../../../store/youtubeSlice";
+
+const PlayIcon = () => {
+  return (
+    <Icon
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <polygon points="5 3 19 12 5 21 5 3" />
+    </Icon>
+  );
+};
 
 export default function AddVideoPanel({ searchTags }) {
   const dispatch = useDispatch();
@@ -65,7 +85,10 @@ export default function AddVideoPanel({ searchTags }) {
             .filter((v) => v.id)
             .map((v) => (
               <ResultItem key={v.id}>
-                <Thumbnail src={v.thumbnail} />
+                <ThumbnailWrapper>
+                  <Thumbnail src={v.thumbnail} />
+                  <PlayIcon />
+                </ThumbnailWrapper>
                 <ResultTitle>{v.title}</ResultTitle>
                 <AddButton type="button">Add</AddButton>
               </ResultItem>

@@ -21,18 +21,21 @@ export const TagInputWrapper = styled.div`
 export const Tag = styled.span`
   display: flex;
   align-items: center;
-  background: ${({ theme }) => theme.colors.accentAlt};
-  color: ${({ theme }) => theme.colors.bg};
+  // background: ${({ theme }) => theme.colors.accentAlt};
+  border: 1px solid ${({ theme }) => theme.colors.accentAlt};
+  color: ${({ theme }) => theme.colors.accentAlt};
   font-size: 0.85rem;
   padding: 4px 8px;
   border-radius: ${({ theme }) => theme.radius.sm};
+  font-weight: bold;
+  text-transform: uppercase;
 `;
 
 export const RemoveTag = styled.button`
   background: none;
   border: none;
   margin-left: 6px;
-  color: ${({ theme }) => theme.colors.bg};
+  color: ${({ theme }) => theme.colors.accentAlt};
   cursor: pointer;
   font-size: 0.9rem;
 `;

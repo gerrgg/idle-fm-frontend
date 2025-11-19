@@ -6,12 +6,13 @@ import {
   getPlaylistById,
   deletePlaylist,
   fetchUserPlaylists,
+  updatePlaylist,
 } from "../../store/playlistSlice";
 import { clearYoutubeResults } from "../../store/youtubeSlice";
 import EditPlaylistDetails from "../../features/playlists/EditPlaylistDetails";
 import AddVideoPanel from "../../features/playlists/AddVideoPanel/AddVideoPanel";
-import { Col } from "../../styles/layout";
-import { Button } from "../../styles/button.js";
+import { Col, Row } from "../../styles/layout";
+import DangerZone from "../../components/DangerZone";
 
 export default function EditPlaylist() {
   const { id } = useParams();
@@ -19,7 +20,6 @@ export default function EditPlaylist() {
   const navigate = useNavigate();
   const playlist = useSelector((s) => s.playlists.current);
   const [searchTags, setSearchTags] = useState([]);
-  const { user } = useSelector((s) => s.auth);
 
   useEffect(() => {
     dispatch(getPlaylistById(id));
@@ -38,30 +38,13 @@ export default function EditPlaylist() {
     }
   }, [searchTags]);
 
-  const handleDelete = async () => {
-    if (!playlist) return;
-
-    const confirmed = window.confirm(
-      "Are you sure you want to delete this playlist?"
-    );
-
-    if (!confirmed) return;
-
-    dispatch(deletePlaylist(id));
-    navigate("/");
-  };
-
   if (!playlist) return <p>Loading…</p>;
 
   return (
     <Col gap="lg">
       <EditPlaylistDetails playlist={playlist} onTagsChange={setSearchTags} />
       <AddVideoPanel playlistId={playlist.id} searchTags={searchTags} />
-      {playlist.user}
-
-      <Button variant="danger" onClick={handleDelete}>
-        Delete Playlist
-      </Button>
+      <DangerZone />
     </Col>
   );
 }

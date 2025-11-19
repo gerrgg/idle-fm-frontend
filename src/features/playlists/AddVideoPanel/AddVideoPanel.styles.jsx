@@ -67,11 +67,52 @@ export const ResultItem = styled.div`
   gap: 12px;
 `;
 
+export const ThumbnailWrapper = styled.div`
+  position: relative;
+  cursor: pointer;
+
+  &:hover {
+    &::after {
+      opacity: 1;
+    }
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: ${({ theme }) => theme.radius.md};
+    transition: opacity 0.2s ease;
+    opacity: 0;
+  }
+`;
+
+export const Icon = styled.svg`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 24px;
+  height: 24px;
+  fill: ${({ theme }) => theme.colors.accent};
+  z-index: 1;
+  opacity: 0;
+
+  ${ThumbnailWrapper}:hover & {
+    opacity: 1;
+  }
+`;
+
 export const Thumbnail = styled.img`
   width: 120px;
   height: 67px;
   object-fit: cover;
   border-radius: 4px;
+  aspect-ratio: 16/9;
 `;
 
 export const ResultTitle = styled.div`
