@@ -84,15 +84,15 @@ export default function TagSelector({
       return;
     }
 
-    // Space = commit freeform tag
-    if (e.key === " " && trimmed) {
-      e.preventDefault();
-      const existing = availableTags.find(
-        (t) => t.name.toLowerCase() === trimmed.toLowerCase()
-      );
-      addTag(existing || { name: trimmed });
-      return;
-    }
+    // // Space = commit freeform tag
+    // if (e.key === " " && trimmed) {
+    //   e.preventDefault();
+    //   const existing = availableTags.find(
+    //     (t) => t.name.toLowerCase() === trimmed.toLowerCase()
+    //   );
+    //   addTag(existing || { name: trimmed });
+    //   return;
+    // }
 
     // Backspace removes last tag
     if (e.key === "Backspace" && !input && selectedTags.length) {

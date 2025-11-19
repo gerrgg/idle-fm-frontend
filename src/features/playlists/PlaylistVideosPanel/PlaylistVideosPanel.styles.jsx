@@ -7,6 +7,13 @@ export const PanelWrapper = styled.div`
   gap: ${({ theme }) => theme.space.md};
   background: ${({ theme }) => theme.colors.surface1};
   border-radius: ${({ theme }) => theme.radius.md};
+  max-height: 760px;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none; /* IE and Edge */
+  &::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, and Opera */
+  }
 `;
 
 export const VideoItem = styled.div`

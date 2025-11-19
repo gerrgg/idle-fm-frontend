@@ -168,7 +168,10 @@ const playlistSlice = createSlice({
       })
       .addCase(updatePlaylist.fulfilled, (state, action) => {
         state.loading = false;
-        state.current = action.payload;
+        state.current = {
+          ...state.current,
+          ...action.payload,
+        };
         state.items = state.items.map((p) =>
           p.id === action.payload.id ? action.payload : p
         );

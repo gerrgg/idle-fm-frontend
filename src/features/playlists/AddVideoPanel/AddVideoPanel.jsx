@@ -40,8 +40,32 @@ const PlayIcon = () => {
 export default function AddVideoPanel({ searchTags }) {
   const dispatch = useDispatch();
   const [query, setQuery] = useState("");
-  const { results, loading } = useSelector((state) => state.youtube);
+
+  const { results: allResults, loading } = useSelector(
+    (state) => state.youtube
+  );
+
   const playlist = useSelector((state) => state.playlists.current);
+
+  const [visible, setVisible] = useState([]);
+  const [remaining, setRemaining] = useState([]);
+  const [used, setUsed] = useState(new Set());
+
+  useEffect(() => {
+    if (!playlist || allResults.length === 0) return;
+
+    const playlistVideos = playlist.videos || [];
+    const playlistIds = new Set(playlistVideos.map((v) => v.youtube_key));
+
+    const filtered = allResults.filter((video) => !playlistIds.has(video.id));
+
+    const first8 = filtered.slice(0, 8);
+    const rest = filtered.slice(8);
+
+    setVisible(first8);
+    setRemaining(rest);
+    setUsed(new Set([...playlistIds, ...first8.map((v) => v.id)]));
+  }, [allResults, playlist]);
 
   function handleSearch(e) {
     e.preventDefault();
@@ -58,15 +82,29 @@ export default function AddVideoPanel({ searchTags }) {
   }
 
   function handleAddVideoToPlaylist(video) {
-    if (!playlist) return null;
+    if (!playlist) return;
 
-    const payload = {
-      playlistId: playlist.id,
-      youtube_key: video.id,
-      video_title: video.title,
-    };
+    dispatch(
+      addVideoToPlaylist({
+        playlistId: playlist.id,
+        youtube_key: video.id,
+        title: video.title,
+      })
+    );
 
-    dispatch(addVideoToPlaylist(payload));
+    const updatedUsed = new Set(used);
+    updatedUsed.add(video.id);
+
+    const next = remaining.find((v) => !updatedUsed.has(v.id));
+
+    setUsed(updatedUsed);
+
+    setVisible((prev) => {
+      const without = prev.filter((v) => v.id !== video.id);
+      return next ? [...without, next] : without;
+    });
+
+    setRemaining((prev) => prev.filter((v) => v.id !== next?.id));
   }
 
   useEffect(() => {
@@ -76,19 +114,6 @@ export default function AddVideoPanel({ searchTags }) {
       setQuery("");
     }
   }, [searchTags]);
-
-  const filteredResults = results.filter(
-    (video) => !playlist?.videos?.some((v) => v.youtube_key === video.id)
-  );
-
-  // console.log("Filtering search results...");
-  console.log("Playlist videos:", playlist?.videos);
-  // console.log("Search results:", filteredResults);
-
-  // results.forEach((video) => {
-  //   const match = playlist?.videos?.some((v) => v.youtube_key === video.id);
-  //   console.log(`Video ${video.id} (${video.title}) match?`, match);
-  // });
 
   return (
     <PanelWrapper>
@@ -102,13 +127,13 @@ export default function AddVideoPanel({ searchTags }) {
 
       {loading && <PlaceholderMessage>Searching...</PlaceholderMessage>}
 
-      {!loading && results.length === 0 && (
-        <PlaceholderMessage>Start searching to add videos</PlaceholderMessage>
+      {!loading && visible.length === 0 && (
+        <PlaceholderMessage>No more videos available</PlaceholderMessage>
       )}
 
-      {filteredResults.length > 0 ? (
+      {visible.length > 0 && (
         <ResultsList>
-          {filteredResults.map((v) => (
+          {visible.map((v) => (
             <ResultItem key={v.id}>
               <ThumbnailWrapper>
                 <Thumbnail src={v.thumbnail} />
@@ -121,10 +146,6 @@ export default function AddVideoPanel({ searchTags }) {
             </ResultItem>
           ))}
         </ResultsList>
-      ) : (
-        !loading && (
-          <PlaceholderMessage>No more videos available</PlaceholderMessage>
-        )
       )}
     </PanelWrapper>
   );
