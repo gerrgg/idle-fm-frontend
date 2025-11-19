@@ -17,6 +17,7 @@ import {
 import { Input } from "../../../styles/form.js";
 import { useDispatch, useSelector } from "react-redux";
 import { searchYoutube } from "../../../store/youtubeSlice";
+import { addVideoToPlaylist } from "../../../store/playlistVideosSlice";
 
 const PlayIcon = () => {
   return (
@@ -38,9 +39,9 @@ const PlayIcon = () => {
 
 export default function AddVideoPanel({ searchTags }) {
   const dispatch = useDispatch();
-  const { results, loading } = useSelector((state) => state.youtube);
-
   const [query, setQuery] = useState("");
+  const { results, loading } = useSelector((state) => state.youtube);
+  const playlist = useSelector((state) => state.playlists.current);
 
   function handleSearch(e) {
     e.preventDefault();
@@ -48,11 +49,24 @@ export default function AddVideoPanel({ searchTags }) {
     const cleanQuery = query.trim();
     const tagString = searchTags.join(" ");
 
-    const finalQuery = [cleanQuery, tagString].filter(Boolean).join(" ");
+    const finalQuery =
+      [cleanQuery, tagString].filter(Boolean).join(" ") + " music";
 
     if (!finalQuery) return;
 
     dispatch(searchYoutube(finalQuery));
+  }
+
+  function handleAddVideoToPlaylist(video) {
+    if (!playlist) return null;
+
+    const payload = {
+      playlistId: playlist.id,
+      youtube_key: video.id,
+      video_title: video.title,
+    };
+
+    dispatch(addVideoToPlaylist(payload));
   }
 
   useEffect(() => {
@@ -62,6 +76,19 @@ export default function AddVideoPanel({ searchTags }) {
       setQuery("");
     }
   }, [searchTags]);
+
+  const filteredResults = results.filter(
+    (video) => !playlist?.videos?.some((v) => v.youtube_key === video.id)
+  );
+
+  // console.log("Filtering search results...");
+  console.log("Playlist videos:", playlist?.videos);
+  // console.log("Search results:", filteredResults);
+
+  // results.forEach((video) => {
+  //   const match = playlist?.videos?.some((v) => v.youtube_key === video.id);
+  //   console.log(`Video ${video.id} (${video.title}) match?`, match);
+  // });
 
   return (
     <PanelWrapper>
@@ -79,21 +106,25 @@ export default function AddVideoPanel({ searchTags }) {
         <PlaceholderMessage>Start searching to add videos</PlaceholderMessage>
       )}
 
-      {results.length > 0 && (
+      {filteredResults.length > 0 ? (
         <ResultsList>
-          {results
-            .filter((v) => v.id)
-            .map((v) => (
-              <ResultItem key={v.id}>
-                <ThumbnailWrapper>
-                  <Thumbnail src={v.thumbnail} />
-                  <PlayIcon />
-                </ThumbnailWrapper>
-                <ResultTitle>{v.title}</ResultTitle>
-                <AddButton type="button">Add</AddButton>
-              </ResultItem>
-            ))}
+          {filteredResults.map((v) => (
+            <ResultItem key={v.id}>
+              <ThumbnailWrapper>
+                <Thumbnail src={v.thumbnail} />
+                <PlayIcon />
+              </ThumbnailWrapper>
+              <ResultTitle>{v.title}</ResultTitle>
+              <AddButton onClick={() => handleAddVideoToPlaylist(v)}>
+                Add
+              </AddButton>
+            </ResultItem>
+          ))}
         </ResultsList>
+      ) : (
+        !loading && (
+          <PlaceholderMessage>No more videos available</PlaceholderMessage>
+        )
       )}
     </PanelWrapper>
   );

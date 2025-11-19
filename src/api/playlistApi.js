@@ -28,8 +28,8 @@ const playlistApi = {
   },
 
   // POST /playlists/:id/videos
-  addVideo(id, data) {
-    return http.post(`/playlists/${id}/videos`, data);
+  addVideo(playlistId, data) {
+    return http.post(`/playlists/${playlistId}/videos`, data);
   },
 
   // DELETE /playlists/:playlistId/videos/:videoId

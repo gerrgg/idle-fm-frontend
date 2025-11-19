@@ -13,6 +13,7 @@ import EditPlaylistDetails from "../../features/playlists/EditPlaylistDetails";
 import AddVideoPanel from "../../features/playlists/AddVideoPanel/AddVideoPanel";
 import { Col, Row } from "../../styles/layout";
 import DangerZone from "../../components/DangerZone";
+import PlaylistVideosPanel from "../../features/playlists/PlaylistVideosPanel";
 
 export default function EditPlaylist() {
   const { id } = useParams();
@@ -43,7 +44,10 @@ export default function EditPlaylist() {
   return (
     <Col gap="lg">
       <EditPlaylistDetails playlist={playlist} onTagsChange={setSearchTags} />
-      <AddVideoPanel playlistId={playlist.id} searchTags={searchTags} />
+      <Row gap="lg">
+        <AddVideoPanel searchTags={searchTags} />
+        <PlaylistVideosPanel />
+      </Row>
       <DangerZone />
     </Col>
   );

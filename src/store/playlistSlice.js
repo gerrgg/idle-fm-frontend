@@ -1,5 +1,6 @@
 // src/store/playlistSlice.js
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { addVideoToPlaylist } from "./playlistVideosSlice";
 import playlistApi from "../api/playlistApi";
 
 // ----------------------------------------
@@ -158,10 +159,9 @@ const playlistSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
         state.current = null;
-      });
+      })
 
-    // UPDATE
-    builder
+      // UPDATE
       .addCase(updatePlaylist.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -176,10 +176,9 @@ const playlistSlice = createSlice({
       .addCase(updatePlaylist.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
-      });
+      })
 
-    // DELETE
-    builder
+      // DELETE
       .addCase(deletePlaylist.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -193,6 +192,13 @@ const playlistSlice = createSlice({
       .addCase(deletePlaylist.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+      })
+
+      .addCase(addVideoToPlaylist.fulfilled, (state, action) => {
+        const { playlistId, video } = action.payload;
+        if (state.current && state.current.id === playlistId) {
+          state.current.videos = [...(state.current.videos || []), video];
+        }
       });
   },
 });

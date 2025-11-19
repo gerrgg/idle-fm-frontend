@@ -17,6 +17,7 @@ export default function BottomBar() {
   const dispatch = useDispatch();
   const [volume, setVolume] = useState(0.5);
   const isPlaying = useSelector((state) => state.player.isPlaying);
+  const currentTrack = useSelector((state) => state.player.currentTrack);
 
   const PlayButton = () => (
     <IconButtonCircle onClick={() => dispatch(togglePlay())}>
