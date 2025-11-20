@@ -6,7 +6,8 @@ export const PanelWrapper = styled.div`
   flex-direction: column;
   gap: 16px;
   width: 100%;
-
+  position: relative;
+  z-index: 2;
   background: ${({ theme }) => theme.colors.surface1};
   padding: 20px 24px;
   border-radius: 10px;

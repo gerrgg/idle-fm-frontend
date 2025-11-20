@@ -4,6 +4,7 @@ import {
   Textarea as BaseTextarea,
 } from "../../../styles/form";
 import { Button } from "../../../styles/button";
+import { Col } from "../../../styles/layout";
 
 export const Wrapper = styled.div`
   display: flex;
@@ -55,7 +56,6 @@ export const LeftImage = styled.div`
   width: 200px;
   aspect-ratio: 1 / 1;
   border-radius: 8px;
-  overflow: hidden;
   position: relative;
   flex-shrink: 0;
   border: 1px solid ${({ theme }) => theme.colors.surface3};
@@ -65,17 +65,45 @@ export const LeftImage = styled.div`
   text-align: center;
   cursor: pointer;
 
-  img {
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    border-radius: inherit;
+
+    background-image: ${({ glowSrc, theme }) =>
+      glowSrc ? `url(${glowSrc})` : theme.colors.accent};
+
+    background-size: cover;
+    background-position: center;
+
+    filter: blur(40px) saturate(2) brightness(0.7);
+    transform: scale(2.6);
+    opacity: 0.9;
+  }
+
+  img,
+  svg {
+    position: relative;
+    z-index: 2;
     width: 100%;
     height: 100%;
     object-fit: cover;
   }
 `;
 
+/* If Placeholder is used (no playlist.image) */
 export const PlaceholderImage = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
   color: ${({ theme }) => theme.colors.accent};
-  opacity: 0.5;
+  opacity: 0.6;
+  z-index: 2; /* Keep on top of glow */
+`;
+
+export const TitleTagWrapper = styled(Col)`
+  position: relative;
+  z-index: 2;
 `;

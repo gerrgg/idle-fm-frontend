@@ -8,6 +8,7 @@ import {
   FormGroup,
   Label,
   Input,
+  TitleTagWrapper,
 } from "./EditPlaylistDetails.styles";
 import RadioIcon from "./RadioIcon";
 import { Col } from "../../../styles/layout";
@@ -90,7 +91,7 @@ export default function EditPlaylistDetails({ playlist, onTagsChange }) {
 
   return (
     <Wrapper>
-      <LeftImage>
+      <LeftImage glowSrc={playlist.image}>
         {playlist.image ? (
           <img src={playlist.image} alt="" />
         ) : (
@@ -100,7 +101,7 @@ export default function EditPlaylistDetails({ playlist, onTagsChange }) {
         )}
       </LeftImage>
 
-      <Col>
+      <TitleTagWrapper>
         <FormGroup>
           <Input
             value={title}
@@ -122,7 +123,7 @@ export default function EditPlaylistDetails({ playlist, onTagsChange }) {
             autoCommitRef={tagSelectorRef}
           />
         </FormGroup>
-      </Col>
+      </TitleTagWrapper>
     </Wrapper>
   );
 }
