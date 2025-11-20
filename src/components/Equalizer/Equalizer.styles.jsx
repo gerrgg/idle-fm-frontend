@@ -15,7 +15,7 @@ export const Wrapper = styled.div`
   gap: 4px;
   height: ${({ height }) => height || "20px"};
   position: relative;
-  top: -2px;
+  top: -1px;
 `;
 
 export const Bar = styled.div`

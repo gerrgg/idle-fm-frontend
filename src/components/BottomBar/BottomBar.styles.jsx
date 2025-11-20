@@ -16,7 +16,7 @@ export const Wrapper = styled(Row)`
   z-index: 1000;
 
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   box-sizing: border-box;
 `;
 
@@ -24,11 +24,18 @@ export const NowPlaying = styled(Text)`
   font-weight: 500;
   color: ${({ theme }) => theme.colors.text};
   line-height: 0.8;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;
 
 export const Section = styled(Row)`
   align-items: ${({ align }) => align || "center"};
   gap: ${({ theme }) => theme.space.md};
+`;
+
+export const LeftControls = styled(Section)`
+  width: 400px;
 `;
 
 export const Controls = styled(Row)`

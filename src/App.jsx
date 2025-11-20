@@ -8,6 +8,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import EditPlaylist from "./pages/EditPlaylist/EditPlaylist";
 
 import ThemedToaster from "./components/ThemedToaster";
+import YouTubeAudioPlayer from "./components/YoutubeAudioPlayer";
 
 import DashboardLayout from "./layouts/DashboardLayout/";
 import DashboardHome from "./pages/Dashboard/Dashboard";
@@ -33,6 +34,7 @@ export default function App() {
         </Routes>
       </BrowserRouter>
       <ThemedToaster />
+      <YouTubeAudioPlayer />
     </ThemeProvider>
   );
 }

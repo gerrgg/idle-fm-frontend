@@ -37,8 +37,6 @@ export default function DangerZone() {
       is_public: !playlist.is_public,
     };
 
-    console.log("Updating playlist visibility:", updatedPlaylist);
-
     dispatch(updatePlaylist({ id, data: updatedPlaylist }));
   };
 

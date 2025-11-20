@@ -49,6 +49,21 @@ export const getPlaylistById = createAsyncThunk(
 );
 
 // ----------------------------------------
+// SET CURRENT PLAYLIST
+// ----------------------------------------
+export const setCurrentPlaylist = createAsyncThunk(
+  "playlists/setCurrentPlaylist",
+  async (playlistId, { getState, rejectWithValue }) => {
+    const state = getState();
+    const playlist = state.playlists.items.find((p) => p.id === playlistId);
+    if (!playlist) {
+      return rejectWithValue("Playlist not found");
+    }
+    return playlist;
+  }
+);
+
+// ----------------------------------------
 // CREATE EMPTY PLAYLIST
 // ----------------------------------------
 export const createEmptyPlaylist = createAsyncThunk(
@@ -139,6 +154,7 @@ const playlistSlice = createSlice({
       .addCase(fetchUserPlaylists.fulfilled, (state, action) => {
         state.loading = false;
         state.items = action.payload;
+        state.current = action.payload[0] || null; // Set first playlist as current if available
       })
       .addCase(fetchUserPlaylists.rejected, (state, action) => {
         state.loading = false;

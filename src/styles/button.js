@@ -75,6 +75,7 @@ const variants = {
     &.active {
       background: rgba(255, 255, 255, 0.12);
       font-weight: ${({ theme }) => theme.fontWeights.bold};
+      color: ${({ theme }) => theme.colors.accent};
     }
   `,
   danger: css`

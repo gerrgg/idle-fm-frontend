@@ -5,6 +5,10 @@ import MainContent from "../../components/MainContent";
 import { Wrapper, ContentArea } from "./DashboardLayout.styles.jsx";
 import { Outlet } from "react-router-dom";
 
+import { useDispatch, useSelector } from "react-redux";
+import { getPlaylistById } from "../../store/playlistSlice";
+import { startPlayback } from "../../store/playerSlice";
+
 export default function DashboardLayout() {
   return (
     <Wrapper>

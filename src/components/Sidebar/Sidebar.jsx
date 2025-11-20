@@ -5,7 +5,7 @@ import { setView } from "../../store/dashboardSlice";
 import { useNavigate } from "react-router-dom";
 
 import { Wrapper, LogoText, LogoWrapper } from "./Sidebar.styles.jsx";
-import { Row, Stack } from "../../styles/layout.js";
+import { Row, Stack, Col } from "../../styles/layout.js";
 import { Logo } from "../Logo/index.js";
 import { Button } from "../../styles/button.js";
 
@@ -19,7 +19,7 @@ export default function Sidebar() {
   const navigate = useNavigate();
 
   const { user } = useSelector((s) => s.auth);
-  const { items, loading } = useSelector((s) => s.playlists);
+  const { items, current, loading } = useSelector((s) => s.playlists);
 
   useEffect(() => {
     if (user) {
@@ -46,12 +46,13 @@ export default function Sidebar() {
         <Button size="lg" variant="outline" onClick={handleCreate}>
           Create
         </Button>
-        <Stack my="md" gap="xs">
+        <Col my="xl" gap="xs">
           {items.map((playlist) => (
             <Button
               key={playlist.id}
               size="md"
               variant="sidebarItem"
+              className={current?.id === playlist.id ? "active" : ""}
               onClick={() => {
                 navigate(`/playlists/${playlist.id}/edit`);
               }}
@@ -59,7 +60,7 @@ export default function Sidebar() {
               {playlist.title}
             </Button>
           ))}
-        </Stack>
+        </Col>
       </Stack>
     </Wrapper>
   );

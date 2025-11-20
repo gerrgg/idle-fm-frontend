@@ -5,11 +5,12 @@ import {
   IconButtonCircle,
   IconButton,
   NowPlaying,
+  LeftControls,
 } from "./BottomBar.styles";
 import { Text } from "../../styles/typography";
 import VolumeSlider from "../VolumeSlider/VolumeSlider";
 import Equalizer from "../Equalizer/Equalizer";
-import { togglePlay } from "../../store/playerSlice";
+import { togglePlay, nextTrack, prevTrack } from "../../store/playerSlice";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -17,7 +18,13 @@ export default function BottomBar() {
   const dispatch = useDispatch();
   const [volume, setVolume] = useState(0.5);
   const isPlaying = useSelector((state) => state.player.isPlaying);
-  const currentTrack = useSelector((state) => state.player.currentTrack);
+  const loading = useSelector((state) => state.playlists.loading);
+  const videos = useSelector((state) => state.playlists.current?.videos || []);
+  const currentIndex = useSelector((state) => state.player.currentIndex);
+
+  if (loading) return;
+
+  const currentTrack = videos[currentIndex];
 
   const PlayButton = () => (
     <IconButtonCircle onClick={() => dispatch(togglePlay())}>
@@ -48,7 +55,7 @@ export default function BottomBar() {
   );
 
   const PreviousButton = () => (
-    <IconButtonCircle>
+    <IconButtonCircle onClick={() => dispatch(prevTrack())}>
       <svg width="18" height="18" viewBox="0 0 24 24">
         <path d="M15 18l-6-6 6-6" fill="currentColor" />
       </svg>
@@ -56,7 +63,7 @@ export default function BottomBar() {
   );
 
   const NextButton = () => (
-    <IconButtonCircle>
+    <IconButtonCircle onClick={() => dispatch(nextTrack())}>
       <svg width="18" height="18" viewBox="0 0 24 24">
         <path d="M9 6l6 6-6 6" fill="currentColor" />
       </svg>
@@ -76,10 +83,12 @@ export default function BottomBar() {
 
   return (
     <Wrapper>
-      <Section align="flex-end">
+      <LeftControls align="flex-end">
         <Equalizer isPlaying={isPlaying} height="24px" />
-        <NowPlaying>Pretending To Be AFK - Proxy</NowPlaying>
-      </Section>
+        <NowPlaying>
+          <span>{currentTrack?.title ?? ""}</span>
+        </NowPlaying>
+      </LeftControls>
 
       <Controls>
         <ShuffleButton />

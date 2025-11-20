@@ -1,19 +1,34 @@
-import { Wrapper } from "./Dashboard.styles.jsx";
-import DashboardLayout from "../../layouts/DashboardLayout/DashboardLayout.jsx";
-import { useSelector } from "react-redux";
-import { H1, H2 } from "../../styles/typography.js";
+// src/pages/DashboardHome.jsx
+import { useSelector, useDispatch } from "react-redux";
+import {
+  Card,
+  Count,
+  Grid,
+  Thumbnail,
+  Title,
+  Wrap,
+  CardInfo,
+} from "./Dashboard.styles";
 
-export default function Dashboard() {
-  const { user, loading } = useSelector((state) => state.auth);
-  const view = useSelector((state) => state.dashboard.view);
+import { getPlaylistById } from "../../store/playlistSlice";
+
+export default function DashboardHome() {
+  const dispatch = useDispatch();
+  const playlists = useSelector((s) => s.playlists.items);
 
   return (
-    <>
-      {!user && loading !== "init" ? (
-        <H1>Your not logged in</H1>
-      ) : (
-        <H1 as="h2">Welcome back, {user?.username}!</H1>
-      )}
-    </>
+    <Wrap>
+      <Grid>
+        {playlists.map((p) => (
+          <Card key={p.id} onClick={() => dispatch(getPlaylistById(p.id))}>
+            <Thumbnail src={p.image} />
+            <CardInfo>
+              <Title>{p.title}</Title>
+              <Count>{p.videos?.length ?? 0} videos</Count>
+            </CardInfo>
+          </Card>
+        ))}
+      </Grid>
+    </Wrap>
   );
 }
