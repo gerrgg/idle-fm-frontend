@@ -1,1 +1,1 @@
-export { default } from "./BottomBar.jsx";
+export { default } from "./BottomBar"; // <-- default export

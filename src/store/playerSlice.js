@@ -3,9 +3,11 @@ import { act } from "react";
 
 const initialState = {
   isPlaying: false,
-  volume: 0.25,
+  volume: 0,
   currentIndex: 0,
   activePlaylistId: null,
+  currentSeconds: 0,
+  durationSeconds: 0,
 };
 
 const playerSlice = createSlice({
@@ -38,19 +40,28 @@ const playerSlice = createSlice({
 
     nextTrack(state) {
       state.currentIndex += 1;
+      state.currentSeconds = 0;
     },
 
     prevTrack(state) {
-      if (state.currentIndex > 0) {
-        state.currentIndex -= 1;
-      }
+      state.currentIndex -= 1;
+      state.currentSeconds = 0;
     },
 
     setIndex(state, action) {
       state.currentIndex = action.payload;
     },
+
     playerSetActivePlaylist(state, action) {
       state.activePlaylistId = action.payload;
+    },
+
+    setCurrentSeconds(state, action) {
+      state.currentSeconds = action.payload;
+    },
+
+    setDurationSeconds(state, action) {
+      state.durationSeconds = action.payload;
     },
   },
 });
@@ -65,6 +76,8 @@ export const {
   setIndex,
   startPlayback,
   playerSetActivePlaylist,
+  setCurrentSeconds,
+  setDurationSeconds,
 } = playerSlice.actions;
 
 export default playerSlice.reducer;

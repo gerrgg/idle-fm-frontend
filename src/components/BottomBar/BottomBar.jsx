@@ -1,3 +1,5 @@
+import React from "react";
+
 import {
   Wrapper,
   Section,
@@ -6,11 +8,17 @@ import {
   IconButton,
   NowPlaying,
   LeftControls,
+  MiddleControlsWrapper,
 } from "./BottomBar.styles";
-import { Text } from "../../styles/typography";
 import VolumeSlider from "../VolumeSlider/VolumeSlider";
 import Equalizer from "../Equalizer/Equalizer";
-import { togglePlay, nextTrack, prevTrack } from "../../store/playerSlice";
+import TrackTimeDisplay from "../TrackTimeDisplay/TrackTimeDisplay";
+import {
+  togglePlay,
+  nextTrack,
+  prevTrack,
+  setIndex,
+} from "../../store/playerSlice";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -21,6 +29,7 @@ export default function BottomBar() {
   const activePlaylistId = useSelector((s) => s.player.activePlaylistId);
   const { items, loading } = useSelector((state) => state.playlists);
   const currentIndex = useSelector((state) => state.player.currentIndex);
+
   if (loading) return;
 
   const activePlaylist = items.find((p) => p.id === activePlaylistId);
@@ -28,6 +37,27 @@ export default function BottomBar() {
   const activeVideo = activePlaylist
     ? activePlaylist.videos[currentIndex]
     : null;
+
+  const durationSeconds = activeVideo?.duration;
+
+  const handleNextTrack = () => {
+    if (activePlaylist && currentIndex < activePlaylist.videos.length - 1) {
+      dispatch(nextTrack());
+    } else {
+      // Reset to the first track if at the end of the playlist
+      dispatch(setIndex(0));
+    }
+  };
+
+  const handlePrevTrack = () => {
+    if (currentIndex > 0) {
+      dispatch(prevTrack());
+    } else {
+      // Optionally, reset to the last track if at the beginning
+      const lastIndex = activePlaylist ? activePlaylist.videos.length - 1 : 0;
+      dispatch(setIndex(lastIndex));
+    }
+  };
 
   const PlayButton = () => (
     <IconButtonCircle onClick={() => dispatch(togglePlay())}>
@@ -58,7 +88,7 @@ export default function BottomBar() {
   );
 
   const PreviousButton = () => (
-    <IconButtonCircle onClick={() => dispatch(prevTrack())}>
+    <IconButtonCircle onClick={handlePrevTrack}>
       <svg width="18" height="18" viewBox="0 0 24 24">
         <path d="M15 18l-6-6 6-6" fill="currentColor" />
       </svg>
@@ -66,7 +96,7 @@ export default function BottomBar() {
   );
 
   const NextButton = () => (
-    <IconButtonCircle onClick={() => dispatch(nextTrack())}>
+    <IconButtonCircle onClick={handleNextTrack}>
       <svg width="18" height="18" viewBox="0 0 24 24">
         <path d="M9 6l6 6-6 6" fill="currentColor" />
       </svg>
@@ -93,13 +123,16 @@ export default function BottomBar() {
         </NowPlaying>
       </LeftControls>
 
-      <Controls>
-        <ShuffleButton />
-        <PreviousButton />
-        <PlayButton />
-        <NextButton />
-        <RepeatButton />
-      </Controls>
+      <MiddleControlsWrapper>
+        <TrackTimeDisplay durationSeconds={durationSeconds} />
+        <Controls>
+          <ShuffleButton />
+          <PreviousButton />
+          <PlayButton />
+          <NextButton />
+          <RepeatButton />
+        </Controls>
+      </MiddleControlsWrapper>
 
       <Section>
         <VolumeSlider value={volume} onChange={setVolume} />

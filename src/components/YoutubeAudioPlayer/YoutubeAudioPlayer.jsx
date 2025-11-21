@@ -1,10 +1,15 @@
 import YouTube from "react-youtube";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useRef } from "react";
-import { nextTrack, setPlayState } from "../../store/playerSlice";
+import { useEffect, useRef, useState } from "react";
+import {
+  nextTrack,
+  setPlayState,
+  setCurrentSeconds,
+} from "../../store/playerSlice";
 
 export default function YouTubeAudioPlayer() {
   const dispatch = useDispatch();
+  const [isPlayerReady, setIsPlayerReady] = useState(false);
 
   const activePlaylistId = useSelector((s) => s.player.activePlaylistId);
   const playlists = useSelector((s) => s.playlists.items);
@@ -24,7 +29,7 @@ export default function YouTubeAudioPlayer() {
   // ----------------------------------------
   function onReady(e) {
     playerRef.current = e.target;
-
+    setIsPlayerReady(true);
     if (currentTrack) {
       playerRef.current.loadVideoById(currentTrack.youtube_key);
     }
@@ -91,6 +96,32 @@ export default function YouTubeAudioPlayer() {
     if (!playerRef.current) return;
     playerRef.current.setVolume(volume * 100);
   }, [volume]);
+
+  // ----------------------------------------
+  // 6. Track time updates
+  // ----------------------------------------
+  useEffect(() => {
+    if (!isPlayerReady) return;
+    if (!playerRef.current) return;
+
+    let interval = null;
+
+    if (isPlaying) {
+      interval = setInterval(() => {
+        const player = playerRef.current;
+        if (!player || !player.getCurrentTime) return;
+
+        const time = player.getCurrentTime();
+        if (!isNaN(time)) {
+          dispatch(setCurrentSeconds(time));
+        }
+      }, 300);
+    }
+
+    return () => {
+      if (interval) clearInterval(interval);
+    };
+  }, [isPlaying, isPlayerReady]);
 
   // ----------------------------------------
   // Render

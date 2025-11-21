@@ -7,7 +7,7 @@ export const Wrapper = styled(Row)`
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 60px;
+  height: 80px;
 
   background: ${({ theme }) => theme.colors.surface2};
   border-top: 1px solid ${({ theme }) => theme.colors.surface3};
@@ -16,7 +16,7 @@ export const Wrapper = styled(Row)`
   z-index: 1000;
 
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   box-sizing: border-box;
 `;
 
@@ -34,8 +34,23 @@ export const Section = styled(Row)`
   gap: ${({ theme }) => theme.space.md};
 `;
 
+export const MiddleControlsWrapper = styled(Section)`
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  display: flex;
+  flex-direction: column-reverse;
+  gap: ${({ theme }) => theme.space.sm};
+  max-width: 600px;
+`;
+
 export const LeftControls = styled(Section)`
-  width: 400px;
+  width: 300px;
+`;
+
+export const RightControls = styled(Section)`
+  width: 300px;
 `;
 
 export const Controls = styled(Row)`

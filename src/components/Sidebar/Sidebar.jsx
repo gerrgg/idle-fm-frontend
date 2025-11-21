@@ -14,14 +14,14 @@ import {
   fetchUserPlaylists,
 } from "../../store/playlistSlice.js";
 
+import { playerSetActivePlaylist } from "../../store/playerSlice.js";
+
 export default function Sidebar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const { user } = useSelector((s) => s.auth);
-  const activePlaylistId = useSelector((s) => s.player.activePlaylistId);
-  const { items, current, loading } = useSelector((s) => s.playlists);
-  const activePlaylist = items.find((p) => p.id === activePlaylistId);
+  const { items, loading } = useSelector((s) => s.playlists);
 
   useEffect(() => {
     if (user) {
@@ -54,8 +54,6 @@ export default function Sidebar() {
               key={playlist.id}
               size="md"
               variant="sidebarItem"
-              $isActive={activePlaylist?.id === playlist.id}
-              $isViewing={current?.id === playlist.id}
               onClick={() => {
                 navigate(`/playlists/${playlist.id}/edit`);
               }}
