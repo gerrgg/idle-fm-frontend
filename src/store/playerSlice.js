@@ -1,9 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { act } from "react";
 
 const initialState = {
   isPlaying: false,
   volume: 0.25,
   currentIndex: 0,
+  activePlaylistId: null,
 };
 
 const playerSlice = createSlice({
@@ -47,6 +49,9 @@ const playerSlice = createSlice({
     setIndex(state, action) {
       state.currentIndex = action.payload;
     },
+    playerSetActivePlaylist(state, action) {
+      state.activePlaylistId = action.payload;
+    },
   },
 });
 
@@ -59,6 +64,7 @@ export const {
   prevTrack,
   setIndex,
   startPlayback,
+  playerSetActivePlaylist,
 } = playerSlice.actions;
 
 export default playerSlice.reducer;

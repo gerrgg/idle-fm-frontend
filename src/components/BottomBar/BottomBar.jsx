@@ -18,13 +18,16 @@ export default function BottomBar() {
   const dispatch = useDispatch();
   const [volume, setVolume] = useState(0.5);
   const isPlaying = useSelector((state) => state.player.isPlaying);
-  const loading = useSelector((state) => state.playlists.loading);
-  const videos = useSelector((state) => state.playlists.current?.videos || []);
+  const activePlaylistId = useSelector((s) => s.player.activePlaylistId);
+  const { items, loading } = useSelector((state) => state.playlists);
   const currentIndex = useSelector((state) => state.player.currentIndex);
-
   if (loading) return;
 
-  const currentTrack = videos[currentIndex];
+  const activePlaylist = items.find((p) => p.id === activePlaylistId);
+
+  const activeVideo = activePlaylist
+    ? activePlaylist.videos[currentIndex]
+    : null;
 
   const PlayButton = () => (
     <IconButtonCircle onClick={() => dispatch(togglePlay())}>
@@ -86,7 +89,7 @@ export default function BottomBar() {
       <LeftControls align="flex-end">
         <Equalizer isPlaying={isPlaying} height="24px" />
         <NowPlaying>
-          <span>{currentTrack?.title ?? ""}</span>
+          <span>{activeVideo?.title ?? ""}</span>
         </NowPlaying>
       </LeftControls>
 

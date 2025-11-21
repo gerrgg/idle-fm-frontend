@@ -6,7 +6,12 @@ import { nextTrack, setPlayState } from "../../store/playerSlice";
 export default function YouTubeAudioPlayer() {
   const dispatch = useDispatch();
 
-  const videos = useSelector((s) => s.playlists.current?.videos || []);
+  const activePlaylistId = useSelector((s) => s.player.activePlaylistId);
+  const playlists = useSelector((s) => s.playlists.items);
+
+  const activePlaylist = playlists.find((p) => p.id === activePlaylistId);
+  const videos = activePlaylist?.videos || [];
+
   const { currentIndex, isPlaying, volume } = useSelector((s) => s.player);
 
   const currentTrack = videos[currentIndex] || null;

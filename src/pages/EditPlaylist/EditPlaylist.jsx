@@ -2,12 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
 
-import {
-  getPlaylistById,
-  deletePlaylist,
-  fetchUserPlaylists,
-  updatePlaylist,
-} from "../../store/playlistSlice";
+import { getPlaylistById } from "../../store/playlistSlice";
 import { clearYoutubeResults } from "../../store/youtubeSlice";
 import EditPlaylistDetails from "../../features/playlists/EditPlaylistDetails";
 import AddVideoPanel from "../../features/playlists/AddVideoPanel/AddVideoPanel";

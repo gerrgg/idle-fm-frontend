@@ -77,6 +77,19 @@ const variants = {
       font-weight: ${({ theme }) => theme.fontWeights.bold};
       color: ${({ theme }) => theme.colors.accent};
     }
+
+    ${({ $isActive, theme }) =>
+      $isActive &&
+      css`
+        font-weight: ${theme.fontWeights.bold};
+        color: ${theme.colors.accent};
+      `}
+
+    ${({ $isViewing }) =>
+      $isViewing &&
+      css`
+        background: rgba(255, 255, 255, 0.12);
+      `}
   `,
   danger: css`
     background: ${({ theme }) => theme.colors.danger};

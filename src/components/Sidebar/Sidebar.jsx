@@ -19,7 +19,9 @@ export default function Sidebar() {
   const navigate = useNavigate();
 
   const { user } = useSelector((s) => s.auth);
+  const activePlaylistId = useSelector((s) => s.player.activePlaylistId);
   const { items, current, loading } = useSelector((s) => s.playlists);
+  const activePlaylist = items.find((p) => p.id === activePlaylistId);
 
   useEffect(() => {
     if (user) {
@@ -52,7 +54,8 @@ export default function Sidebar() {
               key={playlist.id}
               size="md"
               variant="sidebarItem"
-              className={current?.id === playlist.id ? "active" : ""}
+              $isActive={activePlaylist?.id === playlist.id}
+              $isViewing={current?.id === playlist.id}
               onClick={() => {
                 navigate(`/playlists/${playlist.id}/edit`);
               }}
