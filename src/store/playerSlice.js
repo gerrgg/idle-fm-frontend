@@ -2,8 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   isPlaying: false,
-  volume: 0.5, // 0–1 range
-  currentIndex: 0, // points into playlists.current.videos[]
+  volume: 0.25,
+  currentIndex: 0,
 };
 
 const playerSlice = createSlice({
@@ -23,8 +23,11 @@ const playerSlice = createSlice({
     },
 
     startPlayback(state) {
-      state.currentIndex = 0;
       state.isPlaying = true;
+    },
+
+    pausePlayback(state) {
+      state.isPlaying = false;
     },
 
     resetIndex(state) {

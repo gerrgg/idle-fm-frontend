@@ -74,14 +74,12 @@ export const IconButtonCircle = styled.button`
   background: ${({ theme }) => theme.colors.accent};
   border: 1px solid ${({ theme }) => theme.colors.accent};
   color: ${({ theme }) => theme.colors.surface1};
-  pointer-events: none; /* Prevent pointer events */
 
   opacity: 0;
   transition: opacity 0.2s ease;
 
   ${Card}:hover & {
     opacity: 1;
-    pointer-events: auto;
     cursor: pointer;
   }
 `;
@@ -110,6 +108,7 @@ export const CardInfoHoverWrapper = styled.div`
 export const EqualizerWrapper = styled(Equalizer)`
   opacity: 1;
   transition: opacity 0.2s ease;
+  pointer-events: none;
 
   ${Card}:hover & {
     opacity: 0;

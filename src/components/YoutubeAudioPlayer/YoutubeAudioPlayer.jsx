@@ -12,8 +12,11 @@ export default function YouTubeAudioPlayer() {
   const currentTrack = videos[currentIndex] || null;
 
   const playerRef = useRef(null);
-  const suppressPause = useRef(false);
+  const suppressPauseRef = useRef(false);
 
+  // ----------------------------------------
+  // 1. YouTube ready → attach instance
+  // ----------------------------------------
   function onReady(e) {
     playerRef.current = e.target;
 
@@ -24,6 +27,9 @@ export default function YouTubeAudioPlayer() {
     playerRef.current.setVolume(volume * 100);
   }
 
+  // ----------------------------------------
+  // 2. Handle YouTube internal state
+  // ----------------------------------------
   function onStateChange(e) {
     const YTState = window.YT.PlayerState;
 
@@ -33,40 +39,57 @@ export default function YouTubeAudioPlayer() {
     }
 
     if (e.data === YTState.PLAYING) {
-      suppressPause.current = false;
+      suppressPauseRef.current = false;
       dispatch(setPlayState(true));
       return;
     }
 
     if (e.data === YTState.PAUSED) {
-      if (suppressPause.current) return; // ignore transition pause
+      if (suppressPauseRef.current) return; // ignore artificial pauses
       dispatch(setPlayState(false));
     }
   }
 
+  // ----------------------------------------
+  // 3. Handle track changes (playlist or index)
+  // ----------------------------------------
   useEffect(() => {
     if (!playerRef.current) return;
     if (!currentTrack) return;
 
-    suppressPause.current = true; // prevent false paused state
+    suppressPauseRef.current = true; // prevent false pause event
 
     playerRef.current.loadVideoById(currentTrack.youtube_key);
 
     if (isPlaying) {
       playerRef.current.playVideo();
     }
-  }, [currentIndex]);
+  }, [currentTrack]); // <— TRIGGER: playlist changed or index changed
 
+  // ----------------------------------------
+  // 4. Handle play/pause changes
+  // ----------------------------------------
   useEffect(() => {
     if (!playerRef.current) return;
-    isPlaying ? playerRef.current.playVideo() : playerRef.current.pauseVideo();
+
+    if (isPlaying) {
+      playerRef.current.playVideo();
+    } else {
+      playerRef.current.pauseVideo();
+    }
   }, [isPlaying]);
 
+  // ----------------------------------------
+  // 5. Handle volume changes
+  // ----------------------------------------
   useEffect(() => {
     if (!playerRef.current) return;
     playerRef.current.setVolume(volume * 100);
   }, [volume]);
 
+  // ----------------------------------------
+  // Render
+  // ----------------------------------------
   return (
     <YouTube
       videoId={currentTrack?.youtube_key ?? ""}
