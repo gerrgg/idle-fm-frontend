@@ -1,24 +1,54 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { act } from "react";
 
 const initialState = {
   isPlaying: false,
-  volume: 0,
-  currentIndex: 0,
-  activePlaylistId: null,
+  volume: 0.1,
+  queue: [],
+  queueIndex: 0,
   currentSeconds: 0,
   durationSeconds: 0,
+  sourcePlaylistId: null,
 };
 
 const playerSlice = createSlice({
   name: "player",
   initialState,
   reducers: {
-    togglePlay(state) {
-      state.isPlaying = !state.isPlaying;
+    setQueue(state, action) {
+      state.queue = action.payload.queue; // array of videoIds
+      state.queueIndex = 0;
+      state.isPlaying = true;
+
+      state.sourcePlaylistId = action.payload.sourcePlaylistId ?? null;
     },
 
-    setPlayState(state, action) {
+    addToQueue(state, action) {
+      state.queue.push(action.payload);
+    },
+
+    playSingle(state, action) {
+      state.queue = [action.payload];
+      state.queueIndex = 0;
+      state.isPlaying = true;
+    },
+
+    nextTrack(state) {
+      if (state.queueIndex < state.queue.length - 1) {
+        state.queueIndex += 1;
+        state.currentSeconds = 0;
+      } else {
+        state.isPlaying = false;
+      }
+    },
+
+    prevTrack(state) {
+      if (state.queueIndex > 0) {
+        state.queueIndex -= 1;
+        state.currentSeconds = 0;
+      }
+    },
+
+    setPlaying(state, action) {
       state.isPlaying = action.payload;
     },
 
@@ -26,58 +56,44 @@ const playerSlice = createSlice({
       state.volume = action.payload;
     },
 
-    startPlayback(state) {
-      state.isPlaying = true;
-    },
-
-    pausePlayback(state) {
-      state.isPlaying = false;
-    },
-
-    resetIndex(state) {
-      state.currentIndex = 0;
-    },
-
-    nextTrack(state) {
-      state.currentIndex += 1;
-      state.currentSeconds = 0;
-    },
-
-    prevTrack(state) {
-      state.currentIndex -= 1;
-      state.currentSeconds = 0;
-    },
-
-    setIndex(state, action) {
-      state.currentIndex = action.payload;
-    },
-
-    playerSetActivePlaylist(state, action) {
-      state.activePlaylistId = action.payload;
-    },
-
     setCurrentSeconds(state, action) {
       state.currentSeconds = action.payload;
     },
 
-    setDurationSeconds(state, action) {
-      state.durationSeconds = action.payload;
+    setPlayState(state, action) {
+      state.isPlaying = action.payload;
+    },
+    playYoutubeSearchPreview(state, action) {
+      const { youtube_key, title } = action.payload;
+
+      state.queue = [
+        {
+          type: "preview",
+          youtube_key,
+          title,
+        },
+      ];
+      state.queueIndex = 0;
+      state.isPlaying = true;
+
+      state.sourcePlaylistId = null; // preview not tied to playlist
     },
   },
 });
 
+// ⬇⬇⬇ EXPORT ACTIONS HERE ⬇⬇⬇
 export const {
-  togglePlay,
-  setPlayState,
-  setVolume,
-  resetIndex,
+  setQueue,
+  addToQueue,
+  playSingle,
   nextTrack,
   prevTrack,
-  setIndex,
-  startPlayback,
-  playerSetActivePlaylist,
+  setPlaying,
+  setVolume,
   setCurrentSeconds,
-  setDurationSeconds,
+  setPlayState,
+  playYoutubeSearchPreview,
 } = playerSlice.actions;
 
+// ⬇⬇⬇ EXPORT REDUCER ⬇⬇⬇
 export default playerSlice.reducer;

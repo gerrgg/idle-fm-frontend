@@ -8,11 +8,7 @@ import {
   VideoChannel,
 } from "./PlaylistVideosPanel.styles";
 
-export default function PlaylistVideosPanel() {
-  const playlist = useSelector((s) => s.playlists.current);
-
-  // Ensure consistent final shape
-  const videos = playlist?.videos || [];
+export default function PlaylistVideosPanel({ videos }) {
   if (videos.length === 0) return null;
 
   return (

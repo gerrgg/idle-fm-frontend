@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
 import {
   Wrapper,
@@ -10,65 +11,49 @@ import {
   LeftControls,
   MiddleControlsWrapper,
 } from "./BottomBar.styles";
+
 import VolumeSlider from "../VolumeSlider/VolumeSlider";
 import Equalizer from "../Equalizer/Equalizer";
 import TrackTimeDisplay from "../TrackTimeDisplay/TrackTimeDisplay";
+
+import { shuffleArray } from "../../utils/shuffleArray";
+
 import {
-  togglePlay,
   nextTrack,
   prevTrack,
-  setIndex,
+  setPlaying,
+  setVolume,
+  setQueue,
 } from "../../store/playerSlice";
-import { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
 
 export default function BottomBar() {
   const dispatch = useDispatch();
-  const [volume, setVolume] = useState(0.5);
-  const isPlaying = useSelector((state) => state.player.isPlaying);
-  const activePlaylistId = useSelector((s) => s.player.activePlaylistId);
-  const { items, loading } = useSelector((state) => state.playlists);
-  const currentIndex = useSelector((state) => state.player.currentIndex);
 
-  if (loading) return;
+  const isPlaying = useSelector((s) => s.player.isPlaying);
+  const queue = useSelector((s) => s.player.queue);
+  const queueIndex = useSelector((s) => s.player.queueIndex);
+  const volume = useSelector((s) => s.player.volume);
+  const sourcePlaylistId = useSelector((s) => s.player.sourcePlaylistId);
 
-  const activePlaylist = items.find((p) => p.id === activePlaylistId);
+  const videosStore = useSelector((s) => s.videosEntities.byId);
 
-  const activeVideo = activePlaylist
-    ? activePlaylist.videos[currentIndex]
-    : null;
+  const currentVideo = queue[queueIndex];
 
-  const durationSeconds = activeVideo?.duration;
+  const durationSeconds = currentVideo?.duration ?? 0;
 
-  const handleNextTrack = () => {
-    if (activePlaylist && currentIndex < activePlaylist.videos.length - 1) {
-      dispatch(nextTrack());
-    } else {
-      // Reset to the first track if at the end of the playlist
-      dispatch(setIndex(0));
-    }
-  };
-
-  const handlePrevTrack = () => {
-    if (currentIndex > 0) {
-      dispatch(prevTrack());
-    } else {
-      // Optionally, reset to the last track if at the beginning
-      const lastIndex = activePlaylist ? activePlaylist.videos.length - 1 : 0;
-      dispatch(setIndex(lastIndex));
-    }
-  };
-
+  // ------------------------------
+  // Controls
+  // ------------------------------
   const PlayButton = () => (
-    <IconButtonCircle onClick={() => dispatch(togglePlay())}>
+    <IconButtonCircle onClick={() => dispatch(setPlaying(!isPlaying))}>
       {isPlaying ? (
-        // PAUSE ICON
+        // Pause
         <svg width="22" height="22" viewBox="0 0 24 24">
           <rect x="6" y="5" width="4" height="14" fill="currentColor" />
           <rect x="14" y="5" width="4" height="14" fill="currentColor" />
         </svg>
       ) : (
-        // PLAY ICON
+        // Play
         <svg width="22" height="22" viewBox="0 0 24 24">
           <path d="M8 5v14l11-7z" fill="currentColor" />
         </svg>
@@ -76,32 +61,43 @@ export default function BottomBar() {
     </IconButtonCircle>
   );
 
-  const ShuffleButton = () => (
-    <IconButton>
+  const NextButton = () => (
+    <IconButtonCircle onClick={() => dispatch(nextTrack())}>
       <svg width="18" height="18" viewBox="0 0 24 24">
-        <path
-          d="M18 9v-3c-1 0-3.308-.188-4.506 2.216l-4.218 8.461c-1.015 2.036-3.094 3.323-5.37 3.323h-3.906v-2h3.906c1.517 0 2.903-.858 3.58-2.216l4.218-8.461c1.356-2.721 3.674-3.323 6.296-3.323v-3l6 4-6 4zm-9.463 1.324l1.117-2.242c-1.235-2.479-2.899-4.082-5.748-4.082h-3.906v2h3.906c2.872 0 3.644 2.343 4.631 4.324zm15.463 8.676l-6-4v3c-3.78 0-4.019-1.238-5.556-4.322l-1.118 2.241c1.021 2.049 2.1 4.081 6.674 4.081v3l6-4z"
-          fill="currentColor"
-        />
+        <path d="M9 6l6 6-6 6" fill="currentColor" />
       </svg>
-    </IconButton>
+    </IconButtonCircle>
   );
 
   const PreviousButton = () => (
-    <IconButtonCircle onClick={handlePrevTrack}>
+    <IconButtonCircle onClick={() => dispatch(prevTrack())}>
       <svg width="18" height="18" viewBox="0 0 24 24">
         <path d="M15 18l-6-6 6-6" fill="currentColor" />
       </svg>
     </IconButtonCircle>
   );
 
-  const NextButton = () => (
-    <IconButtonCircle onClick={handleNextTrack}>
-      <svg width="18" height="18" viewBox="0 0 24 24">
-        <path d="M9 6l6 6-6 6" fill="currentColor" />
-      </svg>
-    </IconButtonCircle>
-  );
+  const ShuffleButton = () => {
+    return (
+      <IconButton
+        onClick={() =>
+          dispatch(
+            setQueue({
+              queue: shuffleArray(queue),
+              sourcePlaylistId: sourcePlaylistId,
+            })
+          )
+        }
+      >
+        <svg width="18" height="18" viewBox="0 0 24 24">
+          <path
+            d="M18 9v-3c-1 0-3.308-.188-4.506 2.216l-4.218 8.461c-1.015 2.036-3.094 3.323-5.37 3.323h-3.906v-2h3.906c1.517 0 2.903-.858 3.58-2.216l4.218-8.461c1.356-2.721 3.674-3.323 6.296-3.323v-3l6 4-6 4zm-9.463 1.324l1.117-2.242c-1.235-2.479-2.899-4.082-5.748-4.082h-3.906v2h3.906c2.872 0 3.644 2.343 4.631 4.324zm15.463 8.676l-6-4v3c-3.78 0-4.019-1.238-5.556-4.322l-1.118 2.241c1.021 2.049 2.1 4.081 6.674 4.081v3l6-4z"
+            fill="currentColor"
+          />
+        </svg>
+      </IconButton>
+    );
+  };
 
   const RepeatButton = () => (
     <IconButton>
@@ -119,12 +115,12 @@ export default function BottomBar() {
       <LeftControls align="flex-end">
         <Equalizer isPlaying={isPlaying} height="24px" />
         <NowPlaying>
-          <span>{activeVideo?.title ?? ""}</span>
+          <span>{currentVideo?.title ?? ""}</span>
         </NowPlaying>
       </LeftControls>
 
       <MiddleControlsWrapper>
-        <TrackTimeDisplay durationSeconds={durationSeconds} />
+        {/* <TrackTimeDisplay durationSeconds={durationSeconds} /> */}
         <Controls>
           <ShuffleButton />
           <PreviousButton />
@@ -135,7 +131,10 @@ export default function BottomBar() {
       </MiddleControlsWrapper>
 
       <Section>
-        <VolumeSlider value={volume} onChange={setVolume} />
+        <VolumeSlider
+          value={volume}
+          onChange={(value) => dispatch(setVolume(value))}
+        />
       </Section>
     </Wrapper>
   );

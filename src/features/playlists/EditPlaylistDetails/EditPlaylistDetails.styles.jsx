@@ -72,8 +72,8 @@ export const LeftImage = styled.div`
     z-index: 1;
     border-radius: inherit;
 
-    background-image: ${({ glowSrc, theme }) =>
-      glowSrc ? `url(${glowSrc})` : theme.colors.accent};
+    background-image: ${({ glowsrc, theme }) =>
+      glowsrc ? `url(${glowsrc})` : theme.colors.accent};
 
     background-size: cover;
     background-position: center;

@@ -72,7 +72,8 @@ export const ThumbnailWrapper = styled.div`
   position: relative;
   cursor: pointer;
 
-  &:hover {
+  &:hover,
+  &.active {
     &::after {
       opacity: 1;
     }
@@ -104,6 +105,10 @@ export const Icon = styled.svg`
   opacity: 0;
 
   ${ThumbnailWrapper}:hover & {
+    opacity: 1;
+  }
+
+  ${ThumbnailWrapper}.active & {
     opacity: 1;
   }
 `;

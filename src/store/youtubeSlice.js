@@ -1,36 +1,28 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { youtubeApi } from "../api/youtubeApi";
-
-export const searchYoutube = createAsyncThunk(
-  "youtube/search",
-  async (query, { rejectWithValue }) => {
-    try {
-      const res = await youtubeApi.search(query);
-      return res.data;
-    } catch (err) {
-      return rejectWithValue(err.response?.data || "Search failed");
-    }
-  }
-);
+// src/store/youtubeSlice.js
+import { createSlice } from "@reduxjs/toolkit";
+import { searchYoutube } from "./youtubeThunks";
 
 const youtubeSlice = createSlice({
   name: "youtube",
   initialState: {
-    results: [],
     loading: false,
+    results: [],
     error: null,
+    lastQuery: "",
   },
   reducers: {
     clearYoutubeResults(state) {
       state.results = [];
-      state.loading = false;
+      state.error = null;
+      state.lastQuery = "";
     },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(searchYoutube.pending, (state) => {
+      .addCase(searchYoutube.pending, (state, action) => {
         state.loading = true;
         state.error = null;
+        state.lastQuery = action.meta.arg;
       })
       .addCase(searchYoutube.fulfilled, (state, action) => {
         state.loading = false;
@@ -38,11 +30,14 @@ const youtubeSlice = createSlice({
       })
       .addCase(searchYoutube.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload || "Error";
+
+        // Ignore cancellations
+        if (action.payload?.cancelled) return;
+
+        state.error = action.payload?.error || "search failed";
       });
   },
 });
 
 export const { clearYoutubeResults } = youtubeSlice.actions;
-
 export default youtubeSlice.reducer;

@@ -15,9 +15,11 @@ import {
 } from "./AddVideoPanel.styles.jsx";
 
 import { Input } from "../../../styles/form.js";
+import { Button } from "../../../styles/button.js";
 import { useDispatch, useSelector } from "react-redux";
-import { searchYoutube } from "../../../store/youtubeSlice";
-import { addVideoToPlaylist } from "../../../store/playlistVideosSlice";
+import { searchYoutube } from "../../../store/youtubeThunks.js";
+import { addVideoToPlaylistNormalized } from "../../../store/playlistVideosThunks.js";
+import { playYoutubeSearchPreview } from "../../../store/playerSlice.js";
 
 const PlayIcon = () => {
   return (
@@ -37,15 +39,20 @@ const PlayIcon = () => {
   );
 };
 
-export default function AddVideoPanel({ searchTags }) {
+export default function AddVideoPanel({ playlist, searchTags }) {
   const dispatch = useDispatch();
   const [query, setQuery] = useState("");
+  const { queue, queueIndex } = useSelector((s) => s.player);
+  const currentVideo = queue[queueIndex];
 
   const { results: allResults, loading } = useSelector(
     (state) => state.youtube
   );
 
-  const playlist = useSelector((state) => state.playlists.current);
+  const playlistVideos = useSelector(
+    (state) =>
+      playlist?.videoIds?.map((id) => state.videosEntities.byId[id]) ?? []
+  );
 
   const [visible, setVisible] = useState([]);
   const [remaining, setRemaining] = useState([]);
@@ -54,17 +61,19 @@ export default function AddVideoPanel({ searchTags }) {
   useEffect(() => {
     if (!playlist || allResults.length === 0) return;
 
-    const playlistVideos = playlist.videos || [];
-    const playlistIds = new Set(playlistVideos.map((v) => v.youtube_key));
+    const playlistYoutubeKeys = new Set(
+      playlistVideos.map((v) => v.youtube_key)
+    );
 
-    const filtered = allResults.filter((video) => !playlistIds.has(video.id));
+    const filtered = allResults.filter((v) => !playlistYoutubeKeys.has(v.id));
 
     const first8 = filtered.slice(0, 8);
     const rest = filtered.slice(8);
 
     setVisible(first8);
     setRemaining(rest);
-    setUsed(new Set([...playlistIds, ...first8.map((v) => v.id)]));
+
+    setUsed(new Set([...playlistYoutubeKeys, ...first8.map((v) => v.id)]));
   }, [allResults, playlist]);
 
   function handleSearch(e) {
@@ -76,8 +85,6 @@ export default function AddVideoPanel({ searchTags }) {
     const finalQuery =
       [cleanQuery, tagString].filter(Boolean).join(" ") + " music";
 
-    if (!finalQuery) return;
-
     dispatch(searchYoutube(finalQuery));
   }
 
@@ -85,7 +92,7 @@ export default function AddVideoPanel({ searchTags }) {
     if (!playlist) return;
 
     dispatch(
-      addVideoToPlaylist({
+      addVideoToPlaylistNormalized({
         playlistId: playlist.id,
         youtube_key: video.id,
         title: video.title,
@@ -107,13 +114,31 @@ export default function AddVideoPanel({ searchTags }) {
     setRemaining((prev) => prev.filter((v) => v.id !== next?.id));
   }
 
+  function handleViewMore() {
+    if (remaining.length === 0) return;
+
+    const CHUNK_SIZE = 8;
+
+    // Get the next group (up to 8)
+    const nextChunk = remaining.slice(0, CHUNK_SIZE);
+
+    // Always keep max 8 visible
+    const updatedVisible = [
+      ...visible.slice(nextChunk.length), // remove same number from front
+      ...nextChunk, // add new ones
+    ];
+
+    setVisible(updatedVisible);
+    setRemaining((prev) => prev.slice(nextChunk.length));
+  }
+
   useEffect(() => {
     if (searchTags.length > 0) {
       dispatch(searchYoutube(searchTags.join(" ")));
     } else {
       setQuery("");
     }
-  }, [searchTags]);
+  }, [searchTags, playlist]);
 
   return (
     <PanelWrapper>
@@ -135,10 +160,21 @@ export default function AddVideoPanel({ searchTags }) {
         <ResultsList>
           {visible.map((v) => (
             <ResultItem key={v.id}>
-              <ThumbnailWrapper>
+              <ThumbnailWrapper
+                className={currentVideo?.youtube_key === v.id ? "active" : null}
+                onClick={() =>
+                  dispatch(
+                    playYoutubeSearchPreview({
+                      youtube_key: v.id,
+                      title: v.title,
+                    })
+                  )
+                }
+              >
                 <Thumbnail src={v.thumbnail} />
                 <PlayIcon />
               </ThumbnailWrapper>
+
               <ResultTitle>{v.title}</ResultTitle>
               <AddButton onClick={() => handleAddVideoToPlaylist(v)}>
                 Add
@@ -146,6 +182,12 @@ export default function AddVideoPanel({ searchTags }) {
             </ResultItem>
           ))}
         </ResultsList>
+      )}
+
+      {remaining.length > 0 && (
+        <Button variant="outline" onClick={handleViewMore}>
+          Refresh
+        </Button>
       )}
     </PanelWrapper>
   );

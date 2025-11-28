@@ -11,6 +11,8 @@ export const PanelWrapper = styled.div`
   overflow-y: auto;
   scrollbar-width: none;
   -ms-overflow-style: none; /* IE and Edge */
+  z-index: 1;
+
   &::-webkit-scrollbar {
     display: none; /* Chrome, Safari, and Opera */
   }

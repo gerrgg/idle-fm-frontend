@@ -2,7 +2,7 @@ import { ThemeProvider } from "styled-components";
 import { GlobalStyles } from "./styles/GlobalStyles";
 import { theme } from "./theme";
 
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ProtectedRoute from "./components/ProtectedRoute";
 import EditPlaylist from "./pages/EditPlaylist/EditPlaylist";
@@ -14,20 +14,32 @@ import DashboardLayout from "./layouts/DashboardLayout/";
 import DashboardHome from "./pages/Dashboard/Dashboard";
 import LoginPage from "./pages/LoginPage";
 
+import { useEffect } from "react";
+
+import { loadSession } from "./store/authSlice";
+import { fetchUserPlaylistsNormalized } from "./store/playlistThunksNormalized";
+
 export default function App() {
+  const dispatch = useDispatch();
+  const user = useSelector((s) => s.auth.user);
+
+  useEffect(() => {
+    dispatch(loadSession());
+  }, []);
+
+  useEffect(() => {
+    if (user) {
+      dispatch(fetchUserPlaylistsNormalized(user.id));
+    }
+  }, [user]);
+
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyles />
       <BrowserRouter>
         <Routes>
           <Route path="/login" element={<LoginPage />} />
-          <Route
-            element={
-              <ProtectedRoute>
-                <DashboardLayout />
-              </ProtectedRoute>
-            }
-          >
+          <Route element={<DashboardLayout />}>
             <Route path="/" element={<DashboardHome />} />
             <Route path="/playlists/:id/edit" element={<EditPlaylist />} />
           </Route>

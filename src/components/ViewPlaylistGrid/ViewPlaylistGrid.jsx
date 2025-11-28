@@ -12,14 +12,19 @@ import {
   CardInfoHoverWrapper,
   EqualizerWrapper,
 } from "./ViewPlaylistGrid.styles";
+import RadioIcon from "../../features/playlists/EditPlaylistDetails/RadioIcon.jsx";
+import { PlaceholderImage } from "../../features/playlists/EditPlaylistDetails/EditPlaylistDetails.styles";
 
-import { playPlaylist } from "../../store/thunks/playPlaylist";
+import { selectMyPlaylists } from "../../store/selectors/playlistsSelectors.js";
+import { setQueue } from "../../store/playerSlice.js";
 
-const PlayButton = ({ playlistId, isPlaying }) => {
+const PlayButton = ({ playlist, isPlaying }) => {
   const dispatch = useDispatch();
 
   const handleClick = () => {
-    dispatch(playPlaylist(playlistId));
+    dispatch(
+      setQueue({ queue: playlist.videoIds, sourcePlaylistId: playlist.id })
+    );
   };
 
   return (
@@ -40,26 +45,35 @@ const PlayButton = ({ playlistId, isPlaying }) => {
   );
 };
 
+// dispatch(setQueue(playlist.videoIds));
+// dispatch(setQueueIndex(index));
+// dispatch(setPlaying(true));
+
 export default function ViewPlaylistGrid() {
-  const playlists = useSelector((s) => s.playlists.items);
-  const isPlaying = useSelector((state) => state.player.isPlaying);
-  const current = useSelector((state) => state.playlists.current);
+  const playlists = useSelector(selectMyPlaylists);
+  const { isPlaying, sourcePlaylistId } = useSelector((state) => state.player);
 
   return (
     <Wrap>
       <Grid>
         {playlists.map((p) => (
           <Card key={p.id}>
-            <Thumbnail src={p.image} />
+            {p.image ? (
+              <Thumbnail src={p.image} />
+            ) : (
+              <PlaceholderImage>
+                <RadioIcon />
+              </PlaceholderImage>
+            )}
             <CardInfo>
               <Title>{p.title}</Title>
-              <Count>{p.videos?.length ?? 0} videos</Count>
+              <Count>{p.videoIds?.length ?? 0} videos</Count>
               <CardInfoHoverWrapper>
                 <PlayButton
-                  playlistId={p.id}
-                  isPlaying={isPlaying && p.id === current.id}
+                  playlist={p}
+                  isPlaying={isPlaying && p.id === sourcePlaylistId}
                 />
-                {isPlaying && p.id === current.id && (
+                {isPlaying && p.id === sourcePlaylistId && (
                   <EqualizerWrapper isPlaying={isPlaying} />
                 )}
               </CardInfoHoverWrapper>

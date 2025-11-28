@@ -1,6 +1,9 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { deletePlaylist, updatePlaylist } from "../../store/playlistSlice";
+import {
+  deletePlaylistNormalized,
+  updatePlaylistNormalized,
+} from "../../store/playlistThunksNormalized.js";
 import {
   DangerHeader,
   Wrapper,
@@ -10,11 +13,9 @@ import {
 } from "./DangerZone.styles.jsx";
 import { H2, Text } from "../../styles/typography";
 
-export default function DangerZone() {
-  const { id } = useParams();
+export default function DangerZone({ playlist }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const playlist = useSelector((s) => s.playlists.current);
 
   const handleDelete = async () => {
     if (!playlist) return;
@@ -25,7 +26,7 @@ export default function DangerZone() {
 
     if (!confirmed) return;
 
-    dispatch(deletePlaylist(id));
+    dispatch(deletePlaylistNormalized(playlist.id));
     navigate("/");
   };
 
@@ -37,7 +38,7 @@ export default function DangerZone() {
       is_public: !playlist.is_public,
     };
 
-    dispatch(updatePlaylist({ id, data: updatedPlaylist }));
+    dispatch(updatePlaylistNormalized({ id, data: updatedPlaylist }));
   };
 
   if (!playlist) return <p>Loading…</p>;

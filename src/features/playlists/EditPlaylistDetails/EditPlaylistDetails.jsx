@@ -11,14 +11,14 @@ import {
   TitleTagWrapper,
 } from "./EditPlaylistDetails.styles";
 import RadioIcon from "./RadioIcon";
-import { updatePlaylist } from "../../../store/playlistSlice";
+import { updatePlaylistNormalized } from "../../../store/playlistThunksNormalized.js";
 import { useDebouncedCallback } from "../../../hooks/useDebouncedCallback";
 
-export default function EditPlaylistDetails({ playlist, onTagsChange }) {
+export default function EditPlaylistDetails({ playlist, tags, onTagsChange }) {
   const dispatch = useDispatch();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [tags, setTags] = useState([]);
+  const [selectedTags, setSelectedTags] = useState([]);
   const [original, setOriginal] = useState(null);
   const tagSelectorRef = useRef(null);
 
@@ -28,30 +28,27 @@ export default function EditPlaylistDetails({ playlist, onTagsChange }) {
     const initial = {
       title: playlist.title || "",
       description: playlist.description || "",
-      tags: (playlist.tags || []).map((t) => t.name ?? t),
+      tags: (tags || []).map((t) => t.name),
     };
 
     setOriginal(initial);
     setTitle(initial.title);
     setDescription(initial.description);
-    setTags(playlist.tags || []);
-  }, [playlist?.id]);
+    setSelectedTags(tags || []);
+  }, [playlist?.id, tags.length]);
 
   function getCurrentTags() {
-    if (tagSelectorRef.current) {
+    if (tagSelectorRef.current)
       return tagSelectorRef.current().map((t) => t.name);
-    }
-    return tags.map((t) => t.name);
+    return selectedTags.map((t) => t.name);
   }
 
   function hasChanges() {
     if (!original) return false;
-
     const ts = getCurrentTags();
-
     return (
-      title !== original.title ||
-      description !== original.description ||
+      title.trim() !== original.title ||
+      description.trim() !== original.description ||
       JSON.stringify(ts) !== JSON.stringify(original.tags)
     );
   }
@@ -63,12 +60,13 @@ export default function EditPlaylistDetails({ playlist, onTagsChange }) {
     const data = {
       title,
       description,
-      tags: getCurrentTags(),
+      tags: getCurrentTags(), // list of names
     };
 
-    await dispatch(updatePlaylist({ id: playlist.id, data })).unwrap();
+    await dispatch(
+      updatePlaylistNormalized({ id: playlist.id, data })
+    ).unwrap();
 
-    // Update baseline state
     setOriginal({
       title: data.title,
       description: data.description,
@@ -79,18 +77,17 @@ export default function EditPlaylistDetails({ playlist, onTagsChange }) {
   const debouncedSave = useDebouncedCallback(saveChanges, 700);
 
   useEffect(() => {
-    if (!original) return; // Prevent firing during initial load
+    if (!original) return;
     if (hasChanges()) debouncedSave();
-  }, [title, description, tags]);
+  }, [title, description, selectedTags]);
 
-  // Save immediately on blur
   function handleBlur() {
     debouncedSave.flush();
   }
 
   return (
     <Wrapper>
-      <LeftImage glowSrc={playlist.image}>
+      <LeftImage glowsrc={playlist.image}>
         {playlist.image ? (
           <img src={playlist.image} alt="" />
         ) : (
@@ -99,7 +96,6 @@ export default function EditPlaylistDetails({ playlist, onTagsChange }) {
           </PlaceholderImage>
         )}
       </LeftImage>
-
       <TitleTagWrapper>
         <FormGroup>
           <Input
@@ -112,12 +108,13 @@ export default function EditPlaylistDetails({ playlist, onTagsChange }) {
 
         <FormGroup>
           <Label>Tags</Label>
+
           <TagSelector
-            availableTags={playlist.availableTags || []}
-            selectedTags={tags}
+            availableTags={tags || []}
+            selectedTags={selectedTags}
             onChange={(newTags) => {
-              setTags(newTags);
-              onTagsChange?.(newTags.map((t) => t.name));
+              setSelectedTags(newTags); // UI updates
+              onTagsChange?.(newTags.map((t) => t.name)); // Notify parent with names only
             }}
             autoCommitRef={tagSelectorRef}
           />

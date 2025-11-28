@@ -8,29 +8,20 @@ import { Wrapper, LogoText, LogoWrapper } from "./Sidebar.styles.jsx";
 import { Row, Stack, Col } from "../../styles/layout.js";
 import { Logo } from "../Logo/index.js";
 import { Button } from "../../styles/button.js";
+import { selectMyPlaylists } from "../../store/selectors/playlistsSelectors.js";
 
-import {
-  createEmptyPlaylist,
-  fetchUserPlaylists,
-} from "../../store/playlistSlice.js";
-
-import { playerSetActivePlaylist } from "../../store/playerSlice.js";
+import { createPlaylistNormalized } from "../../store/playlistThunksNormalized.js";
 
 export default function Sidebar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { user } = useSelector((s) => s.auth);
-  const { items, loading } = useSelector((s) => s.playlists);
-
-  useEffect(() => {
-    if (user) {
-      dispatch(fetchUserPlaylists(user.id));
-    }
-  }, [user]);
+  const myPlaylists = useSelector(selectMyPlaylists);
 
   async function handleCreate() {
-    const result = await dispatch(createEmptyPlaylist());
+    const result = await dispatch(
+      createPlaylistNormalized({ title: "New Playlist" })
+    );
 
     if (result.meta.requestStatus === "fulfilled") {
       const playlist = result.payload;
@@ -49,7 +40,7 @@ export default function Sidebar() {
           Create
         </Button>
         <Col my="xl" gap="xs">
-          {items.map((playlist) => (
+          {myPlaylists.map((playlist) => (
             <Button
               key={playlist.id}
               size="md"
