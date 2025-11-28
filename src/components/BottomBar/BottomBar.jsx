@@ -18,6 +18,8 @@ import TrackTimeDisplay from "../TrackTimeDisplay/TrackTimeDisplay";
 
 import { shuffleArray } from "../../utils/shuffleArray";
 
+import { selectCurrentVideo } from "../../store/selectors/playerSelectors";
+
 import {
   nextTrack,
   prevTrack,
@@ -31,15 +33,9 @@ export default function BottomBar() {
 
   const isPlaying = useSelector((s) => s.player.isPlaying);
   const queue = useSelector((s) => s.player.queue);
-  const queueIndex = useSelector((s) => s.player.queueIndex);
   const volume = useSelector((s) => s.player.volume);
   const sourcePlaylistId = useSelector((s) => s.player.sourcePlaylistId);
-
-  const videosStore = useSelector((s) => s.videosEntities.byId);
-
-  const currentVideo = queue[queueIndex];
-
-  const durationSeconds = currentVideo?.duration ?? 0;
+  const currentVideo = useSelector(selectCurrentVideo);
 
   // ------------------------------
   // Controls
@@ -121,7 +117,7 @@ export default function BottomBar() {
 
       <MiddleControlsWrapper>
         {/* <TrackTimeDisplay durationSeconds={durationSeconds} /> */}
-        <Controls>
+        <Controls $disabled={!currentVideo}>
           <ShuffleButton />
           <PreviousButton />
           <PlayButton />

@@ -23,7 +23,10 @@ const PlayButton = ({ playlist, isPlaying }) => {
 
   const handleClick = () => {
     dispatch(
-      setQueue({ queue: playlist.videoIds, sourcePlaylistId: playlist.id })
+      setQueue({
+        videoIds: playlist.videoIds,
+        sourcePlaylistId: playlist.id,
+      })
     );
   };
 
@@ -45,42 +48,36 @@ const PlayButton = ({ playlist, isPlaying }) => {
   );
 };
 
-// dispatch(setQueue(playlist.videoIds));
-// dispatch(setQueueIndex(index));
-// dispatch(setPlaying(true));
-
 export default function ViewPlaylistGrid() {
   const playlists = useSelector(selectMyPlaylists);
   const { isPlaying, sourcePlaylistId } = useSelector((state) => state.player);
 
   return (
-    <Wrap>
-      <Grid>
-        {playlists.map((p) => (
-          <Card key={p.id}>
-            {p.image ? (
-              <Thumbnail src={p.image} />
-            ) : (
-              <PlaceholderImage>
-                <RadioIcon />
-              </PlaceholderImage>
-            )}
-            <CardInfo>
-              <Title>{p.title}</Title>
-              <Count>{p.videoIds?.length ?? 0} videos</Count>
-              <CardInfoHoverWrapper>
-                <PlayButton
-                  playlist={p}
-                  isPlaying={isPlaying && p.id === sourcePlaylistId}
-                />
-                {isPlaying && p.id === sourcePlaylistId && (
-                  <EqualizerWrapper isPlaying={isPlaying} />
-                )}
-              </CardInfoHoverWrapper>
-            </CardInfo>
-          </Card>
-        ))}
-      </Grid>
-    </Wrap>
+    <Grid>
+      {playlists.map((p) => (
+        <Card key={p.id}>
+          {p.image ? (
+            <Thumbnail src={p.image} />
+          ) : (
+            <PlaceholderImage>
+              <RadioIcon />
+            </PlaceholderImage>
+          )}
+          <CardInfo>
+            <Title>{p.title}</Title>
+            <Count>{p.videoIds?.length ?? 0} videos</Count>
+            <CardInfoHoverWrapper>
+              <PlayButton
+                playlist={p}
+                isPlaying={isPlaying && p.id === sourcePlaylistId}
+              />
+              {isPlaying && p.id === sourcePlaylistId && (
+                <EqualizerWrapper isPlaying={isPlaying} />
+              )}
+            </CardInfoHoverWrapper>
+          </CardInfo>
+        </Card>
+      ))}
+    </Grid>
   );
 }

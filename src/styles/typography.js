@@ -1,5 +1,18 @@
 // src/styles/typography.js
-import styled from "styled-components";
+import styled, { css } from "styled-components";
+
+const margins = {
+  none: "0",
+  sm: css`
+    margin: ${({ theme }) => theme.space.sm} 0;
+  `,
+  md: css`
+    margin: ${({ theme }) => theme.space.md} 0;
+  `,
+  lg: css`
+    margin: ${({ theme }) => theme.space.lg} 0;
+  `,
+};
 
 // -----------------------------
 // Heading Components (VT323)
@@ -8,7 +21,10 @@ export const H1 = styled.h1`
   font-family: ${({ theme }) => theme.fonts.header};
   font-size: ${({ theme }) => theme.fontSizes.xxl};
   line-height: 1.1;
-  margin: 0;
+  margin-bottom: ${({ mb }) => margins[mb] || margins.none};
+  margin-top: ${({ mt }) => margins[mt] || margins.none};
+  margin-left: ${({ ml }) => margins[ml] || margins.none};
+  margin-right: ${({ mr }) => margins[mr] || margins.none};
 `;
 
 export const H2 = styled.h2`

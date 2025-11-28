@@ -1,9 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import playerReducer from "./playerSlice";
 import authReducer from "./authSlice";
-import dashboardReducer from "./dashboardSlice";
-import playlistReducer from "./playlistSlice";
-import tagsReducer from "./tagsSlice";
 import youtubeReducer from "./youtubeSlice";
 
 import playlistsEntitiesReducer from "./entities/playlistsSlice";

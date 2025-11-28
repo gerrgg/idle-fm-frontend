@@ -5,3 +5,7 @@ export const Wrap = styled.div`
   font-family: ${({ theme }) => theme.fonts.body};
   color: ${({ theme }) => theme.colors.text};
 `;
+
+export const Section = styled.section`
+  margin-bottom: ${({ theme }) => theme.space.xl};
+`;

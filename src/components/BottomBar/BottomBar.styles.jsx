@@ -57,6 +57,9 @@ export const Controls = styled(Row)`
   flex: 1;
   justify-content: center;
   gap: ${({ theme }) => theme.space.md};
+
+  opacity: ${({ $disabled }) => ($disabled ? 0.5 : 1)};
+  pointer-events: ${({ $disabled }) => ($disabled ? "none" : "auto")};
 `;
 
 export const IconButtonCircle = styled.button`
