@@ -42,7 +42,7 @@ export const theme = {
   },
 
   layout: {
-    sidebarWidth: "201px",
+    sidebarWidth: "251px",
     topbarHeight: "57px",
     bottomBarHeight: "61px",
   },

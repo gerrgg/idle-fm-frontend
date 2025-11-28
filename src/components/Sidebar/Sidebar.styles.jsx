@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { H1 } from "../../styles/typography.js";
 import { Row } from "../../styles/layout.js";
+import { Button } from "../../styles/button.js";
 
 export const Wrapper = styled.aside`
   height: 100vh;
@@ -26,4 +27,41 @@ export const LogoText = styled(H1)`
 
 export const LogoWrapper = styled(Row)`
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.space.sm};
+  justify-content: center;
+`;
+
+export const SidebarItem = styled(Button)`
+  background: transparent;
+  color: ${({ theme }) => theme.colors.text};
+  border: none;
+  border-radius: ${({ theme }) => theme.radius.sm};
+  font-family: ${({ theme }) => theme.fonts.body};
+  text-transform: none;
+  font-weight: ${({ theme }) => theme.fontWeights.regular};
+  justify-content: flex-start;
+  padding: ${({ theme }) => `${theme.space.xs} ${theme.space.sm}`};
+  text-align: left;
+  line-height: 1.2;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: block;
+  display: flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.space.md};
+  margin-bottom: ${({ theme }) => theme.space.xs};
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.08);
+  }
+`;
+
+export const Thumbnail = styled.img`
+  width: 24px;
+  height: 24px;
+  border-radius: ${({ theme }) => theme.radius.sm};
+  object-fit: cover;
 `;

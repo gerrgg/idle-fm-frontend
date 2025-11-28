@@ -74,12 +74,13 @@ export default function BottomBar() {
   );
 
   const ShuffleButton = () => {
+    console.log(queue);
     return (
       <IconButton
         onClick={() =>
           dispatch(
             setQueue({
-              queue: shuffleArray(queue),
+              videoIds: shuffleArray(queue.map((v) => v.videoId)),
               sourcePlaylistId: sourcePlaylistId,
             })
           )

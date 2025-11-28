@@ -4,7 +4,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { setView } from "../../store/dashboardSlice";
 import { useNavigate } from "react-router-dom";
 
-import { Wrapper, LogoText, LogoWrapper } from "./Sidebar.styles.jsx";
+import {
+  Wrapper,
+  LogoText,
+  LogoWrapper,
+  SidebarItem,
+  Thumbnail,
+} from "./Sidebar.styles.jsx";
 import { Row, Stack, Col } from "../../styles/layout.js";
 import { Logo } from "../Logo/index.js";
 import { Button } from "../../styles/button.js";
@@ -40,18 +46,21 @@ export default function Sidebar() {
           Create
         </Button>
         <Col my="xl" gap="xs">
-          {myPlaylists.map((playlist) => (
-            <Button
-              key={playlist.id}
-              size="md"
-              variant="sidebarItem"
-              onClick={() => {
-                navigate(`/playlists/${playlist.id}/edit`);
-              }}
-            >
-              {playlist.title}
-            </Button>
-          ))}
+          {myPlaylists.map((playlist) => {
+            return (
+              <SidebarItem
+                key={playlist.id}
+                onClick={() => {
+                  navigate(`/playlists/${playlist.id}/edit`);
+                }}
+              >
+                {playlist.image && (
+                  <Thumbnail src={playlist.image} alt={playlist.title} />
+                )}
+                {playlist.title}
+              </SidebarItem>
+            );
+          })}
         </Col>
       </Stack>
     </Wrapper>
