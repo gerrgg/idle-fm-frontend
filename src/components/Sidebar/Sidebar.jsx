@@ -2,7 +2,7 @@ import { useEffect } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 import { setView } from "../../store/dashboardSlice";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import {
   Wrapper,
@@ -15,14 +15,16 @@ import { Row, Stack, Col } from "../../styles/layout.js";
 import { Logo } from "../Logo/index.js";
 import { Button } from "../../styles/button.js";
 import { selectMyPlaylists } from "../../store/selectors/playlistsSelectors.js";
+import VideoThumbnail from "../VideoThumbnail/VideoThumbnail";
 
 import { createPlaylistNormalized } from "../../store/playlistThunksNormalized.js";
 
 export default function Sidebar() {
+  const { id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const myPlaylists = useSelector(selectMyPlaylists);
+  const playlistId = Number(id);
 
   async function handleCreate() {
     const result = await dispatch(
@@ -34,6 +36,8 @@ export default function Sidebar() {
       navigate(`/playlists/${playlist.id}/edit`);
     }
   }
+
+  console.log(typeof playlistId);
 
   return (
     <Wrapper>
@@ -53,10 +57,11 @@ export default function Sidebar() {
                 onClick={() => {
                   navigate(`/playlists/${playlist.id}/edit`);
                 }}
+                className={
+                  playlistId && playlistId === playlist.id ? "active" : null
+                }
               >
-                {playlist.image && (
-                  <Thumbnail src={playlist.image} alt={playlist.title} />
-                )}
+                <VideoThumbnail variant={"sidebar"} image={playlist.image} />
                 {playlist.title}
               </SidebarItem>
             );

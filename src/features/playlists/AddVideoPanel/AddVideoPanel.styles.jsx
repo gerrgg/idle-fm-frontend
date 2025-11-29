@@ -9,8 +9,9 @@ export const PanelWrapper = styled.div`
   position: relative;
   z-index: 2;
   background: ${({ theme }) => theme.colors.surface1};
-  padding: 20px 24px;
+  padding: ${({ theme }) => theme.space.lg};
   border-radius: 10px;
+  max-width: 480px;
 `;
 
 export const SearchBar = styled.input`

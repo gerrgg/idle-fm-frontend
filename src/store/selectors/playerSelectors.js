@@ -4,18 +4,18 @@ export const selectCurrentVideo = (state) => {
 
   if (!item) return null;
 
-  if (item.type === "preview") {
-    return {
-      youtube_key: item.youtube_key,
-      title: item.title ?? "",
-      thumbnails: item.thumbnails ?? null,
-      isPreview: true,
-    };
-  }
+  // if (item.type === "preview") {
+  //   return {
+  //     youtube_key: item.youtube_key,
+  //     title: item.title ?? "",
+  //     thumbnails: item.thumbnails ?? null,
+  //     isPreview: true,
+  //   };
+  // }
 
   if (item.type === "playlist") {
     return state.videosEntities.byId[item.videoId] || null;
   }
 
-  return null;
+  return item;
 };

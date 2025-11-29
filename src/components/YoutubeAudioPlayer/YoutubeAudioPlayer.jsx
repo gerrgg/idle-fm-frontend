@@ -67,6 +67,12 @@ export default function YouTubeAudioPlayer() {
     else playerRef.current.pauseVideo();
   }, [isPlaying]);
 
+  useEffect(() => {
+    if (!playerRef.current) return;
+
+    playerRef.current.setVolume(volume * 100);
+  }, [volume]);
+
   return (
     <YouTube
       videoId={video?.youtube_key || ""}

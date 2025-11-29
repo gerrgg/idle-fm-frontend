@@ -69,19 +69,20 @@ const playerSlice = createSlice({
       state.isPlaying = action.payload;
     },
     playYoutubeSearchPreview(state, action) {
-      const { youtube_key, title } = action.payload;
+      const { youtube_key, title, thumbnail } = action.payload;
 
       state.queue = [
         {
           type: "preview",
           youtube_key,
           title,
+          thumbnail,
         },
       ];
+
       state.queueIndex = 0;
       state.isPlaying = true;
-
-      state.sourcePlaylistId = null; // preview not tied to playlist
+      state.sourcePlaylistId = null;
     },
   },
 });

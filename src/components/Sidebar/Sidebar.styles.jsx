@@ -57,6 +57,10 @@ export const SidebarItem = styled(Button)`
   &:hover {
     background: rgba(255, 255, 255, 0.08);
   }
+
+  &.active {
+    color: ${({ theme }) => theme.colors.accentAlt};
+  }
 `;
 
 export const Thumbnail = styled.img`

@@ -3,6 +3,11 @@ export function normalizePlaylistResponse(item) {
   const videos = Array.isArray(item.videos) ? item.videos : [];
   const tags = Array.isArray(item.tags) ? item.tags : [];
 
+  const owner = {
+    id: playlist.owner_id,
+    username: playlist.owner_username ?? "Unknown",
+  };
+
   return {
     playlist: {
       ...playlist,
@@ -27,5 +32,6 @@ export function normalizePlaylistResponse(item) {
     // full objects (only populated on fetch/create)
     videos,
     tags,
+    owner,
   };
 }

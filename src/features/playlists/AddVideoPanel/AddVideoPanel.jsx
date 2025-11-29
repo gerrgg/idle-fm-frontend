@@ -167,6 +167,7 @@ export default function AddVideoPanel({ playlist, searchTags }) {
                     playYoutubeSearchPreview({
                       youtube_key: v.id,
                       title: v.title,
+                      thumbnail: v.thumbnail,
                     })
                   )
                 }

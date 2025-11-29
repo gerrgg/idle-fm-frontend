@@ -64,6 +64,13 @@ export const Count = styled.div`
   color: ${({ theme }) => theme.colors.muted};
 `;
 
+export const Username = styled.div`
+  font-size: ${({ theme }) => theme.fontSizes.sm};
+  color: ${({ theme }) => theme.colors.accentAlt};
+  font-weight: ${({ theme }) => theme.fontWeights.bold};
+  opacity: 0.7;
+`;
+
 export const IconButtonCircle = styled.button`
   width: 40px;
   height: 40px;

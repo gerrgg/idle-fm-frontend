@@ -1,4 +1,6 @@
 import styled from "styled-components";
+import { Row } from "../../../styles/layout";
+import { theme } from "../../../theme";
 
 export const PanelWrapper = styled.div`
   padding: ${({ theme }) => theme.space.lg};
@@ -12,17 +14,20 @@ export const PanelWrapper = styled.div`
   scrollbar-width: none;
   -ms-overflow-style: none; /* IE and Edge */
   z-index: 1;
+  width: 100%;
 
   &::-webkit-scrollbar {
     display: none; /* Chrome, Safari, and Opera */
   }
 `;
 
+export const PlaylistActions = styled(Row)``;
+
 export const VideoItem = styled.div`
   display: flex;
   align-items: center;
   gap: ${({ theme }) => theme.space.md};
-  padding: ${({ theme }) => theme.space.md} 0;
+  padding: 0 0 ${({ theme }) => theme.space.md} 0;
   border-bottom: 1px solid ${({ theme }) => theme.colors.surface3};
 
   &:last-of-type {

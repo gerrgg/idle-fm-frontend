@@ -13,6 +13,7 @@ import {
 
 import { upsertMany as upsertVideos } from "./entities/videosSlice";
 import { upsertMany as upsertTags } from "./entities/tagsSlice";
+import { upsertMany as upsertUsers, upsertUser } from "./entities/usersSlice";
 
 // -----------------------------------------------------
 // FETCH ALL PLAYLISTS FOR A USER (SIDEBAR LOAD)
@@ -24,11 +25,12 @@ export const fetchUserPlaylistsNormalized = (userId) => async (dispatch) => {
   const myIds = [];
 
   raw.forEach((item) => {
-    const { playlist, videos, tags } = normalizePlaylistResponse(item);
+    const { playlist, videos, tags, owner } = normalizePlaylistResponse(item);
 
     dispatch(upsertPlaylist(playlist));
     dispatch(upsertVideos(videos));
     dispatch(upsertTags(tags));
+    dispatch(upsertUser(owner));
 
     myIds.push(playlist.id);
   });
@@ -44,11 +46,14 @@ export const fetchUserPlaylistsNormalized = (userId) => async (dispatch) => {
 export const fetchPlaylistByIdNormalized = (playlistId) => async (dispatch) => {
   const res = await playlistApi.getById(playlistId);
 
-  const { playlist, videos, tags } = normalizePlaylistResponse(res.data);
+  const { playlist, videos, tags, owner } = normalizePlaylistResponse(res.data);
+
+  console.log(owner);
 
   dispatch(upsertPlaylist(playlist));
   dispatch(upsertVideos(videos));
   dispatch(upsertTags(tags));
+  dispatch(upsertUser(owner));
 
   return playlistId;
 };

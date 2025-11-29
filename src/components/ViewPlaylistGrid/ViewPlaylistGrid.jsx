@@ -11,12 +11,15 @@ import {
   IconButtonCircle,
   CardInfoHoverWrapper,
   EqualizerWrapper,
+  Username,
 } from "./ViewPlaylistGrid.styles";
-import RadioIcon from "../../features/playlists/EditPlaylistDetails/RadioIcon.jsx";
-import { PlaceholderImage } from "../../features/playlists/EditPlaylistDetails/EditPlaylistDetails.styles";
 
+import { Row } from "../../styles/layout.js";
+
+import VideoThumbnail from "../VideoThumbnail/VideoThumbnail";
 import { selectMyPlaylists } from "../../store/selectors/playlistsSelectors.js";
 import { setQueue } from "../../store/playerSlice.js";
+import { capitalize } from "../../utils/capitalize.js";
 
 const PlayButton = ({ playlist, isPlaying }) => {
   const dispatch = useDispatch();
@@ -56,16 +59,13 @@ export default function ViewPlaylistGrid() {
     <Grid>
       {playlists.map((p) => (
         <Card key={p.id}>
-          {p.image ? (
-            <Thumbnail src={p.image} />
-          ) : (
-            <PlaceholderImage>
-              <RadioIcon />
-            </PlaceholderImage>
-          )}
+          <VideoThumbnail variant={"grid"} image={p.image} />
           <CardInfo>
             <Title>{p.title}</Title>
-            <Count>{p.videoIds?.length ?? 0} videos</Count>
+            <Row gap="md">
+              <Username>{capitalize(p.owner_username)}</Username>
+              <Count>{p.videoIds?.length ?? 0} videos</Count>
+            </Row>
             <CardInfoHoverWrapper>
               <PlayButton
                 playlist={p}

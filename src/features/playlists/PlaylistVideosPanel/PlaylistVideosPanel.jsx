@@ -6,13 +6,19 @@ import {
   VideoInfo,
   VideoTitle,
   VideoChannel,
+  PlaylistActions,
 } from "./PlaylistVideosPanel.styles";
 
-export default function PlaylistVideosPanel({ videos }) {
+import PlayButton from "../../../components/PlayButton/PlayButton";
+
+export default function PlaylistVideosPanel({ handlePlay, videos }) {
   if (videos.length === 0) return null;
 
   return (
     <PanelWrapper>
+      <PlaylistActions my="lg" gap="md">
+        <PlayButton handlePlay={handlePlay} size="lg" />
+      </PlaylistActions>
       {videos.map((v) => {
         const thumb =
           v.thumbnails?.medium?.url || v.thumbnails?.default?.url || "";

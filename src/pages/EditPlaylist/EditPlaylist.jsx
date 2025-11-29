@@ -9,12 +9,12 @@ import { Col, Row } from "../../styles/layout";
 import DangerZone from "../../components/DangerZone";
 import PlaylistVideosPanel from "../../features/playlists/PlaylistVideosPanel";
 import { fetchPlaylistByIdNormalized } from "../../store/playlistThunksNormalized";
+import { setQueue } from "../../store/playerSlice";
 
 export default function EditPlaylist() {
   const { id } = useParams();
   const dispatch = useDispatch();
   const playlistId = Number(id);
-
   const playlist = useSelector((s) => s.playlistsEntities.byId[playlistId]);
 
   const videos = useSelector((s) =>
@@ -28,6 +28,15 @@ export default function EditPlaylist() {
   });
 
   const [searchTags, setSearchTags] = useState([]);
+
+  const handlePlay = () => {
+    dispatch(
+      setQueue({
+        videoIds: playlist.videoIds,
+        sourcePlaylistId: playlist.id,
+      })
+    );
+  };
 
   // Load playlist on mount
   useEffect(() => {
@@ -57,8 +66,8 @@ export default function EditPlaylist() {
         onTagsChange={setSearchTags}
       />
       <Row gap="lg">
+        <PlaylistVideosPanel handlePlay={handlePlay} videos={videos} />
         <AddVideoPanel playlist={playlist} searchTags={searchTags} />
-        <PlaylistVideosPanel videos={videos} />
       </Row>
       <DangerZone playlist={playlist} />
     </Col>

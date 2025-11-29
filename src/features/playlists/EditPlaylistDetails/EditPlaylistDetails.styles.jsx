@@ -31,7 +31,8 @@ export const Input = styled.input`
   border: unset;
   color: ${({ theme }) => theme.colors.text};
   outline: 0;
-  padding: ${({ theme }) => theme.space.sm} ${({ theme }) => theme.space.sm};
+  padding: ${({ theme }) => theme.space.sm} 0;
+  margin: ${({ theme }) => theme.space.sm} 0;
   width: 100%;
   margin-bottom: ${({ theme }) => theme.space.sm};
   text-overflow: ellipsis;
@@ -53,7 +54,7 @@ export const SaveButton = styled(Button)`
 `;
 
 export const LeftImage = styled.div`
-  width: 200px;
+  width: 250px;
   aspect-ratio: 1 / 1;
   border-radius: 8px;
   position: relative;

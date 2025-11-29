@@ -17,7 +17,6 @@ import Equalizer from "../Equalizer/Equalizer";
 import TrackTimeDisplay from "../TrackTimeDisplay/TrackTimeDisplay";
 
 import { shuffleArray } from "../../utils/shuffleArray";
-
 import { selectCurrentVideo } from "../../store/selectors/playerSelectors";
 
 import {
@@ -74,7 +73,6 @@ export default function BottomBar() {
   );
 
   const ShuffleButton = () => {
-    console.log(queue);
     return (
       <IconButton
         onClick={() =>

@@ -55,6 +55,7 @@ export const theme = {
     muted: "#7A8CA6",
     danger: "#E74C3C",
     dangerAlt: "#C0392B",
+
     // UI surfaces
     surface0: "#0D1B2A",
     surface1: "#152238",
