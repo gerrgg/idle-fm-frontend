@@ -5,7 +5,7 @@ import { upsertVideo } from "./entities/videosSlice";
 import { upsertPlaylist } from "./entities/playlistsSlice";
 
 export const addVideoToPlaylistNormalized = createAsyncThunk(
-  "playlists/addVideoToPlaylistNormalized",
+  "playlistVideos/addVideoToPlaylistNormalized",
   async (
     { playlistId, youtube_key, title },
     { dispatch, getState, rejectWithValue }
@@ -16,22 +16,34 @@ export const addVideoToPlaylistNormalized = createAsyncThunk(
         video_title: title,
       });
 
-      const video = res.data;
-      const videoId = video.id;
+      const v = res.data;
 
-      dispatch(upsertVideo(video));
+      // 1. Store video in global Videos slice
+      dispatch(upsertVideo(v));
 
-      const prev = getState().playlistsEntities.byId[playlistId];
+      // 2. Store playlist-local metadata
+      dispatch(
+        upsertPlaylistVideos([
+          {
+            playlistId,
+            videoId: v.id,
+            added_at: v.added_at,
+            position: v.position,
+          },
+        ])
+      );
+
+      // 3. Append videoId into playlist.videoIds
+      const playlist = getState().playlistsEntities.byId[playlistId];
 
       dispatch(
         upsertPlaylist({
-          ...prev,
-          videoIds: [...prev.videoIds, videoId],
-          image: video.playlist_image || prev.image,
+          ...playlist,
+          videoIds: [...playlist.videoIds, v.id],
         })
       );
 
-      return { playlistId, videoId };
+      return { playlistId, videoId: v.id };
     } catch (err) {
       return rejectWithValue(err.response?.data || "Failed to add video");
     }

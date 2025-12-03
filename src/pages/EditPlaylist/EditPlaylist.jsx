@@ -9,17 +9,17 @@ import { Col, Row } from "../../styles/layout";
 import DangerZone from "../../components/DangerZone";
 import PlaylistVideosPanel from "../../features/playlists/PlaylistVideosPanel";
 import { fetchPlaylistByIdNormalized } from "../../store/playlistThunksNormalized";
-import { setQueue } from "../../store/playerSlice";
+import { selectMergedVideosForPlaylist } from "../../store/selectors/playlistsSelectors";
+import { setPlayState, setQueue } from "../../store/playerSlice";
 
 export default function EditPlaylist() {
   const { id } = useParams();
   const dispatch = useDispatch();
   const playlistId = Number(id);
   const playlist = useSelector((s) => s.playlistsEntities.byId[playlistId]);
+  const isPlaying = useSelector((s) => s.player.isPlaying);
 
-  const videos = useSelector((s) =>
-    (playlist?.videoIds || []).map((id) => s.videosEntities.byId[id])
-  );
+  const videos = useSelector(selectMergedVideosForPlaylist(playlistId));
 
   const tags = useSelector((s) => {
     if (!playlist?.tagIds) return [];
@@ -30,12 +30,16 @@ export default function EditPlaylist() {
   const [searchTags, setSearchTags] = useState([]);
 
   const handlePlay = () => {
-    dispatch(
-      setQueue({
-        videoIds: playlist.videoIds,
-        sourcePlaylistId: playlist.id,
-      })
-    );
+    if (!isPlaying) {
+      dispatch(
+        setQueue({
+          videoIds: playlist.videoIds,
+          sourcePlaylistId: playlist.id,
+        })
+      );
+    } else {
+      dispatch(setPlayState(false));
+    }
   };
 
   // Load playlist on mount

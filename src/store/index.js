@@ -7,6 +7,7 @@ import playlistsEntitiesReducer from "./entities/playlistsSlice";
 import videosEntitiesReducer from "./entities/videosSlice";
 import tagsEntitiesReducer from "./entities/tagsSlice";
 import usersEntitiesReducer from "./entities/usersSlice";
+import playlistVideosEntitiesReducer from "./entities/playlistVideosSlice";
 
 export const store = configureStore({
   reducer: {
@@ -17,5 +18,6 @@ export const store = configureStore({
     videosEntities: videosEntitiesReducer,
     tagsEntities: tagsEntitiesReducer,
     usersEntities: usersEntitiesReducer,
+    playlistVideos: playlistVideosEntitiesReducer,
   },
 });

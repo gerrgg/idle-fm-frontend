@@ -3,13 +3,11 @@ import { Row } from "../../../styles/layout";
 import { theme } from "../../../theme";
 
 export const PanelWrapper = styled.div`
-  padding: ${({ theme }) => theme.space.lg};
   display: flex;
   flex-direction: column;
-  gap: ${({ theme }) => theme.space.md};
   background: ${({ theme }) => theme.colors.surface1};
   border-radius: ${({ theme }) => theme.radius.md};
-  max-height: 760px;
+  max-height: 800px;
   overflow-y: auto;
   scrollbar-width: none;
   -ms-overflow-style: none; /* IE and Edge */
@@ -40,6 +38,7 @@ export const VideoThumb = styled.img`
   height: 50px;
   object-fit: cover;
   border-radius: ${({ theme }) => theme.radius.sm};
+  display: inline-block;
 `;
 
 export const VideoInfo = styled.div`
@@ -49,14 +48,54 @@ export const VideoInfo = styled.div`
 `;
 
 export const VideoTitle = styled.div`
-  font-size: ${({ theme }) => theme.fontSizes.sm};
-  font-weight: ${({ theme }) => theme.fontWeights.bold};
-  color: ${({ theme }) => theme.colors.text};
-  font-family: ${({ theme }) => theme.fonts.body};
+  line-height: 1.2;
+  max-width: 300px;
+  text-align: left;
 `;
 
 export const VideoChannel = styled.div`
-  font-size: ${({ theme }) => theme.fontSizes.xs};
-  color: ${({ theme }) => theme.colors.muted};
-  font-family: ${({ theme }) => theme.fonts.body};
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 150px;
+`;
+
+export const DateWrapper = styled.div`
+  width: 100px;
+`;
+
+export const PlaylistTable = styled.table`
+  width: 100%;
+  border-collapse: collapse;
+
+  th,
+  td {
+    padding: ${({ theme }) => theme.space.lg};
+    text-align: left;
+    border-bottom: 1px solid ${({ theme }) => theme.colors.surface3};
+    font-size: ${({ theme }) => theme.fontSizes.sm};
+    font-weight: ${({ theme }) => theme.fontWeights.bold};
+    color: ${({ theme }) => theme.colors.text};
+    font-family: ${({ theme }) => theme.fonts.body};
+  }
+
+  th {
+    font-weight: ${({ theme }) => theme.fontWeights.bold};
+    color: ${({ theme }) => theme.colors.text};
+  }
+
+  td {
+    color: ${({ theme }) => theme.colors.muted};
+  }
+`;
+export const PlaylistTableHeader = styled.thead`
+  background: ${({ theme }) => theme.colors.surface2};
+`;
+
+export const PlaylistTableBody = styled.tbody``;
+
+export const PlaylistTableRow = styled.tr`
+  &:hover {
+    background: ${({ theme }) => theme.colors.surface3};
+  }
 `;
