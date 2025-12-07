@@ -2,6 +2,53 @@ import styled from "styled-components";
 import { Row } from "../../../styles/layout";
 import { theme } from "../../../theme";
 
+export const PlaylistPositionTableCell = styled.td`
+  width: 75px;
+
+  span {
+    width: 100%;
+    text-align: center;
+    display: block;
+  }
+
+  * {
+  }
+
+  &.active {
+    span {
+      display: none;
+    }
+  }
+
+  button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    color: ${({ theme }) => theme.colors.muted};
+    display: none;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+  }
+
+  div {
+    justify-content: center;
+  }
+
+  &:hover {
+    span {
+      display: none;
+    }
+    div {
+      display: none;
+    }
+    button {
+      display: inline;
+    }
+  }
+`;
+
 export const PanelWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -86,6 +133,9 @@ export const PlaylistTable = styled.table`
 
   td {
     color: ${({ theme }) => theme.colors.muted};
+  }
+
+  tr {
   }
 `;
 export const PlaylistTableHeader = styled.thead`

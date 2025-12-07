@@ -83,7 +83,7 @@ export default function AddVideoPanel({ playlist, searchTags }) {
     const tagString = searchTags.join(" ");
 
     const finalQuery =
-      [cleanQuery, tagString].filter(Boolean).join(" ") + " music";
+      [cleanQuery, tagString].filter(Boolean).join(" ") + " lofi";
 
     dispatch(searchYoutube(finalQuery));
   }
@@ -100,6 +100,7 @@ export default function AddVideoPanel({ playlist, searchTags }) {
     );
 
     const updatedUsed = new Set(used);
+
     updatedUsed.add(video.id);
 
     const next = remaining.find((v) => !updatedUsed.has(v.id));

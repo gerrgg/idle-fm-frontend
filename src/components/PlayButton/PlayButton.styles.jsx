@@ -1,6 +1,15 @@
 import styled, { css } from "styled-components";
 
 const sizes = {
+  xs: css`
+    width: 18px;
+    height: 18px;
+
+    svg {
+      width: 18px;
+      height: 18px;
+    }
+  `,
   sm: css`
     width: 24px;
     height: 24px;

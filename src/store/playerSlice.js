@@ -15,14 +15,14 @@ const playerSlice = createSlice({
   initialState,
   reducers: {
     setQueue(state, action) {
-      const { videoIds, sourcePlaylistId } = action.payload;
+      const { videoIds, sourcePlaylistId, queueIndex } = action.payload;
 
       state.queue = videoIds.map((id) => ({
         type: "playlist",
         videoId: id,
       }));
 
-      state.queueIndex = 0;
+      state.queueIndex = queueIndex ?? 0;
       state.isPlaying = true;
       state.sourcePlaylistId = sourcePlaylistId ?? null;
     },

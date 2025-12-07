@@ -57,24 +57,22 @@ const playlistVideosSlice = createSlice({
     // REORDER POSITIONS
     // (Used after drag/drop or backend reorder)
     // -------------------------------------------------
-    reorderPlaylistVideos(state, action) {
-      const { playlistId, orderedVideoIds } = action.payload;
+    updatePositions(state, action) {
+      const { playlistId, videoIds } = action.payload;
 
-      if (!state.byPlaylistId[playlistId]) return;
+      const map = state.byPlaylistId[playlistId];
+      if (!map) return; // no data loaded for this playlist yet
 
-      orderedVideoIds.forEach((videoId, index) => {
-        if (state.byPlaylistId[playlistId][videoId]) {
-          state.byPlaylistId[playlistId][videoId].position = index;
+      videoIds.forEach((videoId, index) => {
+        if (map[videoId]) {
+          map[videoId].position = index;
         }
       });
     },
   },
 });
 
-export const {
-  upsertPlaylistVideos,
-  removePlaylistVideo,
-  reorderPlaylistVideos,
-} = playlistVideosSlice.actions;
+export const { upsertPlaylistVideos, removePlaylistVideo, updatePositions } =
+  playlistVideosSlice.actions;
 
 export default playlistVideosSlice.reducer;

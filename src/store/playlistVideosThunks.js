@@ -3,6 +3,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import playlistApi from "../api/playlistApi";
 import { upsertVideo } from "./entities/videosSlice";
 import { upsertPlaylist } from "./entities/playlistsSlice";
+import { upsertPlaylistVideos } from "./entities/playlistVideosSlice";
 
 export const addVideoToPlaylistNormalized = createAsyncThunk(
   "playlistVideos/addVideoToPlaylistNormalized",
@@ -45,6 +46,7 @@ export const addVideoToPlaylistNormalized = createAsyncThunk(
 
       return { playlistId, videoId: v.id };
     } catch (err) {
+      console.error("Failed to add video to playlist:", err);
       return rejectWithValue(err.response?.data || "Failed to add video");
     }
   }

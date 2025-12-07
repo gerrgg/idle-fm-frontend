@@ -40,6 +40,9 @@ const playlistApi = {
   getUserPlaylists(userId) {
     return http.get(`/users/${userId}/playlists`);
   },
+  reorder(playlistId, body) {
+    return http.put(`/playlists/${playlistId}/reorder`, body);
+  },
 };
 
 export default playlistApi;

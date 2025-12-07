@@ -15,6 +15,7 @@ import { upsertMany as upsertVideos } from "./entities/videosSlice";
 import { upsertMany as upsertTags } from "./entities/tagsSlice";
 import { upsertMany as upsertUsers, upsertUser } from "./entities/usersSlice";
 import { upsertPlaylistVideos } from "./entities/playlistVideosSlice";
+import { updatePositions } from "./entities/playlistVideosSlice";
 
 // -----------------------------------------------------
 // FETCH ALL PLAYLISTS FOR A USER (SIDEBAR LOAD)
@@ -42,6 +43,17 @@ export const fetchUserPlaylistsNormalized = (userId) => async (dispatch) => {
 
   return myIds;
 };
+
+export const ensurePlaylistLoaded =
+  (playlistId) => async (dispatch, getState) => {
+    const state = getState();
+    const playlist = state.playlistsEntities.byId[playlistId];
+
+    // if videos exist, assume playlist is fully loaded
+    if (playlist?.videoIds?.length > 0) return;
+
+    await dispatch(fetchPlaylistByIdNormalized(playlistId));
+  };
 
 // -----------------------------------------------------
 // FETCH A SINGLE PLAYLIST (Playlist Edit Page)
@@ -127,6 +139,32 @@ export const deletePlaylistNormalized = createAsyncThunk(
     } catch (err) {
       console.error("DELETE PLAYLIST ERROR:", err.response?.data || err);
       return rejectWithValue(err.response?.data || "Failed to delete playlist");
+    }
+  }
+);
+
+// -----------------------------------------------------
+// REORDER PLAYLIST
+// -----------------------------------------------------
+export const reorderPlaylistVideos = createAsyncThunk(
+  "playlists/reorderPlaylistVideos",
+  async ({ playlistId, videoIds }, { dispatch, rejectWithValue }) => {
+    try {
+      // Persist new order to backend
+      await playlistApi.reorder(playlistId, { videoIds });
+
+      // Optimistic redux update
+      dispatch(
+        updatePositions({
+          playlistId,
+          videoIds,
+        })
+      );
+
+      return { playlistId, videoIds };
+    } catch (err) {
+      console.error(err);
+      return rejectWithValue("Failed to reorder videos");
     }
   }
 );

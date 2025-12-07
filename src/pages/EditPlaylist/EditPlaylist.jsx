@@ -8,9 +8,10 @@ import AddVideoPanel from "../../features/playlists/AddVideoPanel/AddVideoPanel"
 import { Col, Row } from "../../styles/layout";
 import DangerZone from "../../components/DangerZone";
 import PlaylistVideosPanel from "../../features/playlists/PlaylistVideosPanel";
-import { fetchPlaylistByIdNormalized } from "../../store/playlistThunksNormalized";
+import { ensurePlaylistLoaded } from "../../store/playlistThunksNormalized";
 import { selectMergedVideosForPlaylist } from "../../store/selectors/playlistsSelectors";
 import { setPlayState, setQueue } from "../../store/playerSlice";
+import { fetchPlaylistByIdNormalized } from "../../store/playlistThunksNormalized";
 
 export default function EditPlaylist() {
   const { id } = useParams();
@@ -18,6 +19,7 @@ export default function EditPlaylist() {
   const playlistId = Number(id);
   const playlist = useSelector((s) => s.playlistsEntities.byId[playlistId]);
   const isPlaying = useSelector((s) => s.player.isPlaying);
+  const { queueIndex } = useSelector((s) => s.player.queueIndex);
 
   const videos = useSelector(selectMergedVideosForPlaylist(playlistId));
 
@@ -39,6 +41,20 @@ export default function EditPlaylist() {
       );
     } else {
       dispatch(setPlayState(false));
+    }
+  };
+
+  const handlePlayTrack = (index) => {
+    if (isPlaying && queueIndex === index) {
+      dispatch(setPlayState(false));
+    } else {
+      dispatch(
+        setQueue({
+          videoIds: playlist.videoIds,
+          sourcePlaylistId: playlist.id,
+          queueIndex: index,
+        })
+      );
     }
   };
 
@@ -70,8 +86,17 @@ export default function EditPlaylist() {
         onTagsChange={setSearchTags}
       />
       <Row gap="lg">
-        <PlaylistVideosPanel handlePlay={handlePlay} videos={videos} />
-        <AddVideoPanel playlist={playlist} searchTags={searchTags} />
+        <PlaylistVideosPanel
+          handlePlay={handlePlay}
+          handlePlayTrack={handlePlayTrack}
+          videos={videos}
+          playlistId={playlistId}
+        />
+        <AddVideoPanel
+          handlePlay={handlePlay}
+          playlist={playlist}
+          searchTags={searchTags}
+        />
       </Row>
       <DangerZone playlist={playlist} />
     </Col>

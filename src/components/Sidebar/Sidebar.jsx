@@ -37,8 +37,6 @@ export default function Sidebar() {
     }
   }
 
-  console.log(typeof playlistId);
-
   return (
     <Wrapper>
       <LogoWrapper gap="xs" align="flex-end" onClick={() => navigate("/")}>
