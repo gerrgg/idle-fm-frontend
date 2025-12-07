@@ -19,7 +19,7 @@ export default function EditPlaylist() {
   const playlistId = Number(id);
   const playlist = useSelector((s) => s.playlistsEntities.byId[playlistId]);
   const isPlaying = useSelector((s) => s.player.isPlaying);
-  const { queueIndex } = useSelector((s) => s.player.queueIndex);
+  const queueIndex = useSelector((s) => s.player.queueIndex);
 
   const videos = useSelector(selectMergedVideosForPlaylist(playlistId));
 
@@ -45,6 +45,7 @@ export default function EditPlaylist() {
   };
 
   const handlePlayTrack = (index) => {
+    console.log({ isPlaying, queueIndex, index });
     if (isPlaying && queueIndex === index) {
       dispatch(setPlayState(false));
     } else {

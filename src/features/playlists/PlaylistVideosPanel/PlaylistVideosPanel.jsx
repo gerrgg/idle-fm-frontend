@@ -30,59 +30,13 @@ import {
 } from "@dnd-kit/sortable";
 
 import SortablePlaylistRow from "./SortablePlaylistRow";
-
 import { reorderPlaylistVideos } from "../../../store/playlistThunksNormalized.js";
-
 import { Row } from "../../../styles/layout";
-
 import PlayButton from "../../../components/PlayButton/PlayButton";
-
 import dateFormat from "../../../utils/dateFormat";
 import { formatYouTubeDurationToTimeString } from "../../../utils/time";
-import Equalizer from "../../../components/Equalizer/Equalizer";
-
-const InlinePositionCell = ({ handlePlayTrack, index, id }) => {
-  const player = useSelector((state) => state.player);
-
-  const isActive =
-    player.isPlaying && player.queue[player.queueIndex]?.videoId === id;
-
-  return (
-    <PlaylistPositionTableCell className={isActive ? "active" : ""}>
-      <span>{index + 1}</span>
-      {isActive && (
-        <Equalizer
-          className="inline-equalizer"
-          isPlaying={true}
-          height="16px"
-        />
-      )}
-      <button onClick={() => handlePlayTrack(index)}>
-        {isActive ? (
-          // Pause
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-          >
-            <rect x="6" y="5" width="4" height="14" fill="currentcolor" />
-            <rect x="14" y="5" width="4" height="14" fill="currentcolor" />
-          </svg>
-        ) : (
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-          >
-            <path d="M3 22v-20l18 10-18 10z" fill="currentcolor" />
-          </svg>
-        )}
-      </button>
-    </PlaylistPositionTableCell>
-  );
-};
+import DragHandle from "./DragHandle.jsx";
+import InlinePositionCell from "./InlinePositionCell.jsx";
 
 export default function PlaylistVideosPanel({
   handlePlay,
@@ -92,7 +46,21 @@ export default function PlaylistVideosPanel({
 }) {
   const dispatch = useDispatch();
 
-  const sensors = useSensors(useSensor(PointerSensor));
+  function remove(videoId) {
+    alert("hi");
+    // dispatch(
+    //   removeVideoFromPlaylistNormalized({
+    //     playlistId,
+    //     videoId,
+    //   })
+    // );
+  }
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: { distance: 4 }, // small drag threshold
+    })
+  );
 
   // --- DND Handler ---
   function handleDragEnd(event) {
@@ -126,11 +94,7 @@ export default function PlaylistVideosPanel({
       </PlaylistActions>
 
       {/* ---- DND WRAPPER ---- */}
-      <DndContext
-        sensors={sensors}
-        collisionDetection={closestCenter}
-        onDragEnd={handleDragEnd}
-      >
+      <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
         <SortableContext
           items={videos.map((v) => v.id)}
           strategy={verticalListSortingStrategy}
@@ -138,11 +102,13 @@ export default function PlaylistVideosPanel({
           <PlaylistTable>
             <PlaylistTableHeader>
               <PlaylistTableRow>
+                <th></th>
                 <th>#</th>
                 <th>Title</th>
                 <th>Channel</th>
                 <th>Date Added</th>
                 <th>Duration</th>
+                <th></th>
               </PlaylistTableRow>
             </PlaylistTableHeader>
 
@@ -158,6 +124,7 @@ export default function PlaylistVideosPanel({
 
                 return (
                   <SortablePlaylistRow key={v.id} id={v.id}>
+                    <DragHandle />
                     <InlinePositionCell
                       handlePlayTrack={handlePlayTrack}
                       index={index}
@@ -180,6 +147,10 @@ export default function PlaylistVideosPanel({
                     </td>
 
                     <td>{duration}</td>
+
+                    <td>
+                      <button onClick={() => remove(v.id)}>Remove</button>
+                    </td>
                   </SortablePlaylistRow>
                 );
               })}

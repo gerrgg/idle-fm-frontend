@@ -4,6 +4,7 @@ import { theme } from "../../../theme";
 
 export const PlaylistPositionTableCell = styled.td`
   width: 75px;
+  flex-shrink: 0;
 
   span {
     width: 100%;
