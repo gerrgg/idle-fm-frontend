@@ -10,6 +10,7 @@ import {
   LogoWrapper,
   SidebarItem,
   Thumbnail,
+  SidebarList,
 } from "./Sidebar.styles.jsx";
 import { Row, Stack, Col } from "../../styles/layout.js";
 import { Logo } from "../Logo/index.js";
@@ -33,7 +34,7 @@ export default function Sidebar() {
 
     if (result.meta.requestStatus === "fulfilled") {
       const playlist = result.payload;
-      navigate(`/playlists/${playlist.id}/edit`);
+      navigate(`/playlist/${playlist.id}/edit`);
     }
   }
 
@@ -47,13 +48,13 @@ export default function Sidebar() {
         <Button size="lg" variant="outline" onClick={handleCreate}>
           Create
         </Button>
-        <Col my="xl" gap="xs">
+        <SidebarList my="xl" gap="xs">
           {myPlaylists.map((playlist) => {
             return (
               <SidebarItem
                 key={playlist.id}
                 onClick={() => {
-                  navigate(`/playlists/${playlist.id}/edit`);
+                  navigate(`/playlist/${playlist.id}/edit`);
                 }}
                 className={
                   playlistId && playlistId === playlist.id ? "active" : null
@@ -64,7 +65,7 @@ export default function Sidebar() {
               </SidebarItem>
             );
           })}
-        </Col>
+        </SidebarList>
       </Stack>
     </Wrapper>
   );

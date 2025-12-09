@@ -46,6 +46,9 @@ const playlistApi = {
   updateImage(id, data) {
     return http.put(`/playlists/${id}/image`, data);
   },
+  getPublic() {
+    return http.get(`/playlists/public`);
+  },
 };
 
 export default playlistApi;

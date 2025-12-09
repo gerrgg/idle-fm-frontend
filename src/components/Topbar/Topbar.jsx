@@ -27,12 +27,14 @@ export default function Topbar() {
   const navigate = useNavigate();
   const { user, loading } = useSelector((state) => state.auth);
 
-  const handleLogin = () => {
-    navigate("/login");
-  };
+  const handleLogin = () => navigate("/login");
 
-  const handleLogout = () => {
-    dispatch(logoutUser());
+  const handleLogout = async () => {
+    const result = await dispatch(logoutUser());
+
+    if (logoutUser.fulfilled.match(result)) {
+      window.location.href = "/login"; // Force full state reset
+    }
   };
 
   return (

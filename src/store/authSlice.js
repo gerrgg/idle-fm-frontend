@@ -32,6 +32,27 @@ export const loadSession = createAsyncThunk(
   }
 );
 
+export const registerUser = createAsyncThunk(
+  "auth/registerUser",
+  async ({ email, username, password, confirm }, { rejectWithValue }) => {
+    try {
+      const res = await authApi.register({
+        email,
+        username,
+        password,
+        confirmPassword: confirm,
+      });
+
+      // success: backend only returns { message: ... }
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(
+        err.response?.data?.error || "Registration failed"
+      );
+    }
+  }
+);
+
 // -----------------------------------------
 // LOGOUT (clears cookie)
 // -----------------------------------------
@@ -81,6 +102,9 @@ const authSlice = createSlice({
       // LOGOUT
       .addCase(logoutUser.fulfilled, (state) => {
         state.user = null;
+        state.token = null;
+        state.loading = false;
+        state.error = null;
       });
   },
 });

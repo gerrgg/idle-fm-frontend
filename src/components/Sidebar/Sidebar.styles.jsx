@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { H1 } from "../../styles/typography.js";
-import { Row } from "../../styles/layout.js";
+import { Row, Col } from "../../styles/layout.js";
 import { Button } from "../../styles/button.js";
 
 export const Wrapper = styled.aside`
@@ -31,6 +31,11 @@ export const LogoWrapper = styled(Row)`
   align-items: center;
   gap: ${({ theme }) => theme.space.sm};
   justify-content: center;
+`;
+
+export const SidebarList = styled(Col)`
+  overflow-y: auto;
+  padding-bottom: ${({ theme }) => theme.layout.bottomBarHeight};
 `;
 
 export const SidebarItem = styled(Button)`

@@ -7,6 +7,10 @@ const authApi = {
     return http.post("/auth/login", { email, password });
   },
 
+  register(data) {
+    return http.post("/users", data);
+  },
+
   me() {
     return http.get("/auth/me");
   },

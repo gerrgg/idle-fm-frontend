@@ -63,3 +63,45 @@ export const selectMergedVideosForPlaylist = (playlistId) =>
         });
     }
   );
+
+export const selectPublicPlaylists = createSelector(
+  (state) => state.playlistsEntities.byId,
+  (byId) => {
+    if (!byId) return [];
+    return Object.values(byId).filter((p) => p?.is_public);
+  }
+);
+
+export const makeSelectRecommendedPlaylists = (tagIds = []) =>
+  createSelector(selectPublicPlaylists, (publicPlaylists) => {
+    if (!Array.isArray(tagIds) || tagIds.length === 0) return [];
+
+    return publicPlaylists.filter((p) =>
+      (p.tagIds || []).some((id) => tagIds.includes(id))
+    );
+  });
+
+export const selectRecommendedPlaylists = createSelector(
+  [(state) => state.playlistsEntities.byId, (state) => state.auth.user],
+  (byId, user) => {
+    if (!byId) return [];
+
+    const all = Object.values(byId);
+
+    return all
+      .filter((p) => p?.is_public)
+      .filter((p) => !user || p.owner_id !== user.id);
+  }
+);
+
+export const makeSelectRecommendedPlaylistsByTags = (tagIds = []) =>
+  createSelector(
+    [selectPublicPlaylists, (state) => state.auth.user],
+    (publicPlaylists, user) => {
+      if (!Array.isArray(tagIds) || tagIds.length === 0) return [];
+
+      return publicPlaylists
+        .filter((p) => !user || p.owner_id !== user.id)
+        .filter((p) => (p.tagIds || []).some((id) => tagIds.includes(id)));
+    }
+  );

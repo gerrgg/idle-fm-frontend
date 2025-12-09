@@ -1,4 +1,5 @@
 import { useSelector, useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 
 import {
   Card,
@@ -12,6 +13,7 @@ import {
   CardInfoHoverWrapper,
   EqualizerWrapper,
   Username,
+  CardLink,
 } from "./ViewPlaylistGrid.styles";
 
 import { Row } from "../../styles/layout.js";
@@ -51,31 +53,35 @@ const PlayButton = ({ playlist, isPlaying }) => {
   );
 };
 
-export default function ViewPlaylistGrid() {
-  const playlists = useSelector(selectMyPlaylists);
+export default function ViewPlaylistGrid({ playlists }) {
   const { isPlaying, sourcePlaylistId } = useSelector((state) => state.player);
 
   return (
     <Grid>
       {playlists.map((p) => (
         <Card key={p.id}>
-          <VideoThumbnail variant={"grid"} image={p.image} />
-          <CardInfo>
-            <Title>{p.title}</Title>
-            <Row gap="md">
-              <Username>{capitalize(p.owner_username)}</Username>
-              <Count>{p.videoIds?.length ?? 0} videos</Count>
-            </Row>
-            <CardInfoHoverWrapper>
-              <PlayButton
-                playlist={p}
-                isPlaying={isPlaying && p.id === sourcePlaylistId}
-              />
-              {isPlaying && p.id === sourcePlaylistId && (
-                <EqualizerWrapper isPlaying={isPlaying} />
-              )}
-            </CardInfoHoverWrapper>
-          </CardInfo>
+          <CardLink to={`playlist/${p.id}`}>
+            <VideoThumbnail glowsrc={p.image} variant="grid" image={p.image} />
+
+            <CardInfo>
+              <Title>{p.title}</Title>
+
+              <Row gap="md">
+                <Username>{capitalize(p.owner_username)}</Username>
+                <Count>{p.videoIds?.length ?? 0} videos</Count>
+              </Row>
+            </CardInfo>
+          </CardLink>
+          <CardInfoHoverWrapper>
+            <PlayButton
+              playlist={p}
+              isPlaying={isPlaying && p.id === sourcePlaylistId}
+            />
+
+            {isPlaying && p.id === sourcePlaylistId && (
+              <EqualizerWrapper isPlaying />
+            )}
+          </CardInfoHoverWrapper>
         </Card>
       ))}
     </Grid>

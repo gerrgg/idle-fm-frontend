@@ -2,6 +2,19 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../../store/authSlice";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+
+import {
+  Wrapper,
+  Card,
+  Title,
+  ErrorText,
+  FooterText,
+} from "./LoginPage.styles";
+
+import { FormGroup, Label, Input } from "../../styles/form";
+
+import { Button } from "../../styles/button";
 
 export default function LoginPage() {
   const dispatch = useDispatch();
@@ -12,33 +25,57 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const submit = async (e) => {
+  async function submit(e) {
     e.preventDefault();
     const result = await dispatch(loginUser({ email, password }));
 
-    // If login successful, navigate to home
     if (loginUser.fulfilled.match(result)) {
       navigate("/");
     }
-  };
+  }
 
   return (
-    <form onSubmit={submit}>
-      <input
-        type="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
+    <Wrapper>
+      <Card onSubmit={submit}>
+        <Title>Sign In</Title>
 
-      <input
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
+        <FormGroup>
+          <Label>Email</Label>
+          <Input
+            type="email"
+            placeholder="you@example.com"
+            autoComplete="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </FormGroup>
 
-      <button disabled={loading}>Login</button>
+        <FormGroup>
+          <Label>Password</Label>
+          <Input
+            type="password"
+            placeholder="••••••••"
+            autoComplete="current-password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </FormGroup>
 
-      {error && <p>{error}</p>}
-    </form>
+        {error && <ErrorText>{error}</ErrorText>}
+
+        <Button
+          type="submit"
+          size="lg"
+          variant="solid"
+          disabled={loading}
+          style={{ marginTop: "12px" }}
+        >
+          {loading ? "Logging in…" : "Login"}
+        </Button>
+        <FooterText>
+          Dont have an account? <Link to="/register">Register</Link>
+        </FooterText>
+      </Card>
+    </Wrapper>
   );
 }

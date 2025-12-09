@@ -4,13 +4,13 @@ import styled, { css } from "styled-components";
 const margins = {
   none: "0",
   sm: css`
-    margin: ${({ theme }) => theme.space.sm} 0;
+    ${({ theme }) => theme.space.sm}
   `,
   md: css`
-    margin: ${({ theme }) => theme.space.md} 0;
+    ${({ theme }) => theme.space.md}
   `,
   lg: css`
-    margin: ${({ theme }) => theme.space.lg} 0;
+    ${({ theme }) => theme.space.lg}
   `,
 };
 

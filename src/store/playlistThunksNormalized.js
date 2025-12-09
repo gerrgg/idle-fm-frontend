@@ -197,3 +197,22 @@ export const updatePlaylistImageNormalized = createAsyncThunk(
     }
   }
 );
+
+// -----------------------------------------------------
+// GET PUBLIC PLAYLISTS
+// -----------------------------------------------------
+export const fetchPublicPlaylists = () => async (dispatch) => {
+  const res = await playlistApi.getPublic();
+  const raw = res.data;
+
+  raw.forEach((item) => {
+    const { playlist, videos, tags, owner, playlistVideos } =
+      normalizePlaylistResponse(item);
+
+    dispatch(upsertPlaylist(playlist));
+    dispatch(upsertVideos(videos));
+    dispatch(upsertTags(tags));
+    dispatch(upsertUser(owner));
+    dispatch(upsertPlaylistVideos(playlistVideos));
+  });
+};

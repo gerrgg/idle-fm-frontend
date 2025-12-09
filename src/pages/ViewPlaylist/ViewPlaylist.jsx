@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams, Navigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { Col } from "../../styles/layout";
@@ -13,9 +13,11 @@ export default function ViewPlaylist() {
   const { id } = useParams();
   const playlistId = Number(id);
   const dispatch = useDispatch();
+  const navigate = useDispatch();
 
   const playlist = useSelector((s) => s.playlistsEntities.byId[playlistId]);
   const videos = useSelector(selectMergedVideosForPlaylist(playlistId));
+  const user = useSelector((s) => s.auth.user);
 
   const isPlaying = useSelector((s) => s.player.isPlaying);
   const queueIndex = useSelector((s) => s.player.queueIndex);
@@ -54,6 +56,10 @@ export default function ViewPlaylist() {
   };
 
   if (!playlist) return <p>Loading…</p>;
+
+  if (user && playlist.owner_id === user.id) {
+    return <Navigate to={`/playlist/${playlistId}/edit`} replace />;
+  }
 
   return (
     <Col gap="lg">

@@ -13,13 +13,15 @@ import YouTubeAudioPlayer from "./components/YoutubeAudioPlayer";
 import DashboardLayout from "./layouts/DashboardLayout/";
 import DashboardHome from "./pages/Dashboard/Dashboard";
 import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
 
-import { useEffect } from "react";
+import { use, useEffect } from "react";
 
 import { loadSession } from "./store/authSlice";
 import { fetchUserPlaylistsNormalized } from "./store/playlistThunksNormalized";
 
 import ViewPlaylist from "./pages/ViewPlaylist/ViewPlaylist";
+import { fetchPublicPlaylists } from "./store/playlistThunksNormalized";
 
 export default function App() {
   const dispatch = useDispatch();
@@ -35,16 +37,21 @@ export default function App() {
     }
   }, [user]);
 
+  useEffect(() => {
+    dispatch(fetchPublicPlaylists());
+  }, []);
+
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyles />
       <BrowserRouter>
         <Routes>
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
           <Route element={<DashboardLayout />}>
             <Route path="/" element={<DashboardHome />} />
-            <Route path="/playlists/:id/edit" element={<EditPlaylist />} />
             <Route path="/playlist/:id" element={<ViewPlaylist />} />
+            <Route path="/playlist/:id/edit" element={<EditPlaylist />} />
           </Route>
         </Routes>
       </BrowserRouter>

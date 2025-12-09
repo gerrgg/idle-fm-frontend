@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import Equalizer from "../Equalizer/Equalizer";
+import { Link } from "react-router-dom";
 
 export const Wrap = styled.div`
   padding: ${({ theme }) => theme.space.xl};
@@ -23,11 +24,27 @@ export const Card = styled.div`
   border-radius: ${({ theme }) => theme.radius.md};
   overflow: hidden;
   align-items: center;
+  position: relative;
 
   &:hover {
     background: ${({ theme }) => theme.colors.surface2};
     border-color: ${({ theme }) => theme.colors.accent};
     transform: translateY(-2px);
+  }
+`;
+
+export const CardLink = styled(Link)`
+  all: unset;
+  cursor: pointer;
+  display: flex;
+  position: relative;
+
+  /* Fix for Safari/Firefox */
+  color: inherit;
+  text-decoration: none;
+
+  &:visited {
+    color: inherit;
   }
 `;
 
@@ -81,6 +98,8 @@ export const IconButtonCircle = styled.button`
   background: ${({ theme }) => theme.colors.accent};
   border: 1px solid ${({ theme }) => theme.colors.accent};
   color: ${({ theme }) => theme.colors.surface1};
+  position: relative;
+  z-index: 10;
 
   opacity: 0;
   transition: opacity 0.2s ease;

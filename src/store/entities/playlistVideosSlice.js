@@ -1,21 +1,6 @@
 // src/store/entities/playlistVideosSlice.js
 import { createSlice } from "@reduxjs/toolkit";
 
-/**
- * STATE SHAPE
- *
- * playlistVideos: {
- *   byPlaylistId: {
- *     [playlistId]: {
- *        [videoId]: {
- *           added_at: "...",
- *           position: 0
- *        }
- *     }
- *   }
- * }
- */
-
 const initialState = {
   byPlaylistId: {}, // playlistId → videoId → metadata
 };
