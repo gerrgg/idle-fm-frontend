@@ -13,7 +13,12 @@ import {
 import { updatePlaylistNormalized } from "../../../store/playlistThunksNormalized.js";
 import { useDebouncedCallback } from "../../../hooks/useDebouncedCallback";
 
-export default function EditPlaylistDetails({ playlist, tags, onTagsChange }) {
+export default function EditPlaylistDetails({
+  playlist,
+  tags,
+  onTagsChange,
+  readOnly = false,
+}) {
   const dispatch = useDispatch();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -86,7 +91,7 @@ export default function EditPlaylistDetails({ playlist, tags, onTagsChange }) {
 
   return (
     <Wrapper>
-      <LeftImage glowsrc={playlist.image}>
+      <LeftImage glowsrc={playlist.image} readOnly={readOnly}>
         {playlist.image ? (
           <img src={playlist.image} alt="" />
         ) : (
@@ -115,6 +120,8 @@ export default function EditPlaylistDetails({ playlist, tags, onTagsChange }) {
             onChange={(e) => setTitle(e.target.value)}
             placeholder="Playlist name"
             onBlur={handleBlur}
+            disabled={readOnly}
+            readOnly={readOnly}
           />
         </FormGroup>
 
@@ -129,6 +136,8 @@ export default function EditPlaylistDetails({ playlist, tags, onTagsChange }) {
               onTagsChange?.(newTags.map((t) => t.name)); // Notify parent with names only
             }}
             autoCommitRef={tagSelectorRef}
+            disabled={readOnly}
+            readOnly={readOnly}
           />
         </FormGroup>
       </TitleTagWrapper>

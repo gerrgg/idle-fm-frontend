@@ -49,6 +49,7 @@ export default function PlaylistVideosPanel({
   handlePlayTrack,
   videos,
   playlistId,
+  readOnly = false,
 }) {
   const dispatch = useDispatch();
 
@@ -114,7 +115,6 @@ export default function PlaylistVideosPanel({
         <PlayButton handlePlay={handlePlay} size="lg" />
       </PlaylistActions>
 
-      {/* ---- DND WRAPPER ---- */}
       <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
         <SortableContext
           items={videos.map((v) => v.id)}
@@ -123,13 +123,13 @@ export default function PlaylistVideosPanel({
           <PlaylistTable>
             <PlaylistTableHeader>
               <PlaylistTableRow>
-                <th></th>
+                {!readOnly && <th></th>}
                 <th style={{ textAlign: "center" }}>#</th>
                 <th>Title</th>
                 <th>Channel</th>
                 <th>Date Added</th>
                 <th>Duration</th>
-                <th></th>
+                {!readOnly && <th></th>}
               </PlaylistTableRow>
             </PlaylistTableHeader>
 
@@ -149,7 +149,7 @@ export default function PlaylistVideosPanel({
 
                 return (
                   <SortablePlaylistRow key={v.id} id={v.id}>
-                    <DragHandle />
+                    {!readOnly && <DragHandle />}
                     <InlinePositionCell
                       handlePlayTrack={handlePlayTrack}
                       index={index}
@@ -161,22 +161,24 @@ export default function PlaylistVideosPanel({
                         <ThumbWrapper>
                           <VideoThumb src={thumb} alt={v.title} />
 
-                          <SetImageOverlay
-                            className="set-image-overlay"
-                            onClick={() => handleSetCover(v)}
-                          >
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="currentColor"
+                          {!readOnly && (
+                            <SetImageOverlay
+                              className="set-image-overlay"
+                              onClick={() => handleSetCover(v)}
                             >
-                              <path
-                                strokeWidth="2"
-                                d="M12 5c-1.657 0-3 .895-3 2 0 1.105 1.343 2 3 2s3-.895 3-2c0-1.105-1.343-2-3-2zm0 4c-2.21 0-4-1.343-4-3s1.79-3 4-3 4 1.343 4 3-1.79 3-4 3zm-7 2v8h14v-8H5zm2 2h10v4H7v-4z"
-                              />
-                            </svg>
-                          </SetImageOverlay>
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                              >
+                                <path
+                                  strokeWidth="2"
+                                  d="M12 5c-1.657 0-3 .895-3 2 0 1.105 1.343 2 3 2s3-.895 3-2c0-1.105-1.343-2-3-2zm0 4c-2.21 0-4-1.343-4-3s1.79-3 4-3 4 1.343 4 3-1.79 3-4 3zm-7 2v8h14v-8H5zm2 2h10v4H7v-4z"
+                                />
+                              </svg>
+                            </SetImageOverlay>
+                          )}
                         </ThumbWrapper>
 
                         <VideoTitle $isActive={isActive}>{v.title}</VideoTitle>
@@ -193,24 +195,26 @@ export default function PlaylistVideosPanel({
 
                     <td>{duration}</td>
 
-                    <td>
-                      <RemoveButton onClick={() => remove(v.id)}>
-                        <svg
-                          width="16"
-                          height="16"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                        >
-                          <polyline points="3 6 5 6 21 6" />
-                          <path d="M19 6l-1 14H6L5 6" />
-                          <path d="M10 11v6" />
-                          <path d="M14 11v6" />
-                          <path d="M9 6V4h6v2" />
-                        </svg>
-                      </RemoveButton>
-                    </td>
+                    {!readOnly && (
+                      <td>
+                        <RemoveButton onClick={() => remove(v.id)}>
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                          >
+                            <polyline points="3 6 5 6 21 6" />
+                            <path d="M19 6l-1 14H6L5 6" />
+                            <path d="M10 11v6" />
+                            <path d="M14 11v6" />
+                            <path d="M9 6V4h6v2" />
+                          </svg>
+                        </RemoveButton>
+                      </td>
+                    )}
                   </SortablePlaylistRow>
                 );
               })}

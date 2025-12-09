@@ -6,6 +6,7 @@ export default function TagSelector({
   selectedTags = [],
   onChange,
   autoCommitRef,
+  readOnly = false,
 }) {
   const [input, setInput] = useState("");
   const [suggestions, setSuggestions] = useState([]);
@@ -137,35 +138,20 @@ export default function TagSelector({
       {selectedTags.map((tag, i) => (
         <S.Tag key={tag.id}>
           {tag.name}
-          <S.RemoveTag onClick={() => removeTag(i)}>×</S.RemoveTag>
+          {!readOnly && (
+            <S.RemoveTag onClick={() => removeTag(i)}>×</S.RemoveTag>
+          )}
         </S.Tag>
       ))}
 
-      <S.TagInput
-        type="text"
-        value={input}
-        onChange={(e) => handleChange(e.target.value)}
-        onKeyDown={handleKeyDown}
-        placeholder="Add tags (e.g. lofi, trap)"
-      />
-
-      {suggestions.length > 0 && (
-        <S.SuggestionList>
-          {suggestions.map((s, i) => (
-            <li
-              key={s.id}
-              onClick={() => addTag(s)}
-              style={{
-                background:
-                  i === highlightIndex
-                    ? "rgba(255,255,255,0.1)"
-                    : "transparent",
-              }}
-            >
-              {s.name}
-            </li>
-          ))}
-        </S.SuggestionList>
+      {!readOnly && (
+        <S.TagInput
+          type="text"
+          value={input}
+          onChange={(e) => handleChange(e.target.value)}
+          onKeyDown={handleKeyDown}
+          placeholder="Add tags (e.g. lofi, trap)"
+        />
       )}
     </S.TagInputWrapper>
   );

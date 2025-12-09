@@ -64,7 +64,7 @@ export const LeftImage = styled.div`
   align-items: center;
   justify-content: center;
   text-align: center;
-  cursor: pointer;
+  cursor: ${({ readOnly }) => (readOnly ? `none` : `pointer`)};
 
   &::before {
     content: "";

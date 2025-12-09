@@ -19,6 +19,8 @@ import { useEffect } from "react";
 import { loadSession } from "./store/authSlice";
 import { fetchUserPlaylistsNormalized } from "./store/playlistThunksNormalized";
 
+import ViewPlaylist from "./pages/ViewPlaylist/ViewPlaylist";
+
 export default function App() {
   const dispatch = useDispatch();
   const user = useSelector((s) => s.auth.user);
@@ -42,6 +44,7 @@ export default function App() {
           <Route element={<DashboardLayout />}>
             <Route path="/" element={<DashboardHome />} />
             <Route path="/playlists/:id/edit" element={<EditPlaylist />} />
+            <Route path="/playlist/:id" element={<ViewPlaylist />} />
           </Route>
         </Routes>
       </BrowserRouter>
