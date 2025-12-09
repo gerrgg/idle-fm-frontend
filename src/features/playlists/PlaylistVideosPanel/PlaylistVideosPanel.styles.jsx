@@ -55,9 +55,6 @@ export const PanelWrapper = styled.div`
   flex-direction: column;
   background: ${({ theme }) => theme.colors.surface1};
   border-radius: ${({ theme }) => theme.radius.md};
-  max-height: 800px;
-  overflow-y: auto;
-  scrollbar-width: none;
   -ms-overflow-style: none; /* IE and Edge */
   z-index: 1;
   width: 100%;
@@ -87,6 +84,45 @@ export const VideoThumb = styled.img`
   object-fit: cover;
   border-radius: ${({ theme }) => theme.radius.sm};
   display: inline-block;
+  cursor: pointer;
+
+  &:hover {
+  }
+`;
+
+export const ThumbWrapper = styled.div`
+  position: relative;
+  display: inline-block;
+
+  &:hover .set-image-overlay {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0px);
+  }
+`;
+
+export const SetImageOverlay = styled.div`
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background: rgba(0, 0, 0, 0.65);
+  padding: 4px;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.2s ease;
+  transform: translateY(-4px);
+
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  svg {
+    width: 14px;
+    height: 14px;
+  }
 `;
 
 export const VideoInfo = styled.div`
@@ -99,6 +135,9 @@ export const VideoTitle = styled.div`
   line-height: 1.2;
   max-width: 300px;
   text-align: left;
+
+  color: ${({ $isActive }) =>
+    $isActive ? theme.colors.accent : theme.colors.muted};
 `;
 
 export const VideoChannel = styled.div`
@@ -148,5 +187,31 @@ export const PlaylistTableBody = styled.tbody``;
 export const PlaylistTableRow = styled.tr`
   &:hover {
     background: ${({ theme }) => theme.colors.surface3};
+  }
+`;
+
+export const DragHandleWrapper = styled.td`
+  padding: 0 0 0 ${({ theme }) => theme.space.md} !important;
+  cursor: grab;
+  width: 20px;
+  opacity: 0.8;
+`;
+
+export const RemoveButton = styled.button`
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: ${({ theme }) => theme.colors.muted};
+  opacity: 0.3;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  svg {
+    color: ${({ theme }) => theme.colors.muted};
+    path {
+      color: ${({ theme }) => theme.colors.muted};
+    }
   }
 `;

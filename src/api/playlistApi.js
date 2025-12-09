@@ -43,6 +43,9 @@ const playlistApi = {
   reorder(playlistId, body) {
     return http.put(`/playlists/${playlistId}/reorder`, body);
   },
+  updateImage(id, data) {
+    return http.put(`/playlists/${id}/image`, data);
+  },
 };
 
 export default playlistApi;

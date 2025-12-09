@@ -24,6 +24,17 @@ const playlistsSlice = createSlice({
       }
     },
 
+    updatePlaylistVideoIds(state, action) {
+      const { playlistId, videoIds } = action.payload;
+
+      if (state.byId[playlistId]) {
+        state.byId[playlistId] = {
+          ...state.byId[playlistId],
+          videoIds,
+        };
+      }
+    },
+
     upsertMany(state, action) {
       const playlists = action.payload;
 
@@ -59,6 +70,7 @@ export const {
   setMyPlaylistIds,
   addMyPlaylistId,
   removePlaylist,
+  updatePlaylistVideoIds,
 } = playlistsSlice.actions;
 
 export default playlistsSlice.reducer;

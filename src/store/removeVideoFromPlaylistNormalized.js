@@ -5,6 +5,8 @@ import {
   updatePositions,
 } from "./entities/playlistVideosSlice";
 
+import { updatePlaylistVideoIds } from "./entities/playlistsSlice";
+
 export const removeVideoFromPlaylistNormalized = createAsyncThunk(
   "playlists/removeVideo",
   async ({ playlistId, videoId }, { dispatch, getState, rejectWithValue }) => {
@@ -16,13 +18,17 @@ export const removeVideoFromPlaylistNormalized = createAsyncThunk(
 
       // 2. Recalculate remaining positions locally (optional but recommended)
       const state = getState();
-      const pvMap = state.playlistVideosEntities.byPlaylistId[playlistId] || {};
+      const pvMap = state.playlistVideos.byPlaylistId[playlistId] || {};
 
       const sortedVideoIds = Object.entries(pvMap)
         .sort(([, a], [, b]) => a.position - b.position)
         .map(([vid]) => Number(vid));
 
       dispatch(updatePositions({ playlistId, videoIds: sortedVideoIds }));
+
+      dispatch(
+        updatePlaylistVideoIds({ playlistId, videoIds: sortedVideoIds })
+      );
 
       return { playlistId, videoId };
     } catch (err) {

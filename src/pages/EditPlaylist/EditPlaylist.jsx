@@ -45,7 +45,6 @@ export default function EditPlaylist() {
   };
 
   const handlePlayTrack = (index) => {
-    console.log({ isPlaying, queueIndex, index });
     if (isPlaying && queueIndex === index) {
       dispatch(setPlayState(false));
     } else {
@@ -86,7 +85,7 @@ export default function EditPlaylist() {
         tags={tags}
         onTagsChange={setSearchTags}
       />
-      <Row gap="lg">
+      <Col gap="lg">
         <PlaylistVideosPanel
           handlePlay={handlePlay}
           handlePlayTrack={handlePlayTrack}
@@ -98,7 +97,7 @@ export default function EditPlaylist() {
           playlist={playlist}
           searchTags={searchTags}
         />
-      </Row>
+      </Col>
       <DangerZone playlist={playlist} />
     </Col>
   );

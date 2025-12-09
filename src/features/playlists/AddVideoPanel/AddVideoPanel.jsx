@@ -83,7 +83,7 @@ export default function AddVideoPanel({ playlist, searchTags }) {
     const tagString = searchTags.join(" ");
 
     const finalQuery =
-      [cleanQuery, tagString].filter(Boolean).join(" ") + " lofi";
+      [cleanQuery, tagString].filter(Boolean).join(" ") + " music";
 
     dispatch(searchYoutube(finalQuery));
   }

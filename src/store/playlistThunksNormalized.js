@@ -148,23 +148,52 @@ export const deletePlaylistNormalized = createAsyncThunk(
 // -----------------------------------------------------
 export const reorderPlaylistVideos = createAsyncThunk(
   "playlists/reorderPlaylistVideos",
-  async ({ playlistId, videoIds }, { dispatch, rejectWithValue }) => {
+  async ({ playlistId, videoIds }, { dispatch, getState, rejectWithValue }) => {
     try {
-      // Persist new order to backend
       await playlistApi.reorder(playlistId, { videoIds });
 
-      // Optimistic redux update
+      // Optimistic update 1: playlistVideosEntities
+      dispatch(updatePositions({ playlistId, videoIds }));
+
+      // Optimistic update 2: update playlist.videoIds itself
+      const playlist = getState().playlistsEntities.byId[playlistId];
+
       dispatch(
-        updatePositions({
-          playlistId,
-          videoIds,
+        upsertPlaylist({
+          ...playlist,
+          videoIds, // <--- NEW SORTED ORDER
         })
       );
 
-      return { playlistId, videoIds };
+      return videoIds;
     } catch (err) {
-      console.error(err);
-      return rejectWithValue("Failed to reorder videos");
+      return rejectWithValue(err || "Failed to reorder videos");
+    }
+  }
+);
+
+// -----------------------------------------------------
+// UPDATE PLAYLIST COVER IMAGE
+// -----------------------------------------------------
+export const updatePlaylistImageNormalized = createAsyncThunk(
+  "playlists/updatePlaylistImage",
+  async ({ playlistId, image }, { dispatch, rejectWithValue }) => {
+    try {
+      const res = await playlistApi.updateImage(playlistId, { image });
+
+      // Store update only changes playlist.image
+      dispatch(
+        upsertPlaylist({
+          id: playlistId,
+          image,
+        })
+      );
+
+      return { playlistId, image };
+    } catch (err) {
+      return rejectWithValue(
+        err.response?.data || "Failed to update playlist image"
+      );
     }
   }
 );

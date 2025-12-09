@@ -40,7 +40,9 @@ export const addVideoToPlaylistNormalized = createAsyncThunk(
       dispatch(
         upsertPlaylist({
           ...playlist,
-          videoIds: [...playlist.videoIds, v.id],
+          videoIds: [...(playlist.videoIds ?? []), v.id],
+          // Only set image if playlist.image is empty
+          image: playlist.image || v.playlist_image || null,
         })
       );
 

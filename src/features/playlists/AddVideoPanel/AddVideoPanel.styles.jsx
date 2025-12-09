@@ -11,7 +11,6 @@ export const PanelWrapper = styled.div`
   background: ${({ theme }) => theme.colors.surface1};
   padding: ${({ theme }) => theme.space.lg};
   border-radius: 10px;
-  max-width: 480px;
 `;
 
 export const SearchBar = styled.input`

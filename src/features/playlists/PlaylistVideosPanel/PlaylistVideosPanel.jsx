@@ -13,6 +13,10 @@ import {
   PlaylistTableBody,
   DateWrapper,
   PlaylistPositionTableCell,
+  RemoveButton,
+  DragHandleWrapper,
+  ThumbWrapper,
+  SetImageOverlay,
 } from "./PlaylistVideosPanel.styles";
 
 import {
@@ -31,6 +35,8 @@ import {
 
 import SortablePlaylistRow from "./SortablePlaylistRow";
 import { reorderPlaylistVideos } from "../../../store/playlistThunksNormalized.js";
+import { removeVideoFromPlaylistNormalized } from "../../../store/removeVideoFromPlaylistNormalized";
+import { updatePlaylistImageNormalized } from "../../../store/playlistThunksNormalized";
 import { Row } from "../../../styles/layout";
 import PlayButton from "../../../components/PlayButton/PlayButton";
 import dateFormat from "../../../utils/dateFormat";
@@ -47,20 +53,35 @@ export default function PlaylistVideosPanel({
   const dispatch = useDispatch();
 
   function remove(videoId) {
-    alert("hi");
-    // dispatch(
-    //   removeVideoFromPlaylistNormalized({
-    //     playlistId,
-    //     videoId,
-    //   })
-    // );
+    dispatch(
+      removeVideoFromPlaylistNormalized({
+        playlistId,
+        videoId,
+      })
+    );
   }
+
+  const player = useSelector((state) => state.player);
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: { distance: 4 }, // small drag threshold
     })
   );
+
+  function handleSetCover(video) {
+    const url =
+      video.thumbnails?.medium?.url || video.thumbnails?.default?.url || null;
+
+    if (!url) return;
+
+    dispatch(
+      updatePlaylistImageNormalized({
+        playlistId,
+        image: url,
+      })
+    );
+  }
 
   // --- DND Handler ---
   function handleDragEnd(event) {
@@ -103,7 +124,7 @@ export default function PlaylistVideosPanel({
             <PlaylistTableHeader>
               <PlaylistTableRow>
                 <th></th>
-                <th>#</th>
+                <th style={{ textAlign: "center" }}>#</th>
                 <th>Title</th>
                 <th>Channel</th>
                 <th>Date Added</th>
@@ -122,6 +143,10 @@ export default function PlaylistVideosPanel({
                   ? formatYouTubeDurationToTimeString(v.duration)
                   : "TBD";
 
+                const isActive =
+                  player.isPlaying &&
+                  player.queue[player.queueIndex]?.videoId === v.id;
+
                 return (
                   <SortablePlaylistRow key={v.id} id={v.id}>
                     <DragHandle />
@@ -133,8 +158,28 @@ export default function PlaylistVideosPanel({
 
                     <td>
                       <Row gap="md" align="center">
-                        <VideoThumb src={thumb} alt={v.title} />
-                        <VideoTitle>{v.title}</VideoTitle>
+                        <ThumbWrapper>
+                          <VideoThumb src={thumb} alt={v.title} />
+
+                          <SetImageOverlay
+                            className="set-image-overlay"
+                            onClick={() => handleSetCover(v)}
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                            >
+                              <path
+                                strokeWidth="2"
+                                d="M12 5c-1.657 0-3 .895-3 2 0 1.105 1.343 2 3 2s3-.895 3-2c0-1.105-1.343-2-3-2zm0 4c-2.21 0-4-1.343-4-3s1.79-3 4-3 4 1.343 4 3-1.79 3-4 3zm-7 2v8h14v-8H5zm2 2h10v4H7v-4z"
+                              />
+                            </svg>
+                          </SetImageOverlay>
+                        </ThumbWrapper>
+
+                        <VideoTitle $isActive={isActive}>{v.title}</VideoTitle>
                       </Row>
                     </td>
 
@@ -149,7 +194,22 @@ export default function PlaylistVideosPanel({
                     <td>{duration}</td>
 
                     <td>
-                      <button onClick={() => remove(v.id)}>Remove</button>
+                      <RemoveButton onClick={() => remove(v.id)}>
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                        >
+                          <polyline points="3 6 5 6 21 6" />
+                          <path d="M19 6l-1 14H6L5 6" />
+                          <path d="M10 11v6" />
+                          <path d="M14 11v6" />
+                          <path d="M9 6V4h6v2" />
+                        </svg>
+                      </RemoveButton>
                     </td>
                   </SortablePlaylistRow>
                 );
