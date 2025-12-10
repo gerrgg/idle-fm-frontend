@@ -53,6 +53,57 @@ export const registerUser = createAsyncThunk(
   }
 );
 
+// -------------------------------------
+// REQUEST PASSWORD RESET
+// -------------------------------------
+export const requestPasswordReset = createAsyncThunk(
+  "auth/requestPasswordReset",
+  async ({ email }, { rejectWithValue }) => {
+    try {
+      const res = await authApi.requestPasswordReset(email);
+
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(
+        err.response?.data?.error || err.response?.data?.message || "Failed."
+      );
+    }
+  }
+);
+
+// -------------------------------------
+// VALIDATE RESET TOKEN
+// -------------------------------------
+export const validateResetToken = createAsyncThunk(
+  "auth/validateResetToken",
+  async ({ token }, { rejectWithValue }) => {
+    try {
+      const res = await authApi.validateResetToken(token);
+
+      return res.data;
+    } catch (err) {
+      return rejectWithValue("Invalid or expired token.");
+    }
+  }
+);
+
+// -------------------------------------
+// RESET PASSWORD
+// -------------------------------------
+export const resetPassword = createAsyncThunk(
+  "auth/resetPassword",
+  async ({ token, password }, { rejectWithValue }) => {
+    try {
+      const res = await authApi.resetPassword(token, password);
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(
+        err.response?.data?.error || "Unable to reset password."
+      );
+    }
+  }
+);
+
 // -----------------------------------------
 // LOGOUT (clears cookie)
 // -----------------------------------------
@@ -98,7 +149,50 @@ const authSlice = createSlice({
       .addCase(loadSession.rejected, (state) => {
         state.sessionLoaded = true;
       })
+      // ---------------------------
+      // REQUEST PASSWORD RESET
+      // ---------------------------
+      .addCase(requestPasswordReset.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(requestPasswordReset.fulfilled, (state) => {
+        state.loading = false;
+      })
+      .addCase(requestPasswordReset.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
 
+      // ---------------------------
+      // VALIDATE RESET TOKEN
+      // ---------------------------
+      .addCase(validateResetToken.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(validateResetToken.fulfilled, (state) => {
+        state.loading = false;
+      })
+      .addCase(validateResetToken.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+      // ---------------------------
+      // RESET PASSWORD
+      // ---------------------------
+      .addCase(resetPassword.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(resetPassword.fulfilled, (state) => {
+        state.loading = false;
+      })
+      .addCase(resetPassword.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
       // LOGOUT
       .addCase(logoutUser.fulfilled, (state) => {
         state.user = null;

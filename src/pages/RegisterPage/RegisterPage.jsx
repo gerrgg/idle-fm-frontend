@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { registerUser } from "../../store/authSlice";
 import { useNavigate, Link } from "react-router-dom";
+import { toast } from "react-hot-toast";
 
 import {
   Wrapper,
@@ -30,7 +31,7 @@ export default function RegisterPage() {
     e.preventDefault();
 
     if (password !== confirm) {
-      alert("Passwords do not match.");
+      toast.error("Passwords do not match.");
       return;
     }
 
@@ -38,8 +39,21 @@ export default function RegisterPage() {
       registerUser({ email, username, password, confirm })
     );
 
+    // SUCCESS
     if (registerUser.fulfilled.match(result)) {
+      toast.success("Account created! Check your email to activate.");
       navigate("/login?activation=sent");
+      return;
+    }
+
+    // ERROR — your backend returns { error: "message" }
+    if (registerUser.rejected.match(result)) {
+      console.log(result.payload);
+      const message =
+        result.payload || // if using rejectWithValue
+        "Registration failed.";
+
+      toast.error(message);
     }
   }
 
@@ -91,8 +105,6 @@ export default function RegisterPage() {
             autoComplete="new-password"
           />
         </FormGroup>
-
-        {error && <ErrorText>{error}</ErrorText>}
 
         <Button
           type="submit"

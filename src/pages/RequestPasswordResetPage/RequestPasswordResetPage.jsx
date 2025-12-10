@@ -1,0 +1,74 @@
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { requestPasswordReset } from "../../store/authSlice";
+import { Link } from "react-router-dom";
+import { toast } from "react-hot-toast";
+
+import {
+  Wrapper,
+  Card,
+  Title,
+  FooterText,
+} from "./RequestPasswordResetPage.styles";
+import { FormGroup, Label, Input } from "../../styles/form";
+import { Button } from "../../styles/button";
+
+export default function RequestPasswordResetPage() {
+  const dispatch = useDispatch();
+  const { loading } = useSelector((s) => s.auth);
+
+  const [email, setEmail] = useState("");
+
+  async function submit(e) {
+    e.preventDefault();
+
+    const result = await dispatch(requestPasswordReset({ email }));
+
+    if (requestPasswordReset.fulfilled.match(result)) {
+      toast.success("If this email exists, a reset link has been sent.");
+      return;
+    }
+
+    if (requestPasswordReset.rejected.match(result)) {
+      const message =
+        result.payload?.error ||
+        result.error?.message ||
+        "Unable to send reset link.";
+
+      toast.error(message);
+    }
+  }
+
+  return (
+    <Wrapper>
+      <Card onSubmit={submit}>
+        <Title>Reset Your Password</Title>
+
+        <FormGroup>
+          <Label>Email</Label>
+          <Input
+            type="email"
+            placeholder="you@example.com"
+            autoComplete="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </FormGroup>
+
+        <Button
+          type="submit"
+          size="lg"
+          variant="solid"
+          disabled={loading}
+          style={{ marginTop: "12px" }}
+        >
+          {loading ? "Sending…" : "Send Reset Link"}
+        </Button>
+
+        <FooterText>
+          <Link to="/login">Return to login</Link>
+        </FooterText>
+      </Card>
+    </Wrapper>
+  );
+}

@@ -44,7 +44,7 @@ export const theme = {
   layout: {
     sidebarWidth: "251px",
     topbarHeight: "57px",
-    bottomBarHeight: "61px",
+    bottomBarHeight: "80px",
   },
 
   colors: {

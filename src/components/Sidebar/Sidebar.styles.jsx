@@ -2,6 +2,12 @@ import styled from "styled-components";
 import { H1 } from "../../styles/typography.js";
 import { Row, Col } from "../../styles/layout.js";
 import { Button } from "../../styles/button.js";
+import { Stack } from "../../styles/layout.js";
+import VideoThumbnail from "../VideoThumbnail/VideoThumbnail.jsx";
+
+export const SidebarThumbnail = styled(VideoThumbnail)`
+  padding: 0 !important;
+`;
 
 export const Wrapper = styled.aside`
   height: 100vh;
@@ -23,6 +29,7 @@ export const LogoText = styled(H1)`
   font-size: ${({ theme }) => theme.fontSizes.xxl};
   line-height: 31px;
   letter-spacing: 0.1em;
+  text-transform: uppercase;
 `;
 
 export const LogoWrapper = styled(Row)`
@@ -34,8 +41,19 @@ export const LogoWrapper = styled(Row)`
 `;
 
 export const SidebarList = styled(Col)`
+  flex: 1;
+  min-height: 0; /* prevents flex item from overflowing */
   overflow-y: auto;
-  padding-bottom: ${({ theme }) => theme.layout.bottomBarHeight};
+  margin-bottom: 0;
+
+  /* Hide scrollbar but keep scroll functionality */
+  &::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
+
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE + Edge */
 `;
 
 export const SidebarItem = styled(Button)`
@@ -58,6 +76,7 @@ export const SidebarItem = styled(Button)`
   align-items: center;
   gap: ${({ theme }) => theme.space.md};
   margin-bottom: ${({ theme }) => theme.space.xs};
+  flex-shrink: 0;
 
   &:hover {
     background: rgba(255, 255, 255, 0.08);
@@ -73,4 +92,9 @@ export const Thumbnail = styled.img`
   height: 24px;
   border-radius: ${({ theme }) => theme.radius.sm};
   object-fit: cover;
+`;
+
+export const SidebarStack = styled(Stack)`
+  flex: 1;
+  min-height: 0;
 `;

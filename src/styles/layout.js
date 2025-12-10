@@ -6,26 +6,33 @@ import styled, { css } from "styled-components";
 // ------------------------------------
 const spacingProps = css`
   ${({ p, theme }) => p && `padding: ${theme.space[p] || p};`}
-  ${({ px, theme }) => px && `
+  ${({ px, theme }) =>
+    px &&
+    `
       padding-left: ${theme.space[px] || px};
       padding-right: ${theme.space[px] || px};
   `}
-  ${({ py, theme }) => py && `
+  ${({ py, theme }) =>
+    py &&
+    `
       padding-top: ${theme.space[py] || py};
       padding-bottom: ${theme.space[py] || py};
   `}
   
   ${({ m, theme }) => m && `margin: ${theme.space[m] || m};`}
-  ${({ mx, theme }) => mx && `
+  ${({ mx, theme }) =>
+    mx &&
+    `
       margin-left: ${theme.space[mx] || mx};
       margin-right: ${theme.space[mx] || mx};
   `}
-  ${({ my, theme }) => my && `
+  ${({ my, theme }) =>
+    my &&
+    `
       margin-top: ${theme.space[my] || my};
       margin-bottom: ${theme.space[my] || my};
   `}
 `;
-
 
 const sizeProps = css`
   ${({ w }) => w && `width: ${w};`}
@@ -48,7 +55,6 @@ export const Flex = styled.div`
   ${spacingProps}
   ${sizeProps}
 `;
-
 
 // Shorthands
 export const Row = styled(Flex)`
@@ -79,7 +85,7 @@ export const Stack = styled.div`
   display: flex;
   flex-direction: column;
   ${({ gap }) => gap && `gap: ${gap};`}
-  
+
   ${spacingProps}
   ${sizeProps}
 `;
@@ -93,4 +99,3 @@ export const Container = styled.div`
   ${({ maxW }) => `max-width: ${maxW || "1200px"};`}
   padding: 0 20px;
 `;
-

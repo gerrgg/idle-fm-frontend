@@ -1,16 +1,14 @@
-import { useEffect } from "react";
-
 import { useDispatch, useSelector } from "react-redux";
-import { setView } from "../../store/dashboardSlice";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link, Navigate } from "react-router-dom";
 
 import {
   Wrapper,
   LogoText,
   LogoWrapper,
   SidebarItem,
-  Thumbnail,
   SidebarList,
+  SidebarStack,
+  SidebarThumbnail,
 } from "./Sidebar.styles.jsx";
 import { Row, Stack, Col } from "../../styles/layout.js";
 import { Logo } from "../Logo/index.js";
@@ -19,6 +17,24 @@ import { selectMyPlaylists } from "../../store/selectors/playlistsSelectors.js";
 import VideoThumbnail from "../VideoThumbnail/VideoThumbnail";
 
 import { createPlaylistNormalized } from "../../store/playlistThunksNormalized.js";
+
+function SidebarButton({ handleCreate, handleLogin }) {
+  const user = useSelector((s) => s.auth.user);
+
+  if (!user) {
+    return (
+      <Button size="lg" variant="solid" onClick={handleLogin}>
+        Login
+      </Button>
+    );
+  }
+
+  return (
+    <Button size="lg" variant="outline" onClick={handleCreate}>
+      Create
+    </Button>
+  );
+}
 
 export default function Sidebar() {
   const { id } = useParams();
@@ -38,16 +54,16 @@ export default function Sidebar() {
     }
   }
 
+  const handleLogin = () => navigate("/login");
+
   return (
     <Wrapper>
       <LogoWrapper gap="xs" align="flex-end" onClick={() => navigate("/")}>
         <Logo width="36" height="36" />
         <LogoText>idle.fm</LogoText>
       </LogoWrapper>
-      <Stack gap="md" my="xl">
-        <Button size="lg" variant="outline" onClick={handleCreate}>
-          Create
-        </Button>
+      <SidebarStack gap="md" my="xl">
+        <SidebarButton handleCreate={handleCreate} handleLogin={handleLogin} />
         <SidebarList my="xl" gap="xs">
           {myPlaylists.map((playlist) => {
             return (
@@ -60,13 +76,13 @@ export default function Sidebar() {
                   playlistId && playlistId === playlist.id ? "active" : null
                 }
               >
-                <VideoThumbnail variant={"sidebar"} image={playlist.image} />
+                <SidebarThumbnail variant={"sidebar"} image={playlist.image} />
                 {playlist.title}
               </SidebarItem>
             );
           })}
         </SidebarList>
-      </Stack>
+      </SidebarStack>
     </Wrapper>
   );
 }

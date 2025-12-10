@@ -14,6 +14,8 @@ import DashboardLayout from "./layouts/DashboardLayout/";
 import DashboardHome from "./pages/Dashboard/Dashboard";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
+import RequestPasswordResetPage from "./pages/RequestPasswordResetPage";
+import ResetPasswordPage from "./pages/RequestPasswordPage";
 
 import { use, useEffect } from "react";
 
@@ -48,6 +50,11 @@ export default function App() {
         <Routes>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
+          <Route
+            path="/forgot-password"
+            element={<RequestPasswordResetPage />}
+          />
+          <Route path="/reset-password" element={<ResetPasswordPage />} />
           <Route element={<DashboardLayout />}>
             <Route path="/" element={<DashboardHome />} />
             <Route path="/playlist/:id" element={<ViewPlaylist />} />
@@ -56,7 +63,6 @@ export default function App() {
         </Routes>
       </BrowserRouter>
       <ThemedToaster />
-      <YouTubeAudioPlayer />
     </ThemeProvider>
   );
 }

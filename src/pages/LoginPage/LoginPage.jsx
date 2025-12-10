@@ -1,43 +1,53 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../../store/authSlice";
-import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import { toast } from "react-hot-toast";
 
-import {
-  Wrapper,
-  Card,
-  Title,
-  ErrorText,
-  FooterText,
-} from "./LoginPage.styles";
+import { Wrapper, Card, Title, FooterText } from "./LoginPage.styles";
 
 import { FormGroup, Label, Input } from "../../styles/form";
-
 import { Button } from "../../styles/button";
+
+import { LogoWrapper, LogoText } from "../../components/Sidebar/Sidebar.styles";
+import { Logo } from "../../components/Logo";
 
 export default function LoginPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const { loading, error } = useSelector((s) => s.auth);
+  const { loading } = useSelector((s) => s.auth);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   async function submit(e) {
     e.preventDefault();
+
     const result = await dispatch(loginUser({ email, password }));
 
+    // SUCCESS
     if (loginUser.fulfilled.match(result)) {
+      toast.success("Welcome back!");
       navigate("/");
+      return;
+    }
+
+    // ERROR
+    if (loginUser.rejected.match(result)) {
+      const message =
+        result.payload?.error || result.error?.message || "Login failed.";
+
+      toast.error(message);
     }
   }
 
   return (
     <Wrapper>
       <Card onSubmit={submit}>
-        <Title>Sign In</Title>
+        <LogoWrapper gap="xs" align="flex-end" onClick={() => navigate("/")}>
+          <Logo width="36" height="36" />
+          <LogoText>idle.fm</LogoText>
+        </LogoWrapper>
 
         <FormGroup>
           <Label>Email</Label>
@@ -61,8 +71,6 @@ export default function LoginPage() {
           />
         </FormGroup>
 
-        {error && <ErrorText>{error}</ErrorText>}
-
         <Button
           type="submit"
           size="lg"
@@ -72,8 +80,14 @@ export default function LoginPage() {
         >
           {loading ? "Logging in…" : "Login"}
         </Button>
+
         <FooterText>
-          Dont have an account? <Link to="/register">Register</Link>
+          <p>
+            Don’t have an account? <Link to="/register">Register</Link>
+          </p>
+          <p>
+            Forgot your password?<Link to="/forgot-password">Click Here</Link>
+          </p>
         </FooterText>
       </Card>
     </Wrapper>

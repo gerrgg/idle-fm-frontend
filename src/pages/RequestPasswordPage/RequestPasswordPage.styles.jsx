@@ -1,13 +1,13 @@
 import styled from "styled-components";
 
 export const Wrapper = styled.div`
+  width: 100%;
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-
-  background: ${({ theme }) => theme.colors.bg};
   padding: ${({ theme }) => theme.space.lg};
+  background: ${({ theme }) => theme.colors.bg};
 `;
 
 export const Card = styled.form`
@@ -27,40 +27,17 @@ export const Card = styled.form`
 `;
 
 export const Title = styled.h1`
-  margin: 0 0 ${({ theme }) => theme.space.md} 0;
-  text-align: center;
-
-  font-family: ${({ theme }) => theme.fonts.header};
   font-size: ${({ theme }) => theme.fontSizes.xl};
   color: ${({ theme }) => theme.colors.text};
+  margin-bottom: ${({ theme }) => theme.space.lg};
 `;
 
-export const ErrorText = styled.p`
-  margin: 0;
-  font-size: ${({ theme }) => theme.fontSizes.sm};
-  color: ${({ theme }) => theme.colors.danger};
-`;
-
-export const FooterText = styled.div`
-  margin-top: ${({ theme }) => theme.space.sm};
-  text-align: left;
-  opacity: 0.75;
-  display: flex;
-  gap: 8px;
-  flex-direction: column;
-
-  p {
-    margin: 0;
-  }
+export const FooterText = styled.p`
+  margin-top: ${({ theme }) => theme.space.lg};
+  text-align: center;
 
   a {
     color: ${({ theme }) => theme.colors.accent};
     text-decoration: none;
-    display: inline-block;
-    margin-left: 4px;
-
-    &:hover {
-      text-decoration: underline;
-    }
   }
 `;

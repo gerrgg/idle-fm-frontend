@@ -55,7 +55,7 @@ export default function DashboardHome() {
       {publicPlaylists.length > 0 && (
         <Section>
           <H1 mb="lg">Curated Playlists</H1>
-          <ViewPlaylistGrid playlists={publicPlaylists.slice(0, 12)} />
+          <ViewPlaylistGrid playlists={publicPlaylists} />
         </Section>
       )}
     </Wrap>

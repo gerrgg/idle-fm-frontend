@@ -29,7 +29,9 @@ export const PlaceholderImage = styled.div`
   color: ${({ theme }) => theme.colors.accent};
   opacity: 0.6;
   z-index: 2; /* Keep on top of glow */
-  padding: ${({ theme }) => `${theme.space.md} ${theme.space.md}`};
 
   ${({ variant }) => variants[variant || "none"]}
+
+  padding: ${({ variant, theme }) =>
+    variant === "sidebar" ? "0px" : `${theme.space.md} ${theme.space.md}`}
 `;
