@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   isPlaying: false,
-  volume: 0.1,
+  volume: 0.5,
   queue: [],
   queueIndex: 0,
   currentSeconds: 0,
