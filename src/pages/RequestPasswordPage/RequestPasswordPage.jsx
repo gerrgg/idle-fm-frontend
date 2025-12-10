@@ -23,7 +23,6 @@ export default function ResetPasswordPage() {
   const [confirm, setConfirm] = useState("");
 
   useEffect(() => {
-    console.log(token);
     if (!token) {
       navigate("/reset-invalid");
       return;
