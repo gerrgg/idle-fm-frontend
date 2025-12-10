@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../../store/authSlice";
 import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-hot-toast";
-
+import { useDocumentMeta } from "../../hooks/useDocumentMeta";
 import { Wrapper, Card, Title, FooterText } from "./LoginPage.styles";
 
 import { FormGroup, Label, Input } from "../../styles/form";
@@ -40,6 +40,14 @@ export default function LoginPage() {
       toast.error(message);
     }
   }
+
+  useDocumentMeta({
+    title: "Idle.fm — Log In",
+    description:
+      "Sign back in and pick up where you left off. Your playlists missed you.",
+    image: "https://idle.fm/default-auth-og.png",
+    url: "https://idle.fm/login",
+  });
 
   return (
     <Wrapper>

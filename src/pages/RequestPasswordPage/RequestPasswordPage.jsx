@@ -7,6 +7,7 @@ import { toast } from "react-hot-toast";
 import { Wrapper, Card, Title, FooterText } from "./RequestPasswordPage.styles";
 import { FormGroup, Label, Input } from "../../styles/form";
 import { Button } from "../../styles/button";
+import { useDocumentMeta } from "../../hooks/useDocumentMeta";
 
 export default function ResetPasswordPage() {
   const dispatch = useDispatch();
@@ -21,6 +22,14 @@ export default function ResetPasswordPage() {
 
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
+
+  useDocumentMeta({
+    title: "Idle.fm — Reset Your Password",
+    description:
+      "You're almost back in. Choose a new password and continue curating.",
+    image: "https://idle.fm/default-auth-og.png",
+    url: `https://idle.fm/reset-password?token=${token || ""}`,
+  });
 
   useEffect(() => {
     if (!token) {

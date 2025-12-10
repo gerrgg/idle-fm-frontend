@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { registerUser } from "../../store/authSlice";
 import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-hot-toast";
+import { useDocumentMeta } from "../../hooks/useDocumentMeta";
 
 import {
   Wrapper,
@@ -27,6 +28,14 @@ export default function RegisterPage() {
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
 
+  useDocumentMeta({
+    title: "Idle.fm — Create an Account",
+    description:
+      "Join Idle.fm and start building playlists that make people think you have great taste.",
+    image: "https://idle.fm/default-auth-og.png",
+    url: "https://idle.fm/register",
+  });
+
   async function submit(e) {
     e.preventDefault();
 
@@ -48,7 +57,6 @@ export default function RegisterPage() {
 
     // ERROR — your backend returns { error: "message" }
     if (registerUser.rejected.match(result)) {
-      console.log(result.payload);
       const message =
         result.payload || // if using rejectWithValue
         "Registration failed.";

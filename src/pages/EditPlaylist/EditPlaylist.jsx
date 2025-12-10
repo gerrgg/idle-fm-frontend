@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
+import { useDocumentMeta } from "../../hooks/useDocumentMeta";
 
 import { clearYoutubeResults } from "../../store/youtubeSlice";
 import EditPlaylistDetails from "../../features/playlists/EditPlaylistDetails";
@@ -18,7 +19,6 @@ export default function EditPlaylist() {
   const dispatch = useDispatch();
   const playlistId = Number(id);
   const playlist = useSelector((s) => s.playlistsEntities.byId[playlistId]);
-  const isPlaying = useSelector((s) => s.player.isPlaying);
   const queueIndex = useSelector((s) => s.player.queueIndex);
 
   const videos = useSelector(selectMergedVideosForPlaylist(playlistId));
@@ -30,6 +30,9 @@ export default function EditPlaylist() {
   });
 
   const [searchTags, setSearchTags] = useState([]);
+
+  const player = useSelector((s) => s.player);
+  const isPlaying = player.isPlaying && player.sourcePlaylistId === playlistId;
 
   const handlePlay = () => {
     if (!isPlaying) {
@@ -75,6 +78,22 @@ export default function EditPlaylist() {
       dispatch(clearYoutubeResults());
     }
   }, [searchTags]);
+
+  // --- SAFE METADATA (playlist may be undefined initially) ---
+  const title = playlist
+    ? `Edit ${playlist.title} — Idle.fm`
+    : "Playlist — Idle.fm";
+
+  const description = playlist?.description
+    ? playlist.description
+    : "Listen to this playlist on Idle.fm — where your taste actually matters.";
+
+  const image = playlist?.image || "https://idle.fm/default-playlist-og.png";
+
+  const url = `https://idle.fm/playlist/${playlistId}`;
+
+  // 🔥 Always call the hook at the top level, never inside useEffect.
+  useDocumentMeta({ title, description, image, url });
 
   if (!playlist) return <p>Loading…</p>;
 

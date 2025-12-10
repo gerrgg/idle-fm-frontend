@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { H1 } from "../../styles/typography";
 import { Wrap, Section } from "./Dashboard.styles";
 import ViewPlaylistGrid from "../../components/ViewPlaylistGrid";
+import { useDocumentMeta } from "../../hooks/useDocumentMeta";
 
 import { selectMyPlaylists } from "../../store/selectors/playlistsSelectors";
 import {
@@ -25,6 +26,14 @@ export default function DashboardHome() {
   const recommendedPlaylists = useSelector(recommendedSelector);
 
   const publicPlaylists = useSelector(selectPublicPlaylists);
+
+  const title = "Idle.fm — You're Not Procrastinating, You're Curating";
+  const description =
+    "Build playlists, revisit old favorites, and pretend you're being productive. Your Idle.fm dashboard keeps everything tuned in.";
+  const image = "https://idle.fm/default-dashboard-og.png";
+  const url = "https://idle.fm/dashboard";
+
+  useDocumentMeta({ title, description, image, url });
 
   return (
     <Wrap>

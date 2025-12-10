@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { requestPasswordReset } from "../../store/authSlice";
 import { Link } from "react-router-dom";
 import { toast } from "react-hot-toast";
-
+import { useDocumentMeta } from "../../hooks/useDocumentMeta";
 import {
   Wrapper,
   Card,
@@ -18,6 +18,14 @@ export default function RequestPasswordResetPage() {
   const { loading } = useSelector((s) => s.auth);
 
   const [email, setEmail] = useState("");
+
+  useDocumentMeta({
+    title: "Idle.fm — Forgot Password",
+    description:
+      "Happens to everyone. Enter your email and we’ll help you get back in.",
+    image: "https://idle.fm/default-auth-og.png",
+    url: "https://idle.fm/forgot-password",
+  });
 
   async function submit(e) {
     e.preventDefault();
