@@ -114,7 +114,7 @@ export default function PlaylistVideosPanel({
   return (
     <PanelWrapper>
       <PlaylistActions my="lg" gap="md" px="lg">
-        <PlayButton handlePlay={handlePlay} size="lg" />
+        <PlayButton handlePlay={handlePlay} size="lg" playlistId={playlistId} />
         {playlist && <PlaylistStatsBar playlist={playlist} />}
       </PlaylistActions>
 

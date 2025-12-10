@@ -26,7 +26,8 @@ export default function ViewPlaylist() {
   const videos = useSelector(selectMergedVideosForPlaylist(playlistId));
   const user = useSelector((s) => s.auth.user);
 
-  const isPlaying = useSelector((s) => s.player.isPlaying);
+  const player = useSelector((s) => s.player);
+  const isPlaying = player.isPlaying && player.sourcePlaylistId === playlistId;
   const queueIndex = useSelector((s) => s.player.queueIndex);
 
   useEffect(() => {

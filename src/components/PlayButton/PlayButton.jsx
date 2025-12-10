@@ -1,8 +1,10 @@
 import { IconButtonCircle } from "./PlayButton.styles.jsx";
 import { useSelector } from "react-redux";
 
-export default function PlayButton({ handlePlay, size }) {
-  const isPlaying = useSelector((s) => s.player.isPlaying);
+export default function PlayButton({ handlePlay, size, playlistId }) {
+  const player = useSelector((s) => s.player);
+
+  const isPlaying = player.isPlaying && player.sourcePlaylistId === playlistId;
 
   return (
     <IconButtonCircle size={size} onClick={handlePlay}>
