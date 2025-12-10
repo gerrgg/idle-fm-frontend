@@ -64,7 +64,9 @@ export const PanelWrapper = styled.div`
   }
 `;
 
-export const PlaylistActions = styled(Row)``;
+export const PlaylistActions = styled(Row)`
+  justify-content: space-between;
+`;
 
 export const VideoItem = styled.div`
   display: flex;

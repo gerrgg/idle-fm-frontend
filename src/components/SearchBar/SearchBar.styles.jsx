@@ -5,6 +5,7 @@ export const Wrapper = styled.div`
   align-items: center;
   gap: ${({ theme }) => theme.space.sm};
   margin: 0 auto;
+  display: none;
 
   background: ${({ theme }) => theme.colors.surface1};
   border: 1px solid ${({ theme }) => theme.colors.surface3};

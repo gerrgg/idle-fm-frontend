@@ -4,6 +4,7 @@ import BottomBar from "../../components/BottomBar";
 import MainContent from "../../components/MainContent";
 import { Wrapper, ContentArea } from "./DashboardLayout.styles.jsx";
 import { Outlet } from "react-router-dom";
+import YouTubeAudioPlayer from "../../components/YoutubeAudioPlayer";
 
 export default function DashboardLayout() {
   return (

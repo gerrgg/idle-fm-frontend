@@ -198,6 +198,76 @@ export const updatePlaylistImageNormalized = createAsyncThunk(
   }
 );
 
+export const incrementPlaylistView = createAsyncThunk(
+  "playlists/incrementView",
+  async (playlistId, { dispatch, rejectWithValue }) => {
+    try {
+      await playlistApi.incrementView(playlistId);
+
+      // Increment locally
+      dispatch(
+        upsertPlaylist({
+          id: playlistId,
+          viewsDelta: 1, // handled by reducer merge
+        })
+      );
+
+      return playlistId;
+    } catch (err) {
+      return rejectWithValue("Failed to record view");
+    }
+  }
+);
+
+export const togglePlaylistLikeNormalized = createAsyncThunk(
+  "playlists/toggleLike",
+  async (playlistId, { dispatch, getState, rejectWithValue }) => {
+    try {
+      const res = await playlistApi.toggleLike(playlistId);
+
+      const { liked } = res.data;
+
+      const playlist = getState().playlistsEntities.byId[playlistId];
+
+      const newLikes = liked ? playlist.likes + 1 : playlist.likes - 1;
+
+      dispatch(
+        upsertPlaylist({
+          id: playlistId,
+          likes: newLikes,
+          likedByUser: liked,
+        })
+      );
+
+      return { playlistId, liked };
+    } catch (err) {
+      return rejectWithValue("Failed to like playlist");
+    }
+  }
+);
+
+export const incrementPlaylistShare = createAsyncThunk(
+  "playlists/incrementShare",
+  async (playlistId, { dispatch, getState, rejectWithValue }) => {
+    try {
+      await playlistApi.incrementShare(playlistId);
+
+      const playlist = getState().playlistsEntities.byId[playlistId];
+
+      dispatch(
+        upsertPlaylist({
+          id: playlistId,
+          shares: playlist.shares + 1,
+        })
+      );
+
+      return playlistId;
+    } catch (err) {
+      return rejectWithValue("Failed to record share");
+    }
+  }
+);
+
 // -----------------------------------------------------
 // GET PUBLIC PLAYLISTS
 // -----------------------------------------------------

@@ -6,8 +6,15 @@ import { Col } from "../../styles/layout";
 import EditPlaylistDetails from "../../features/playlists/EditPlaylistDetails";
 import PlaylistVideosPanel from "../../features/playlists/PlaylistVideosPanel";
 import { selectMergedVideosForPlaylist } from "../../store/selectors/playlistsSelectors";
-import { fetchPlaylistByIdNormalized } from "../../store/playlistThunksNormalized";
+import {
+  fetchPlaylistByIdNormalized,
+  incrementPlaylistView,
+} from "../../store/playlistThunksNormalized";
 import { setQueue, setPlayState } from "../../store/playerSlice";
+import PlaylistStatsBar from "../../components/PlaylistStatsBar";
+
+import { toast } from "react-hot-toast";
+import { Link } from "react-router-dom";
 
 export default function ViewPlaylist() {
   const { id } = useParams();
@@ -24,6 +31,7 @@ export default function ViewPlaylist() {
 
   useEffect(() => {
     dispatch(fetchPlaylistByIdNormalized(playlistId));
+    dispatch(incrementPlaylistView(playlistId));
   }, [playlistId]);
 
   const handlePlay = () => {
@@ -64,12 +72,12 @@ export default function ViewPlaylist() {
   return (
     <Col gap="lg">
       <EditPlaylistDetails playlist={playlist} tags={[]} readOnly={true} />
-
       <PlaylistVideosPanel
         handlePlay={handlePlay}
         handlePlayTrack={handlePlayTrack}
         videos={videos}
         playlistId={playlistId}
+        playlist={playlist}
         readOnly={true}
       />
     </Col>

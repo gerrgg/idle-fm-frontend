@@ -125,21 +125,23 @@ export default function EditPlaylistDetails({
           />
         </FormGroup>
 
-        <FormGroup>
-          <Label>Tags</Label>
+        {!readOnly && (
+          <FormGroup>
+            <Label>Tags</Label>
 
-          <TagSelector
-            availableTags={tags || []}
-            selectedTags={selectedTags}
-            onChange={(newTags) => {
-              setSelectedTags(newTags); // UI updates
-              onTagsChange?.(newTags.map((t) => t.name)); // Notify parent with names only
-            }}
-            autoCommitRef={tagSelectorRef}
-            disabled={readOnly}
-            readOnly={readOnly}
-          />
-        </FormGroup>
+            <TagSelector
+              availableTags={tags || []}
+              selectedTags={selectedTags}
+              onChange={(newTags) => {
+                setSelectedTags(newTags); // UI updates
+                onTagsChange?.(newTags.map((t) => t.name)); // Notify parent with names only
+              }}
+              autoCommitRef={tagSelectorRef}
+              disabled={readOnly}
+              readOnly={readOnly}
+            />
+          </FormGroup>
+        )}
       </TitleTagWrapper>
     </Wrapper>
   );

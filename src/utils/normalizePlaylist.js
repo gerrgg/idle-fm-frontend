@@ -62,11 +62,16 @@ export function normalizePlaylistResponse(item) {
         Array.isArray(playlist.tagIds) && playlist.tagIds.length > 0
           ? playlist.tagIds
           : tagIds,
+
+      views: playlist.views ?? 0,
+      likes: playlist.likes ?? 0,
+      shares: playlist.shares ?? 0,
     },
 
     videos: globalVideos, // fully normalized global video objects
     playlistVideos, // playlist-local metadata
     tags: rawTags, // tag objects for tagsEntities
+
     owner,
   };
 }

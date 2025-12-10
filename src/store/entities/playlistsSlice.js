@@ -12,15 +12,50 @@ const playlistsSlice = createSlice({
   reducers: {
     upsertPlaylist(state, action) {
       const incoming = action.payload;
-      const existing = state.byId[incoming.id];
+      const id = incoming.id;
 
-      // If we already have a playlist, merge fields instead of overwriting
-      state.byId[incoming.id] = existing
-        ? { ...existing, ...incoming }
-        : incoming;
+      if (!id) return;
 
-      if (!state.allIds.includes(incoming.id)) {
-        state.allIds.push(incoming.id);
+      const existing = state.byId[id];
+
+      // Initialize object if it doesn't exist
+      if (!existing) {
+        state.byId[id] = incoming;
+        if (!state.allIds.includes(id)) state.allIds.push(id);
+        return;
+      }
+
+      // Merge basic fields FIRST
+      const updated = { ...existing, ...incoming };
+
+      // Apply deltas correctly
+      if (incoming.viewsDelta != null) {
+        updated.views = Math.max(
+          0,
+          (existing.views || 0) + incoming.viewsDelta
+        );
+      }
+
+      if (incoming.likesDelta != null) {
+        updated.likes = Math.max(
+          0,
+          (existing.likes || 0) + incoming.likesDelta
+        );
+      }
+
+      if (incoming.sharesDelta != null) {
+        updated.shares = Math.max(
+          0,
+          (existing.shares || 0) + incoming.sharesDelta
+        );
+      }
+
+      // Save back
+      state.byId[id] = updated;
+
+      // Ensure IDs list is complete
+      if (!state.allIds.includes(id)) {
+        state.allIds.push(id);
       }
     },
 

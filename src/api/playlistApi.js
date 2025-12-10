@@ -49,6 +49,17 @@ const playlistApi = {
   getPublic() {
     return http.get(`/playlists/public`);
   },
+  incrementView(id) {
+    return http.post(`/playlists/${id}/view`);
+  },
+
+  toggleLike(id) {
+    return http.post(`/playlists/${id}/like`);
+  },
+
+  incrementShare(id) {
+    return http.post(`/playlists/${id}/share`);
+  },
 };
 
 export default playlistApi;

@@ -7,7 +7,7 @@ export default function ThemedToaster() {
 
   return (
     <Toaster
-      position="top-right"
+      position="top-center"
       gutter={12}
       toastOptions={{
         style: {

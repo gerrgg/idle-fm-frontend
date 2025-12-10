@@ -43,12 +43,14 @@ import dateFormat from "../../../utils/dateFormat";
 import { formatYouTubeDurationToTimeString } from "../../../utils/time";
 import DragHandle from "./DragHandle.jsx";
 import InlinePositionCell from "./InlinePositionCell.jsx";
+import PlaylistStatsBar from "../../../components/PlaylistStatsBar";
 
 export default function PlaylistVideosPanel({
   handlePlay,
   handlePlayTrack,
   videos,
   playlistId,
+  playlist,
   readOnly = false,
 }) {
   const dispatch = useDispatch();
@@ -113,6 +115,7 @@ export default function PlaylistVideosPanel({
     <PanelWrapper>
       <PlaylistActions my="lg" gap="md" px="lg">
         <PlayButton handlePlay={handlePlay} size="lg" />
+        {playlist && <PlaylistStatsBar playlist={playlist} />}
       </PlaylistActions>
 
       <DndContext sensors={sensors} onDragEnd={handleDragEnd}>

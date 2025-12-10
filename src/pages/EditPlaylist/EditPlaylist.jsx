@@ -91,6 +91,7 @@ export default function EditPlaylist() {
           handlePlayTrack={handlePlayTrack}
           videos={videos}
           playlistId={playlistId}
+          playlist={playlist}
         />
         <AddVideoPanel
           handlePlay={handlePlay}

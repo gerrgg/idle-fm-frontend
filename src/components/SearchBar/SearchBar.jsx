@@ -1,6 +1,10 @@
 import { Wrapper, SearchIcon, SearchInput } from "./SearchBar.styles";
 
-export default function SearchBar({ value, onChange, placeholder = "Search..." }) {
+export default function SearchBar({
+  value,
+  onChange,
+  placeholder = "Search...",
+}) {
   return (
     <Wrapper>
       <SearchIcon>
@@ -14,7 +18,7 @@ export default function SearchBar({ value, onChange, placeholder = "Search..." }
 
       <SearchInput
         value={value}
-        onChange={e => onChange(e.target.value)}
+        onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
       />
     </Wrapper>
