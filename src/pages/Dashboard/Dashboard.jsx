@@ -4,6 +4,7 @@ import { H1 } from "../../styles/typography";
 import { Wrap, Section } from "./Dashboard.styles";
 import ViewPlaylistGrid from "../../components/ViewPlaylistGrid";
 import { useDocumentMeta } from "../../hooks/useDocumentMeta";
+import { score } from "../../utils/score.js";
 
 import { selectMyPlaylists } from "../../store/selectors/playlistsSelectors";
 import {
@@ -70,14 +71,6 @@ export default function DashboardHome() {
       playlists: list,
     }))
     .filter((section) => !!section.tagName);
-
-  // ---- Popularity Scoring ----
-  function score(p) {
-    const views = p.views || 0;
-    const likes = p.likes || 0;
-    const shares = p.shares || 0;
-    return views + likes * 5 + shares * 10;
-  }
 
   function sortByPopularity(list) {
     return [...list].sort((a, b) => score(b) - score(a));

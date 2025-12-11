@@ -32,7 +32,6 @@ export default function ViewPlaylist() {
   // Fetch playlist + increment views
   useEffect(() => {
     dispatch(fetchPlaylistByIdNormalized(playlistId));
-    dispatch(incrementPlaylistView(playlistId));
   }, [playlistId]);
 
   // --- SAFE METADATA (playlist may be undefined initially) ---
@@ -67,6 +66,7 @@ export default function ViewPlaylist() {
           sourcePlaylistId: playlist.id,
         })
       );
+      dispatch(incrementPlaylistView(playlist.id));
     } else {
       dispatch(setPlayState(false));
     }

@@ -36,11 +36,13 @@ export default function PlaylistStatsBar({ playlist }) {
     <Bar>
       {/* Views */}
       <StatItem>
-        <svg width="18" height="18" viewBox="0 0 24 24">
-          <path
-            fill="currentColor"
-            d="M12 5c-7 0-10 7-10 7s3 7 10 7 10-7 10-7-3-7-10-7zm0 12a5 5 0 1 1 0-10a5 5 0 0 1 0 10z"
-          />
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+        >
+          <path fill="currentcolor" d="M3 22v-20l18 10-18 10z" />
         </svg>
         <StatNumber>{playlist.views ?? 0}</StatNumber>
       </StatItem>

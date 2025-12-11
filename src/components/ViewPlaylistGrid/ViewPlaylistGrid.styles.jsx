@@ -112,6 +112,15 @@ export const Count = styled.div`
   font-size: ${({ theme }) => theme.fontSizes.sm};
   opacity: 0.7;
   color: ${({ theme }) => theme.colors.muted};
+  display: flex;
+  gap: ${({ theme }) => theme.space.xs};
+  position: relative;
+  top: 1px;
+
+  span {
+    position: relative;
+    top: -1px;
+  }
 `;
 
 export const Username = styled.div`

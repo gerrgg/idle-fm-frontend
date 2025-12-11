@@ -1,5 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { score } from "../../utils/score.js";
 
 import {
   Card,
@@ -15,6 +16,8 @@ import {
   Username,
   CardLink,
 } from "./ViewPlaylistGrid.styles";
+
+import { incrementPlaylistView } from "../../store/playlistThunksNormalized.js";
 
 import { Row } from "../../styles/layout.js";
 
@@ -33,6 +36,7 @@ const PlayButton = ({ playlist, isPlaying }) => {
         sourcePlaylistId: playlist.id,
       })
     );
+    dispatch(incrementPlaylistView(playlist.id));
   };
 
   return (
@@ -66,9 +70,22 @@ export default function ViewPlaylistGrid({ playlists }) {
             <CardInfo>
               <Title>{p.title}</Title>
 
-              <Row gap="md">
+              <Row gap="md" alignItems="flex-end">
                 <Username>{capitalize(p.owner_username)}</Username>
-                <Count>{p.videoIds?.length ?? 0} videos</Count>
+                <Count>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      fill="currentcolor"
+                      d="M5 19h-4v-8h4v8zm6 0h-4v-18h4v18zm6 0h-4v-12h4v12zm6 0h-4v-4h4v4zm1 2h-24v2h24v-2z"
+                    />
+                  </svg>
+                  <span>{score(p)}</span>
+                </Count>
               </Row>
             </CardInfo>
           </CardLink>

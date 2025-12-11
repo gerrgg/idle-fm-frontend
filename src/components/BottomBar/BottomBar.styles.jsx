@@ -37,6 +37,7 @@ export const NowPlaying = styled(Text)`
 
   a {
     color: inherit;
+    text-decoration: none;
   }
 
   @media (max-width: 900px) {

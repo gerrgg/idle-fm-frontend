@@ -205,12 +205,12 @@ export const incrementPlaylistView = createAsyncThunk(
       await playlistApi.incrementView(playlistId);
 
       // Increment locally
-      dispatch(
-        upsertPlaylist({
-          id: playlistId,
-          viewsDelta: 1, // handled by reducer merge
-        })
-      );
+      // dispatch(
+      //   upsertPlaylist({
+      //     id: playlistId,
+      //     viewsDelta: 1, // handled by reducer merge
+      //   })
+      // );
 
       return playlistId;
     } catch (err) {
