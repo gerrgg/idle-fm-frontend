@@ -1,10 +1,11 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams, Link, Navigate } from "react-router-dom";
+import { useState } from "react";
 
 import {
   Wrapper,
   LogoText,
-  LogoWrapper,
+  ButtonWrapper,
   SidebarItem,
   SidebarList,
   SidebarStack,
@@ -15,28 +16,19 @@ import { Logo } from "../Logo/index.js";
 import { Button } from "../../styles/button.js";
 import { selectMyPlaylists } from "../../store/selectors/playlistsSelectors.js";
 import VideoThumbnail from "../VideoThumbnail/VideoThumbnail";
+import CollapseIcon from "./CollapseIcon.jsx";
 
 import { createPlaylistNormalized } from "../../store/playlistThunksNormalized.js";
 
 function SidebarButton({ handleCreate, handleLogin }) {
-  const user = useSelector((s) => s.auth.user);
-
-  if (!user) {
-    return (
-      <Button size="lg" variant="solid" onClick={handleLogin}>
-        Login
-      </Button>
-    );
-  }
-
   return (
-    <Button size="lg" variant="outline" onClick={handleCreate}>
+    <Button size="lg" variant="outline" onClick={handleLogin}>
       Create
     </Button>
   );
 }
 
-export default function Sidebar() {
+export default function Sidebar({ collapse, setCollapse }) {
   const { id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -57,11 +49,18 @@ export default function Sidebar() {
   const handleLogin = () => navigate("/login");
 
   return (
-    <Wrapper>
-      <LogoWrapper gap="xs" align="flex-end" onClick={() => navigate("/")}>
-        <Logo width="36" height="36" />
-        <LogoText>idle.fm</LogoText>
-      </LogoWrapper>
+    <Wrapper className={collapse ? "collapse" : ""}>
+      <Row className="logo-collapse-wrapper" justify="space-between">
+        <ButtonWrapper onClick={() => navigate("/")} className="logo-wrapper">
+          <Logo width="32" height="32" />
+        </ButtonWrapper>
+        <ButtonWrapper
+          onClick={() => setCollapse(!collapse)}
+          className="collapse-wrapper"
+        >
+          <CollapseIcon width="32" height="32" collapse={collapse} />
+        </ButtonWrapper>
+      </Row>
       <SidebarStack gap="md" my="xl">
         <SidebarButton handleCreate={handleCreate} handleLogin={handleLogin} />
         <SidebarList my="xl" gap="xs">

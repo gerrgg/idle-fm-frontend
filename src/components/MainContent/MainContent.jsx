@@ -1,5 +1,5 @@
 import { Wrapper } from "./MainContent.styles.jsx";
 
-export default function MainContent({children}) {
-  return <Wrapper>{children}</Wrapper>;
+export default function MainContent({ collapse, children }) {
+  return <Wrapper $collapse={collapse}>{children}</Wrapper>;
 }

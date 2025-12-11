@@ -6,6 +6,7 @@ export default function Logo(props) {
       viewBox="0 0 24 24"
       width={props.width || 100}
       height={props.height || 100}
+      className="logo"
     >
       <path
         className="logo-accent-alt"

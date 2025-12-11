@@ -1,10 +1,11 @@
-import { Wrapper } from "./Topbar.styles.jsx";
+import { Wrapper, LogoText } from "./Topbar.styles.jsx";
 import { Row } from "../../styles/layout.js";
 import { Button } from "../../styles/button.js";
 import SearchBar from "../SearchBar/SearchBar.jsx";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../../store/authSlice";
+import { H1 } from "../../styles/typography.js";
 
 function AuthButton({ user, onLogin, onLogout }) {
   if (!user) {
@@ -22,7 +23,7 @@ function AuthButton({ user, onLogin, onLogout }) {
   );
 }
 
-export default function Topbar() {
+export default function Topbar({ collapse }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { user, loading } = useSelector((state) => state.auth);
@@ -38,8 +39,11 @@ export default function Topbar() {
   };
 
   return (
-    <Wrapper>
-      <Row gap="sm" justify="flex-end" align="center">
+    <Wrapper $collapse={collapse}>
+      <Row gap="sm" justify="space-between" align="center">
+        <H1>
+          <LogoText to={"/"}>Idle.fm</LogoText>
+        </H1>
         <SearchBar />
         {loading !== "init" && (
           <AuthButton

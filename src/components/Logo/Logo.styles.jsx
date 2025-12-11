@@ -17,3 +17,13 @@ export const Wrapper = styled.svg`
     fill: ${({ theme }) => theme.colors.surface3};
   }
 `;
+
+export const CollapseWrapper = styled(Wrapper)`
+  transform: ${({ $collapse }) => ($collapse ? `scale(1)` : `scale(-1)`)};
+  opacity: 0.4;
+  color: ${({ theme }) => theme.colors.text};
+
+  &:hover {
+    opacity: 1;
+  }
+`;

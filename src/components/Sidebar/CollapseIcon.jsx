@@ -1,0 +1,19 @@
+import { CollapseWrapper } from "../Logo/Logo.styles.jsx";
+
+export default function CollapseIcon(props) {
+  return (
+    <CollapseWrapper
+      viewBox="0 0 24 24"
+      width={props.width || 100}
+      height={props.height || 100}
+      $collapse={props.collapse}
+      className="collapse-icon"
+    >
+      <path
+        d="m4 2.999c-.478 0-1 .379-1 1v16c0 .62.519 1 1 1h16c.621 0 1-.52 1-1v-16c0-.478-.379-1-1-1zm.5 16.5v-15h9.5v15zm3.658-11.321c-.137-.124-.299-.179-.458-.179-.358 0-.7.284-.7.705v6.59c0 .422.342.705.7.705.159 0 .321-.055.458-.178 1.089-.982 2.684-2.417 3.576-3.22.17-.153.266-.371.266-.601 0-.229-.096-.448-.265-.601-.893-.803-2.487-2.239-3.577-3.221z"
+        fill-rule="nonzero"
+        fill="currentcolor"
+      />
+    </CollapseWrapper>
+  );
+}

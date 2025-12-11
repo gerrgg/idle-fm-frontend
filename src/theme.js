@@ -45,6 +45,7 @@ export const theme = {
     sidebarWidth: "251px",
     topbarHeight: "57px",
     bottomBarHeight: "80px",
+    sidebarWidthCollapse: "65px",
   },
 
   colors: {
