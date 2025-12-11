@@ -36,6 +36,16 @@ const sizes = {
       width: 32px;
       height: 32px;
     }
+
+    @media (max-width: 600px) {
+      width: 36px;
+      height: 36px;
+
+      svg {
+        width: 24px;
+        height: 24px;
+      }
+    }
   `,
 };
 

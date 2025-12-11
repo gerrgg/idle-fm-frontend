@@ -11,12 +11,19 @@ export const Wrapper = styled.div`
   flex-direction: row;
   gap: 20px;
   align-items: flex-end;
+
+  @media (max-width: 900px) {
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    gap: 24px;
+  }
 `;
 
 export const FormGroup = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 12px;
 `;
 
 export const Label = styled.label`
@@ -42,6 +49,11 @@ export const Input = styled.input`
   &:focus {
     border-color: ${({ theme }) => theme.colors.accent};
     box-shadow: 0 0 0 2px ${({ theme }) => theme.colors.accent}33;
+  }
+
+  @media (max-width: 900px) {
+    font-size: 32px;
+    white-space: normal;
   }
 `;
 
@@ -92,6 +104,11 @@ export const LeftImage = styled.div`
     height: 100%;
     object-fit: cover;
   }
+
+  @media (max-width: 900px) {
+    width: 70%;
+    max-width: 300px;
+  }
 `;
 
 /* If Placeholder is used (no playlist.image) */
@@ -107,4 +124,9 @@ export const PlaceholderImage = styled.div`
 export const TitleTagWrapper = styled(Col)`
   position: relative;
   z-index: 2;
+
+  @media (max-width: 900px) {
+    width: 100%;
+    align-items: stretch;
+  }
 `;

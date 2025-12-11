@@ -8,4 +8,8 @@ export const Wrapper = styled.main`
   background: ${({ theme }) => theme.colors.surface0};
   margin-left: ${({ $collapse, theme }) =>
     $collapse ? theme.layout.sidebarWidthCollapse : theme.layout.sidebarWidth};
+
+  @media (max-width: 700px) {
+    padding: ${({ theme }) => theme.space.lg} ${({ theme }) => theme.space.sm};
+  }
 `;

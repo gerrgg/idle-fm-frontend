@@ -17,6 +17,14 @@ import {
   DragHandleWrapper,
   ThumbWrapper,
   SetImageOverlay,
+  MobileVideoItem,
+  MobileRow,
+  MobileThumb,
+  MobileInfo,
+  MobileTitle,
+  MobileListWrapper,
+  MobileMeta,
+  MobileRemoveButton,
 } from "./PlaylistVideosPanel.styles";
 
 import {
@@ -223,6 +231,36 @@ export default function PlaylistVideosPanel({
               })}
             </PlaylistTableBody>
           </PlaylistTable>
+          <MobileListWrapper>
+            {videos.map((v, index) => {
+              const thumb =
+                v.thumbnails?.medium?.url || v.thumbnails?.default?.url || "";
+              const date = dateFormat(v.added_at);
+              const duration = v.duration
+                ? formatYouTubeDurationToTimeString(v.duration)
+                : "TBD";
+
+              const isActive =
+                player.isPlaying &&
+                player.queue[player.queueIndex]?.videoId === v.id;
+
+              return (
+                <MobileVideoItem key={v.id}>
+                  <MobileRow>
+                    {/* {!readOnly && <DragHandle />}{" "} */}
+                    {/* this still works in DnD */}
+                    <MobileThumb src={thumb} />
+                    <MobileInfo onClick={() => handlePlayTrack(index, v.id)}>
+                      <MobileTitle $isActive={isActive}>{v.title}</MobileTitle>
+                      <MobileMeta>{v.channel_title}</MobileMeta>
+                      <MobileMeta>{duration}</MobileMeta>
+                      <MobileMeta>Added: {date}</MobileMeta>
+                    </MobileInfo>
+                  </MobileRow>
+                </MobileVideoItem>
+              );
+            })}
+          </MobileListWrapper>
         </SortableContext>
       </DndContext>
     </PanelWrapper>

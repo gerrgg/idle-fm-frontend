@@ -44,14 +44,21 @@ export default function Sidebar({ collapse, setCollapse }) {
       const playlist = result.payload;
       navigate(`/playlist/${playlist.id}/edit`);
     }
+
+    setCollapse(true);
   }
+
+  const handleBackToHome = () => {
+    navigate("/");
+    setCollapse(true);
+  };
 
   const handleLogin = () => navigate("/login");
 
   return (
     <Wrapper className={collapse ? "collapse" : ""}>
       <Row className="logo-collapse-wrapper" justify="space-between">
-        <ButtonWrapper onClick={() => navigate("/")} className="logo-wrapper">
+        <ButtonWrapper onClick={handleBackToHome} className="logo-wrapper">
           <Logo width="32" height="32" />
         </ButtonWrapper>
         <ButtonWrapper
@@ -70,6 +77,7 @@ export default function Sidebar({ collapse, setCollapse }) {
                 key={playlist.id}
                 onClick={() => {
                   navigate(`/playlist/${playlist.id}/edit`);
+                  setCollapse(true);
                 }}
                 className={
                   playlistId && playlistId === playlist.id ? "active" : null

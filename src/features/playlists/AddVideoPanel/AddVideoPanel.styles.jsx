@@ -66,6 +66,14 @@ export const ResultItem = styled.div`
   display: flex;
   align-items: center;
   gap: 12px;
+
+  @media (max-width: 900px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid ${({ theme }) => theme.colors.surface3};
+  }
 `;
 
 export const ThumbnailWrapper = styled.div`
@@ -119,12 +127,23 @@ export const Thumbnail = styled.img`
   object-fit: cover;
   border-radius: 4px;
   aspect-ratio: 16/9;
+
+  @media (max-width: 900px) {
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+  }
 `;
 
 export const ResultTitle = styled.div`
   flex: 1;
   font-size: 0.9rem;
   color: ${({ theme }) => theme.colors.text};
+
+  @media (max-width: 900px) {
+    width: 100%;
+    font-size: 1rem;
+  }
 `;
 
 export const AddButton = styled.button`
@@ -138,6 +157,12 @@ export const AddButton = styled.button`
 
   &:hover {
     background: ${({ theme }) => theme.colors.accentAlt};
+  }
+
+  @media (max-width: 900px) {
+    width: 100%;
+    text-align: center;
+    padding: 10px;
   }
 `;
 

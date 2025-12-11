@@ -18,20 +18,37 @@ export const Wrapper = styled(Row)`
   align-items: center;
   justify-content: space-between;
   box-sizing: border-box;
+
+  @media (max-width: 900px) {
+    flex-direction: column;
+    height: auto;
+    padding: ${({ theme }) => theme.space.md};
+    gap: ${({ theme }) => theme.space.lg};
+  }
 `;
 
 export const NowPlaying = styled(Text)`
   font-weight: 500;
   color: ${({ theme }) => theme.colors.text};
-  line-height: 0.8;
+  line-height: 1;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+
+  @media (max-width: 900px) {
+    line-height: 1;
+  }
 `;
 
 export const Section = styled(Row)`
   align-items: ${({ align }) => align || "center"};
   gap: ${({ theme }) => theme.space.md};
+
+  @media (max-width: 900px) {
+    &.volume-wrapper {
+      display: none;
+    }
+  }
 `;
 
 export const MiddleControlsWrapper = styled(Section)`
@@ -43,10 +60,26 @@ export const MiddleControlsWrapper = styled(Section)`
   flex-direction: column-reverse;
   gap: ${({ theme }) => theme.space.sm};
   max-width: 600px;
+
+  @media (max-width: 900px) {
+    position: static;
+    transform: none;
+    max-width: none;
+    order: 2;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+  }
 `;
 
 export const LeftControls = styled(Section)`
   width: 300px;
+
+  @media (max-width: 900px) {
+    width: 100%;
+    justify-content: center;
+    order: 1;
+  }
 `;
 
 export const RightControls = styled(Section)`
@@ -60,6 +93,10 @@ export const Controls = styled(Row)`
 
   opacity: ${({ $disabled }) => ($disabled ? 0.5 : 1)};
   pointer-events: ${({ $disabled }) => ($disabled ? "none" : "auto")};
+
+  @media (max-width: 900px) {
+    gap: ${({ theme }) => theme.space.lg};
+  }
 `;
 
 export const IconButtonCircle = styled.button`
@@ -77,6 +114,11 @@ export const IconButtonCircle = styled.button`
 
   cursor: pointer;
   transition: 0.15s ease;
+
+  @media (max-width: 700px) {
+    width: 50px;
+    height: 50px;
+  }
 
   &:hover {
     background: ${({ theme }) => theme.colors.accent}33;

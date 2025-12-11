@@ -179,6 +179,21 @@ export const PlaylistTable = styled.table`
 
   tr {
   }
+
+  @media (max-width: 700px) {
+    display: none;
+  }
+
+  th,
+  td {
+    padding: ${({ theme }) => theme.space.lg};
+    text-align: left;
+    border-bottom: 1px solid ${({ theme }) => theme.colors.surface3};
+    font-size: ${({ theme }) => theme.fontSizes.sm};
+    font-weight: ${({ theme }) => theme.fontWeights.bold};
+    color: ${({ theme }) => theme.colors.text};
+    font-family: ${({ theme }) => theme.fonts.body};
+  }
 `;
 export const PlaylistTableHeader = styled.thead`
   background: ${({ theme }) => theme.colors.surface2};
@@ -215,5 +230,71 @@ export const RemoveButton = styled.button`
     path {
       color: ${({ theme }) => theme.colors.muted};
     }
+  }
+`;
+
+export const MobileVideoItem = styled.div`
+  display: none;
+
+  @media (max-width: 700px) {
+    display: flex;
+    width: 100%;
+    padding: ${({ theme }) => theme.space.md};
+    border-bottom: 1px solid ${({ theme }) => theme.colors.surface3};
+  }
+  overflow: hidden;
+`;
+
+export const MobileRow = styled.div`
+  display: flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.space.md};
+  width: 100%;
+`;
+
+export const MobileThumb = styled.img`
+  width: 90px;
+  height: 100%;
+  object-fit: cover;
+  border-radius: ${({ theme }) => theme.radius.sm};
+`;
+
+export const MobileInfo = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+`;
+
+export const MobileTitle = styled.div`
+  font-size: ${({ theme }) => theme.fontSizes.xs};
+  font-weight: 600;
+  color: ${({ $isActive, theme }) =>
+    $isActive ? theme.colors.accent : theme.colors.text};
+  margin-bottom: 4px;
+  max-height: 80px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
+
+export const MobileMeta = styled.div`
+  font-size: ${({ theme }) => theme.fontSizes.xs};
+  color: ${({ theme }) => theme.colors.muted};
+`;
+
+export const MobileRemoveButton = styled.button`
+  background: none;
+  border: none;
+  color: ${({ theme }) => theme.colors.muted};
+  font-size: 22px;
+  cursor: pointer;
+`;
+
+export const MobileListWrapper = styled.div`
+  display: none;
+
+  @media (max-width: 700px) {
+    display: flex;
+    flex-direction: column;
+    gap: ${({ theme }) => theme.space.md};
   }
 `;

@@ -109,9 +109,11 @@ export default function BottomBar() {
     <Wrapper>
       <LeftControls align="flex-end">
         <Equalizer isPlaying={isPlaying} height="24px" />
-        <NowPlaying>
-          <span>{currentVideo?.title ?? ""}</span>
-        </NowPlaying>
+        {isPlaying && (
+          <NowPlaying>
+            <span>{currentVideo?.title ?? ""}</span>
+          </NowPlaying>
+        )}
       </LeftControls>
 
       <MiddleControlsWrapper>
@@ -125,7 +127,7 @@ export default function BottomBar() {
         </Controls>
       </MiddleControlsWrapper>
 
-      <Section>
+      <Section className="volume-wrapper">
         <VolumeSlider
           value={volume}
           onChange={(value) => dispatch(setVolume(value))}

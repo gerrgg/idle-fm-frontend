@@ -38,7 +38,9 @@ export default function DangerZone({ playlist }) {
       is_public: !playlist.is_public,
     };
 
-    dispatch(updatePlaylistNormalized({ id, data: updatedPlaylist }));
+    dispatch(
+      updatePlaylistNormalized({ id: playlist.id, data: updatedPlaylist })
+    );
   };
 
   if (!playlist) return <p>Loading…</p>;

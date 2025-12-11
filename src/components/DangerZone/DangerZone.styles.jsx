@@ -16,6 +16,10 @@ export const Wrapper = styled(Col)`
   border-radius: ${({ theme }) => theme.radius.sm};
   background-color: ${({ theme }) => theme.colors.surface2};
   max-width: 900px;
+
+  @media (max-width: 700px) {
+    padding: ${({ theme }) => theme.space.sm};
+  }
 `;
 
 export const DangerRow = styled(Row)`
@@ -28,11 +32,24 @@ export const DangerRow = styled(Row)`
   &:nth-of-type(2) {
     background: ${({ theme }) => theme.colors.surface2};
   }
+
+  @media (max-width: 700px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: ${({ theme }) => theme.space.md};
+    padding: ${({ theme }) => theme.space.md};
+  }
 `;
 
 export const ActionButton = styled(Button)`
   flex-shrink: 0;
   margin-left: auto;
+
+  @media (max-width: 700px) {
+    margin-left: 0;
+    width: 100%;
+    text-align: center;
+  }
 `;
 
 export const VisibilityText = styled.strong`
