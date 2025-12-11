@@ -14,6 +14,8 @@ import {
   Icon,
 } from "./AddVideoPanel.styles.jsx";
 
+import { H1 } from "../../../styles/typography.js";
+
 import { Input } from "../../../styles/form.js";
 import { Button } from "../../../styles/button.js";
 import { useDispatch, useSelector } from "react-redux";
@@ -143,13 +145,13 @@ export default function AddVideoPanel({ playlist, searchTags }) {
 
   return (
     <PanelWrapper>
-      <form onSubmit={handleSearch}>
-        <Input
+      {/* <form onSubmit={handleSearch}> */}
+      {/* <Input
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Search YouTube…"
-        />
-      </form>
+        /> */}
+      {/* </form> */}
 
       {loading && <PlaceholderMessage>Searching...</PlaceholderMessage>}
 
@@ -159,6 +161,7 @@ export default function AddVideoPanel({ playlist, searchTags }) {
 
       {visible.length > 0 && (
         <ResultsList>
+          <H1 mb="lg">Recommendations</H1>
           {visible.map((v) => (
             <ResultItem key={v.id}>
               <ThumbnailWrapper

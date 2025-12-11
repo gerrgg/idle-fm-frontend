@@ -66,7 +66,7 @@ export const SaveButton = styled(Button)`
 `;
 
 export const LeftImage = styled.div`
-  width: 250px;
+  width: 275px;
   aspect-ratio: 1 / 1;
   border-radius: 8px;
   position: relative;

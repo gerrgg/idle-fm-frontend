@@ -114,7 +114,6 @@ export const Button = styled.button`
   letter-spacing: 0.1em;
   line-height: 0.8;
   transition: 0.15s ease;
-  // text-transform: uppercase;
   font-weight: ${({ theme }) => theme.fontWeights.bold};
   border-radius: 36px;
 
