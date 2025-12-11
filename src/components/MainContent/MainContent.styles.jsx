@@ -9,7 +9,7 @@ export const Wrapper = styled.main`
   margin-left: ${({ $collapse, theme }) =>
     $collapse ? theme.layout.sidebarWidthCollapse : theme.layout.sidebarWidth};
 
-  @media (max-width: 700px) {
-    padding: ${({ theme }) => theme.space.lg} ${({ theme }) => theme.space.sm};
+  @media (max-width: 900px) {
+    padding: ${({ theme }) => theme.space.lg} ${({ theme }) => theme.space.md};
   }
 `;

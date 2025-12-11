@@ -115,7 +115,7 @@ export const IconButtonCircle = styled.button`
   cursor: pointer;
   transition: 0.15s ease;
 
-  @media (max-width: 700px) {
+  @media (max-width: 900px) {
     width: 50px;
     height: 50px;
   }

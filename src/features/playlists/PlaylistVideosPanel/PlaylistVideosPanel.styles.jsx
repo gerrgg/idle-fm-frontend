@@ -180,7 +180,7 @@ export const PlaylistTable = styled.table`
   tr {
   }
 
-  @media (max-width: 700px) {
+  @media (max-width: 900px) {
     display: none;
   }
 
@@ -236,7 +236,7 @@ export const RemoveButton = styled.button`
 export const MobileVideoItem = styled.div`
   display: none;
 
-  @media (max-width: 700px) {
+  @media (max-width: 900px) {
     display: flex;
     width: 100%;
     padding: ${({ theme }) => theme.space.md};
@@ -292,7 +292,7 @@ export const MobileRemoveButton = styled.button`
 export const MobileListWrapper = styled.div`
   display: none;
 
-  @media (max-width: 700px) {
+  @media (max-width: 900px) {
     display: flex;
     flex-direction: column;
     gap: ${({ theme }) => theme.space.md};

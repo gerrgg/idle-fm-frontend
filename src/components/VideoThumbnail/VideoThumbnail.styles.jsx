@@ -4,6 +4,12 @@ const variants = {
   grid: css`
     width: 75px;
     height: 75px;
+
+    @media (max-width: 900px) {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16 / 9;
+    }
   `,
   sidebar: css`
     width: 25px;

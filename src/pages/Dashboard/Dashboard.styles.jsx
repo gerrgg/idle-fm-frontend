@@ -7,6 +7,10 @@ export const Wrap = styled.div`
   gap: ${({ theme }) => theme.space.xl};
   display: flex;
   flex-direction: column;
+
+  @media (max-width: 900px) {
+    padding-top: 0;
+  }
 `;
 
 export const Section = styled.section`

@@ -17,7 +17,7 @@ export const Wrapper = styled(Col)`
   background-color: ${({ theme }) => theme.colors.surface2};
   max-width: 900px;
 
-  @media (max-width: 700px) {
+  @media (max-width: 900px) {
     padding: ${({ theme }) => theme.space.sm};
   }
 `;
@@ -33,7 +33,7 @@ export const DangerRow = styled(Row)`
     background: ${({ theme }) => theme.colors.surface2};
   }
 
-  @media (max-width: 700px) {
+  @media (max-width: 900px) {
     flex-direction: column;
     align-items: flex-start;
     gap: ${({ theme }) => theme.space.md};
@@ -45,7 +45,7 @@ export const ActionButton = styled(Button)`
   flex-shrink: 0;
   margin-left: auto;
 
-  @media (max-width: 700px) {
+  @media (max-width: 900px) {
     margin-left: 0;
     width: 100%;
     text-align: center;

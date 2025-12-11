@@ -12,6 +12,11 @@ export const Grid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: ${({ theme }) => theme.space.lg};
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+    gap: ${({ theme }) => theme.space.md};
+  }
 `;
 
 export const Card = styled.div`
@@ -31,6 +36,11 @@ export const Card = styled.div`
     border-color: ${({ theme }) => theme.colors.accent};
     transform: translateY(-2px);
   }
+
+  @media (max-width: 900px) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 `;
 
 export const CardLink = styled(Link)`
@@ -46,6 +56,12 @@ export const CardLink = styled(Link)`
   &:visited {
     color: inherit;
   }
+
+  @media (max-width: 900px) {
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+  }
 `;
 
 export const CardInfo = styled.div`
@@ -53,6 +69,11 @@ export const CardInfo = styled.div`
   padding-right: 60px;
   position: relative;
   width: 100%;
+
+  @media (max-width: 900px) {
+    padding-right: ${({ theme }) => theme.space.md};
+    padding-top: ${({ theme }) => theme.space.sm};
+  }
 `;
 
 export const Thumbnail = styled.img`
@@ -62,6 +83,12 @@ export const Thumbnail = styled.img`
   background: ${({ theme }) => theme.colors.surface3};
   overflow: hidden;
   flex-shrink: 0;
+
+  @media (max-width: 900px) {
+    width: 100% !important;
+    height: auto;
+    aspect-ratio: 16/9;
+  }
 `;
 
 export const Title = styled.h3`
@@ -73,6 +100,12 @@ export const Title = styled.h3`
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
+
+  @media (max-width: 900px) {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: unset;
+  }
 `;
 
 export const Count = styled.div`
@@ -108,6 +141,10 @@ export const IconButtonCircle = styled.button`
     opacity: 1;
     cursor: pointer;
   }
+
+  @media (max-width: 900px) {
+    opacity: 1;
+  }
 `;
 
 export const CardInfoHoverWrapper = styled.div`
@@ -128,6 +165,17 @@ export const CardInfoHoverWrapper = styled.div`
 
   > button {
     opacity: 0;
+  }
+
+  @media (max-width: 900px) {
+    top: auto;
+    bottom: ${({ theme }) => theme.space.md};
+    right: ${({ theme }) => theme.space.md};
+    transform: none;
+
+    > button {
+      opacity: 1;
+    }
   }
 `;
 
