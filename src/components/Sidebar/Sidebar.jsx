@@ -31,9 +31,11 @@ function SidebarButton({ handleCreate, handleLogin }) {
     );
   }
 
-  <Button size="lg" variant="outline" onClick={handleLogin}>
-    Create
-  </Button>;
+  return (
+    <Button size="lg" variant="outline" onClick={handleLogin}>
+      Create
+    </Button>
+  );
 }
 
 export default function Sidebar({ collapse, setCollapse }) {
