@@ -110,13 +110,11 @@ export default function BottomBar() {
     <Wrapper>
       <LeftControls align="flex-end">
         <Equalizer isPlaying={isPlaying} height="24px" />
-        {isPlaying && (
-          <NowPlaying>
-            <Link to={`/playlist/${sourcePlaylistId}`}>
-              {currentVideo?.title ?? ""}
-            </Link>
-          </NowPlaying>
-        )}
+        <NowPlaying>
+          <Link to={`/playlist/${sourcePlaylistId}`}>
+            {currentVideo?.title ?? ""}
+          </Link>
+        </NowPlaying>
       </LeftControls>
 
       <MiddleControlsWrapper>
