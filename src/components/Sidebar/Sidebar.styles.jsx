@@ -128,6 +128,12 @@ export const Wrapper = styled.aside`
   box-sizing: border-box;
   padding-bottom: ${({ theme }) => theme.layout.bottomBarHeight};
 
+  @media (max-width: 900px) {
+    padding-bottom: ${({ theme }) =>
+      theme.layout.bottomBarMobileSideBarPadding};
+    margin-bottom: 12px;
+  }
+
   &.collapse {
     width: ${({ theme }) => theme.layout.sidebarWidthCollapse};
     padding-top: 0;

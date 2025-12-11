@@ -15,4 +15,8 @@ export const Wrap = styled.div`
 
 export const Section = styled.section`
   margin-bottom: ${({ theme }) => theme.space.xl};
+
+  &:last-of-type {
+    margin-bottom: 0;
+  }
 `;
