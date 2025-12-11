@@ -21,11 +21,19 @@ import CollapseIcon from "./CollapseIcon.jsx";
 import { createPlaylistNormalized } from "../../store/playlistThunksNormalized.js";
 
 function SidebarButton({ handleCreate, handleLogin }) {
-  return (
-    <Button size="lg" variant="outline" onClick={handleLogin}>
-      Create
-    </Button>
-  );
+  const user = useSelector((s) => s.auth.user);
+
+  if (user) {
+    return (
+      <Button size="lg" variant="outline" onClick={handleCreate}>
+        Create
+      </Button>
+    );
+  }
+
+  <Button size="lg" variant="outline" onClick={handleLogin}>
+    Create
+  </Button>;
 }
 
 export default function Sidebar({ collapse, setCollapse }) {
