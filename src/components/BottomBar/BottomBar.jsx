@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 
 import {
   Wrapper,
@@ -111,7 +112,9 @@ export default function BottomBar() {
         <Equalizer isPlaying={isPlaying} height="24px" />
         {isPlaying && (
           <NowPlaying>
-            <span>{currentVideo?.title ?? ""}</span>
+            <Link to={`/playlist/${sourcePlaylistId}`}>
+              {currentVideo?.title ?? ""}
+            </Link>
           </NowPlaying>
         )}
       </LeftControls>

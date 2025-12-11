@@ -35,6 +35,10 @@ export const NowPlaying = styled(Text)`
   text-overflow: ellipsis;
   white-space: nowrap;
 
+  a {
+    color: inherit;
+  }
+
   @media (max-width: 900px) {
     line-height: 1;
   }
