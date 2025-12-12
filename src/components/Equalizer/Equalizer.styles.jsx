@@ -21,7 +21,14 @@ export const Wrapper = styled.div`
 export const Bar = styled.div`
   height: 100%;
   width: 4px;
-  background: ${({ theme }) => theme.colors.accent};
+  // background: ${({ theme }) => theme.colors.accent};
+  background: repeating-linear-gradient(
+    45deg,
+    #ff174d,
+    #ff174d 4px,
+    #ffffff 4px,
+    #ffffff 8px
+  );
   border-radius: ${({ theme }) => theme.radius.full};
   transform-origin: bottom;
   transform: scaleY(0.3);

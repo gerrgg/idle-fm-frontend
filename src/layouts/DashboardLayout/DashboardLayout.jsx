@@ -6,6 +6,8 @@ import { Wrapper, ContentArea } from "./DashboardLayout.styles.jsx";
 import { Outlet } from "react-router-dom";
 import YouTubeAudioPlayer from "../../components/YoutubeAudioPlayer";
 import { useState } from "react";
+import Snowfall from "../../components/Christmas/Snowfall.jsx";
+import { ChristmasLights } from "../../components/Christmas/ChristmasLights.jsx";
 
 export default function DashboardLayout() {
   const [collapse, setCollapse] = useState(true);
@@ -24,6 +26,13 @@ export default function DashboardLayout() {
         <BottomBar />
       </ContentArea>
       <YouTubeAudioPlayer />
+      <Snowfall
+        count={150}
+        color="rgba(255,255,255,0.9)"
+        speed={[0.05, 0.2]}
+        size={[1, 3]}
+      />
+      <ChristmasLights />
     </Wrapper>
   );
 }

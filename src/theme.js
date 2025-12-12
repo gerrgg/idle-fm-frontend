@@ -50,19 +50,34 @@ export const theme = {
     sidebarWidthCollapse: "65px",
   },
 
-  colors: {
-    bg: "#0D1B2A",
-    text: "#E0FBFC",
-    accent: "#FF006E",
-    accentAlt: "#FB5607",
-    muted: "#7A8CA6",
-    danger: "#E74C3C",
-    dangerAlt: "#C0392B",
+  // colors: {
+  //   bg: "#0D1B2A",
+  //   text: "#E0FBFC",
+  //   accent: "#FF006E",
+  //   accentAlt: "#FB5607",
+  //   muted: "#7A8CA6",
+  //   danger: "#E74C3C",
+  //   dangerAlt: "#C0392B",
 
-    // UI surfaces
-    surface0: "#0D1B2A",
-    surface1: "#152238",
-    surface2: "#1B2A46",
-    surface3: "#233455",
+  //   // UI surfaces
+  //   surface0: "#0D1B2A",
+  //   surface1: "#152238",
+  //   surface2: "#1B2A46",
+  //   surface3: "#233455",
+  // },
+  colors: {
+    bg: "#0B1A0F", // deep evergreen night
+    text: "#F2F7F5", // frosted white
+    accent: "#C81D25", // rich christmas red
+    accentAlt: "#E63946", // brighter festive red
+    muted: "#8FA59C", // pine-frost gray-green
+    danger: "#B3001B", // darker poinsettia red
+    dangerAlt: "#7A0013", // deep wine red
+
+    // UI surfaces (tree-shade layering)
+    surface0: "#0B1A0F",
+    surface1: "#11261A",
+    surface2: "#173323",
+    surface3: "#1E4230",
   },
 };
