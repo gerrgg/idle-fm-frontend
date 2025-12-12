@@ -27,17 +27,17 @@ export default function LoginPage() {
 
     // SUCCESS
     if (loginUser.fulfilled.match(result)) {
-      toast.success("Welcome back!");
+      toast.success("You're back on the air.");
+
       navigate("/");
       return;
     }
 
     // ERROR
     if (loginUser.rejected.match(result)) {
-      const message =
-        result.payload?.error || result.error?.message || "Login failed.";
+      const message = result.payload?.error || result.error?.message;
 
-      toast.error(message);
+      toast.error(message || "Login failed. Couldn’t tune into your account.");
     }
   }
 

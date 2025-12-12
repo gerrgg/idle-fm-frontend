@@ -56,20 +56,20 @@ export default function ResetPasswordPage() {
     e.preventDefault();
 
     if (password !== confirm) {
-      toast.error("Passwords do not match.");
+      toast.error("Those passwords aren’t on the same wavelength.");
       return;
     }
 
     const result = await dispatch(resetPassword({ token, password }));
 
     if (resetPassword.fulfilled.match(result)) {
-      toast.success("Password updated!");
+      toast.success("Password updated. Signal restored.");
       navigate("/login");
       return;
     }
 
     toast.error(
-      result.payload?.error || "Unable to reset password. Try again."
+      result.payload?.error || "Reset failed. Channel interference detected."
     );
   }
 

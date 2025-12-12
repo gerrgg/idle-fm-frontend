@@ -29,7 +29,7 @@ export default function PlaylistStatsBar({ playlist }) {
     );
 
     dispatch(incrementPlaylistShare(playlist.id));
-    toast.success("Playlist link copied!");
+    toast.success("Copied. Go share the vibe.");
   };
 
   return (

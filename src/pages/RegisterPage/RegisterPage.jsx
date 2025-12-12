@@ -40,7 +40,7 @@ export default function RegisterPage() {
     e.preventDefault();
 
     if (password !== confirm) {
-      toast.error("Passwords do not match.");
+      toast.error("Those passwords are broadcasting on different frequencies.");
       return;
     }
 
@@ -50,17 +50,17 @@ export default function RegisterPage() {
 
     // SUCCESS
     if (registerUser.fulfilled.match(result)) {
-      toast.success("Account created! Check your email to activate.");
+      toast.success(
+        "Welcome aboard. Check your spam folder to activate your station."
+      );
       navigate("/login?activation=sent");
       return;
     }
 
-    // ERROR — your backend returns { error: "message" }
     if (registerUser.rejected.match(result)) {
       const message =
-        result.payload || // if using rejectWithValue
-        "Registration failed.";
-
+        result.payload ||
+        "Registration failed. The system didn’t like that one.";
       toast.error(message);
     }
   }
@@ -74,7 +74,7 @@ export default function RegisterPage() {
           <Label>Email</Label>
           <Input
             type="email"
-            placeholder="you@example.com"
+            placeholder="Where should we send your VIP access?"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             autoComplete="email"
@@ -85,7 +85,7 @@ export default function RegisterPage() {
           <Label>Username</Label>
           <Input
             type="text"
-            placeholder="your username"
+            placeholder="Your station handle..."
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             autoComplete="username"
@@ -96,7 +96,7 @@ export default function RegisterPage() {
           <Label>Password</Label>
           <Input
             type="password"
-            placeholder="••••••••"
+            placeholder="Make it strong. Like… playlist-level strong."
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             autoComplete="new-password"
@@ -107,7 +107,7 @@ export default function RegisterPage() {
           <Label>Confirm Password</Label>
           <Input
             type="password"
-            placeholder="••••••••"
+            placeholder="Just to be sure..."
             value={confirm}
             onChange={(e) => setConfirm(e.target.value)}
             autoComplete="new-password"

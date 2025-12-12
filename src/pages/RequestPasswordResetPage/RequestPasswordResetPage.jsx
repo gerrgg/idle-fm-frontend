@@ -33,17 +33,14 @@ export default function RequestPasswordResetPage() {
     const result = await dispatch(requestPasswordReset({ email }));
 
     if (requestPasswordReset.fulfilled.match(result)) {
-      toast.success("If this email exists, a reset link has been sent.");
+      toast.success("If that email exists, a reset link is on the airwaves.");
       return;
     }
 
     if (requestPasswordReset.rejected.match(result)) {
-      const message =
-        result.payload?.error ||
-        result.error?.message ||
-        "Unable to send reset link.";
+      const message = result.payload?.error || result.error?.message;
 
-      toast.error(message);
+      toast.error(message || "Transmission failed. Couldn’t send reset link.");
     }
   }
 
