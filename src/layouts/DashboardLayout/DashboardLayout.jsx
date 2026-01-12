@@ -26,13 +26,13 @@ export default function DashboardLayout() {
         <BottomBar />
       </ContentArea>
       <YouTubeAudioPlayer />
-      <Snowfall
+      {/* <Snowfall
         count={150}
         color="rgba(255,255,255,0.9)"
         speed={[0.05, 0.2]}
         size={[1, 3]}
-      />
-      <ChristmasLights />
+      /> */}
+      {/* <ChristmasLights /> */}
     </Wrapper>
   );
 }
